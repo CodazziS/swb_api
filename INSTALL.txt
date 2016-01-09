@@ -1,0 +1,7 @@
+You must have url rewriting activated, and this rules :
+rewrite ^/(.+\..+)$ /$1 last;
+rewrite ^/(.*)/(.*)$ /index.php?class=$1&method=$2 last;
+rewrite ^/(.+)$ /index.php?class=$1 last;
+
+You can have more help in :
+https://gitlab.com/stephane.codazzi/framzod-api-php/wikis
