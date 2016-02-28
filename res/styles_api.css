@@ -1,0 +1,65 @@
+html, body, div, h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #E0F2F1;
+}
+
+h1 {
+	background-color: #009688;
+	color: white;
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 20px;
+}
+
+/* 
+*	POST: 	GREEN
+*	GET:	BLUE
+*	PUT:	YELLOW
+*	DELETE: RED
+*/
+h2 {
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+h2.api_doc_POST { background-color: #00C853; color: black; }
+h2.api_doc_GET { background-color: #0091EA; color: white;  }
+h2.api_doc_PUT { background-color: #FFD600; color: black; }
+h2.api_doc_DELETE { background-color: #D50000; color: white; }
+
+h3 {
+	/*font-weight: normal;*/
+	color: #004D40;
+}
+
+.home_link {
+	display: block;
+	margin-left: 5%;
+	text-decoration: none;
+	color: #009688;
+}
+
+.api_doc {
+	width: calc(90% - 10px);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	box-shadow: 1px 1px 4px #00695C;
+	background-color: white;
+}
+
+.description {
+	padding: 5px;
+}
+
+.args, .results {
+	border: 1px solid #009688;
+	margin-bottom: 2px;
+	padding: 2px;
+}

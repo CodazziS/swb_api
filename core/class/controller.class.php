@@ -3,16 +3,16 @@ class FzController {
 	
 	public $render_class		= null;
 	public $view			    = "index.html";
-	
+	public $user_id				= null; // User_id when user the authentication class
     public $request				= null;
     public $data				= null;
     public $addons				= null;
-    public $layout_type			= "json";
+    //public $layout_type			= "json";
     
     public $result				= array();
     public $error				= 0;
     public $title				= "";
-    public $notorm              = null;
+    //public $notorm              = null;
 
     function __destruct () {
 

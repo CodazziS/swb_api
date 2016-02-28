@@ -65,6 +65,7 @@ class Framzod {
     }
 
     function main () {
+    	session_start();
         if (file_exists(SOURCES_PATH.'/controllers/'.$this->fz_request->class.'.class.php'))
             require_once(SOURCES_PATH.'/controllers/'.$this->fz_request->class.'.class.php');
         else {
@@ -78,11 +79,14 @@ class Framzod {
         $fz_class->data = $fz_class->request->data;
         $fz_class->addons = $this->addons;
         $fz_class->{$this->fz_request->method_name}();
-        if ($fz_class->render_class !== null) {
+        if ($fz_class->render_class == 'Render') {
         	$this->addons[$fz_class->render_class]->render($fz_class);
-        } else {
+        } else if ($fz_class->render_class == 'Text') {
         	echo $fz_class->result;
+        } else if ($fz_class->render_class == 'Json') {
+        	echo json_encode($fz_class->result);
         }
+
     }
 }
 

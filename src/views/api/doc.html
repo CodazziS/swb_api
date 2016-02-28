@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<title>API description : {{ name }}</title>
+		<meta charset="utf-8">
+        <meta name="fragment" content="!">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="/res/styles_api.css" />
+	</head>
+	
+	<body>
+		<h1>API description of {{ name }} class.</h1>
+		<a class="home_link" href="/api">Home</a><br />
+		{% for doc in docs %}
+			<div class="api_doc">
+				<h2 class="api_doc_{{ doc.type }}">[{{ doc.type }} ] {{ doc.name }}</h2>
+				<div class="description"> {{ doc.description }}</div>
+				<h3>Arguments: </h3>
+				{% for arg in doc.args %}
+					<div class="args">{{ arg }}</div>
+				{% endfor %}
+				<br />
+				<h3>Results: </h3>
+				{% for res in doc.results %}
+					<div class="results">{{ res }}</div>
+				{% endfor %}
+			</div>
+		{% else %}
+		    No help found
+		{% endfor %}
+	</body>
+</html>

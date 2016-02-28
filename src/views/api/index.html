@@ -1,1 +1,20 @@
-APIINDEX
+<html>
+	<head>
+		<title>API index</title>
+		<meta charset="utf-8">
+        <meta name="fragment" content="!">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="/res/styles_api.css" />
+	</head>
+	
+	<body>
+		<h1>API class</h1>
+		
+
+		<div class="api_doc">
+			{% for line in lines %}
+				<div class="args">{{ line|raw }}</div>
+			{% endfor %}
+		</div>
+	</body>
+</html>
