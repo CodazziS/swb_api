@@ -69,7 +69,8 @@ class Crypto extends Framaddons {
     
     public static function formatPhoneNumber($str) {
     	/* TODO : Internationnalization for the phone Number */
-    	return preg_replace('/\s+/', '', $str);
+    	$number = preg_replace('/\s+/', '', $str);
+    	return substr($number, -9);
     }
     /*
     public static function crypt ($data, $key) {

@@ -1,0 +1,44 @@
+{
+	"menu_home": "Accueil",
+	"menu_blog": "Blog",
+	"menu_account": "Mon compte",
+	"menu_messages": "Mes messages",
+	"menu_logout": "Déconnexion",
+	"menu_signin": "Connexion",
+	
+	"home_title": "SWB: SMS by Web Browser, Online",
+	"home_description": "Avec SWB online gérez vos SMS depuis votre ordinateur, même loin de votre téléphone.",
+	"home_slogan": "Bienvenue sur l'application en ligne de SWB. Profitez de vos sms où que vous soyez.",
+	"home_install_app": "Installer l'application android",
+	"home_use_app": "Utiliser l'application",
+	
+	"home_login": "Vous avez déjà un compte ?",
+	"home_login_email": "Email",
+	"home_login_password": "Password",
+	"home_login_remember": "Se souvenir de moi",
+	"home_login_submit": "Se connecter",
+	
+	"home_signin": "Découvrir l'application et créer un compte",
+	"home_signin_tips": "Suivez un guide pas à pas pour créer votre compte SWB et vous familiariser avec votre nouvelle application.",
+	"home_signin_submit": "Créer son compte",
+	
+	
+	"account_title": "SWB. Mon compte",
+	"account_description": "Gestion de compte",
+	"account_information": "Mes informations",
+	"account_devices": "Mes appareils",
+	"account_account": "Mon compte",
+	"account_device_last_sync": "Dernière mise à jour :",
+	"account_contacts": "contacts",
+	"account_messages": "messages",
+	"account_messages_unread": "message(s) non lu(s)",
+	
+	
+	"messages_title": "SWB. Mes messages",
+	"messages_subtitle": "Mes messages",
+	"messages_description": "Gerez vos messages depuis cette page",
+	
+
+	"end": "fin"
+	
+}

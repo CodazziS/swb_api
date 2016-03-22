@@ -1,0 +1,926 @@
+
+body {
+	margin: 0;
+}
+
+/* Disable ugly boxes around images in IE10 */
+a img{
+	border: 0px;
+}
+a {
+	text-decoration: none;
+	color: #00897B;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #00BFA5; 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #00BFA5;
+}
+
+/* COMMON */
+::-moz-selection {
+	background-color: #6ab344;
+	color: #fff;
+}
+::selection {
+	background-color: #6ab344;
+	color: #fff;
+}
+
+.center100 {
+	width: 100%;
+}
+.rightbox {
+	display: block;
+	margin-left: auto;
+	margin-right: 0;
+}
+.colorized_link {
+	text-decoration: none;
+	color: #26A69A !important;
+}
+.colorized_link:hover {
+	color: #00897B !important;
+}
+.colorized_link .material-icons {
+	position: relative;
+	top: -1px;
+	vertical-align: middle;
+}
+.card1 .mdl-card__media {
+	overflow: hidden;
+	background: transparent;
+}
+.card1 .mdl-card__media img {
+	width: 100%;
+}
+.card1 .mdl-card__title {
+	background: transparent;
+	height: auto;
+}
+.card1 .mdl-card__title-text {
+	color: black;
+	height: auto;
+}
+.card1 .mdl-card__supporting-text {
+	height: auto;
+	color: black;
+	padding-bottom: 56px;
+}
+.card1 .mdl-card__actions {
+	position: absolute;
+	bottom: 0;
+}
+.card1 .mdl-card__actions a {
+	border-top: none;
+	font-size: 16px;
+}
+.card_title {
+	margin-left: 12px;
+	padding-bottom: 24px;
+}
+.icon_margin_right {
+	margin-right: 10px;
+}
+
+/* MENU */
+.logo_image {
+	height: 50px;
+	/*width: 250px;*/
+}
+
+.menu_drawer {
+	border-right: none;
+}
+
+.menu_drawer_separator {
+	height: 1px;
+	background-color: #dcdcdc;
+	margin: 8px 0;
+}
+
+.menu_drawer .mdl-navigation__link.mdl-navigation__link {
+	font-size: 14px;
+	color: #757575;
+}
+
+.menu_drawer span.mdl-navigation__link.mdl-navigation__link {
+	color: #26A69A;
+}
+
+.menu_drawer .mdl-layout-title {
+	position: relative;
+	background: #4DB6AC;
+	height: 160px;
+}
+.menu_drawer .logo_image {
+	position: absolute;
+	bottom: 16px;
+	height: 35px;
+	/*width: 200px;*/
+}
+
+.menu_header {
+	overflow: visible;
+	background-color: white;
+}
+.menu_header .material-icons {
+	color: #767777 !important;
+}
+.menu_header .mdl-layout__drawer-button {
+	background: transparent;
+	color: #767777;
+}
+.menu_header .mdl-navigation__link {
+	color: #757575;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.menu_navigation_container {
+	/* Simple hack to make the overflow happen to the left instead... */
+	direction: rtl;
+	order: 1;
+	width: 500px;
+	transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.android_navigation_container {
+	direction: rtl;
+	order: 1;
+	width: 500px;
+	transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.android_navigation {
+	direction: ltr;
+	justify-content: flex-end;
+	width: 800px;
+}
+.android_navigation .mdl-navigation__link {
+	display: inline-block;
+	height: 60px;
+	line-height: 68px;
+	background-color: transparent !important;
+	border-bottom: 4px solid transparent;
+}
+.android_navigation .mdl-navigation__link:hover {
+	border-bottom: 4px solid #009688;
+}
+.menu_mobile_title {
+	display: none !important;
+}
+
+
+/* HOME */
+.home_img_top {
+	position: relative;
+	height: 800px;
+	width: auto;
+	background-color: #f3f3f3;
+	background: url('img/home_top.jpg') center 30% no-repeat;
+	background-size: cover;
+}
+.home_title {
+	font-size: 60px;
+	padding-top: 160px;
+}
+.home_subtitle {
+	font-size: 21px;
+	padding-top: 24px;
+}
+.logo-font {
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	line-height: 1;
+	color: #F9F9F9;
+	font-weight: 500;
+}
+.android_application {
+	font-size: 21px;
+	padding-top: 400px;
+}
+.android_application a {
+	text-decoration: none;
+	color: #F9F9F9;
+	font-weight: 300;
+}
+.home_forms {
+	padding: 80px 0;
+	max-width: 1044px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* ACCOUNT */
+.account_body {
+	width: auto;
+	background-color: #80CBC4;
+}
+.account_grid {
+	padding: 20px 0;
+	max-width: 1044px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.account_grid .account_grid_title {
+	margin-left: 12px;
+	padding-bottom: 24px;
+}
+
+/* MESSAGES */
+.messages_page {
+	width: auto;
+	height: calc(100vh - 160px);
+	background-color: #80CBC4;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	justify-content: space-around;
+	align-items: stretch;
+}
+#messages_contacts {
+	max-width: 450px;
+	background-color: #FFF;
+	margin: 10px;
+	padding: 10px;
+	flex-grow: 2;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+	overflow: auto;
+}
+.message_contact_item {
+	min-height: 50px;
+	background-color: #E0F2F1;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	padding: 5px;
+	margin-bottom: 10px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+.message_contact_item:hover {
+	background-color: #B2DFDB;
+}
+.message_contact_item_img {
+	padding-right: 5px;
+}
+.message_contact_item_name {
+	color: #004D40;
+	font-weight: bold;
+}
+.message_contact_item_subname {
+	color: #00695C;
+	font-size: 12px;
+}
+#messages_list {
+	background-color: #FFF;
+	margin: 10px;
+	padding: 10px;
+	flex-grow: 6;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+	overflow: auto;
+}
+
+/*
+.messages_bloc {
+	height: calc(100vh - 180px);
+	overflow: auto;
+}
+.messages_body {
+	width: auto;
+	background-color: #80CBC4;
+	margin-left: auto;
+	margin-right: auto;
+}
+.messages_body .messages_grid_title {
+	margin-left: 12px;
+	padding-bottom: 24px;
+}
+.messages_contacts_list li:hover {
+	background-color: #B2DFDB;
+	cursor: pointer;
+}
+#messages_title {
+	height: 20px;
+	background-color: #009688;
+	color: #FEFEFE;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+#messages_list {
+	height: calc(100% - 100px);
+	background-color: #E0F2F1;
+	overflow: auto;
+}
+#messages_inputs {
+	height: 69px;
+	box-shadow: 0px 0px 3px #009688;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #E0F2F1;
+}
+#messages_input_block {
+	width: calc(100% - 130px);
+	margin-right: 10px;
+}
+.messages_sms_receive {
+	width: calc(100% - 80px);
+	margin: 15px auto 15px 0;
+}
+.messages_bloc_send {
+	width: calc(100% - 80px);
+	margin: 15px 0 15px auto;
+}
+.messages_sms_avatar {
+	display: inline-block;
+	width: 80px;
+	vertical-align: top;
+	text-align: center;
+}
+.messages_sms_bloc {
+	width: calc(100% - 100px);
+	display: inline-block;
+	background-color: white;
+	padding: 5px;
+	color: #004D40;
+}
+.messages_sms_receive .messages_sms_bloc {
+	margin-left: -5px;
+	background-color: #00BFA5;
+	color: white;
+}
+.messages_sms_date {
+	text-align: right;	
+}
+*/
+
+/* FOOTER */
+.social-btn {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    margin: 0 16px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.46;
+    border-radius: 2px;
+}
+.social-btn__twitter {
+    background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_twitter_black_24dp.png');
+}
+.social-btn__gplus {
+    background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_gplus_black_24dp.png');
+}
+.footer {
+	background-color: #fafafa;
+	position: relative;
+}
+.footer a:hover {
+	color: #4DB6AC;
+}
+.footer .mdl-mega-footer--top-section::after {
+	border-bottom: none;
+}
+.footer .mdl-mega-footer--middle-section::after {
+	border-bottom: none;
+}
+.footer .mdl-mega-footer--bottom-section {
+	position: relative;
+}
+.footer .mdl-mega-footer--bottom-section a {
+	margin-right: 2em;
+}
+.footer .mdl-mega-footer--right-section a .material-icons {
+	position: relative;
+	top: 6px;
+}
+
+/**** Mobile layout ****/
+@media (max-width: 900px) {
+	/* MENU */
+	.menu_title {
+		display: none !important;
+	}
+	.menu_navigation_container {
+		display: none;
+	}
+	/*
+	.android-title {
+		display: none !important;
+	}
+	*/
+	.menu_mobile_title {
+		display: block !important;
+		position: absolute;
+		left: calc(50% - 70px);
+		top: 12px;
+		transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* HOME */
+	.home_title {
+		font-size: 26px;
+		margin: 0 16px;
+		padding-top: 24px;
+	}
+	.home_subtitle {
+		font-size: 16px;
+		margin: 0 16px;
+		padding-top: 8px;
+	}
+	
+	.android_application {
+		padding-top: 200px;
+		font-size: 16px;
+	}
+	.android_application img {
+		height: 12px;
+	}
+	
+	/* MESSAGES */
+	.messages_contacts {
+		display: none;
+	}
+}
+
+/* OLD CSS */
+/*
+.android-search-box .mdl-textfield__input {
+	color: rgba(0, 0, 0, 0.87);
+}
+
+.android-header .mdl-menu__container {
+	z-index: 50;
+	margin: 0 !important;
+}
+
+
+.mdl-textfield--expandable {
+	width: auto;
+}
+
+.android-fab {
+	position: absolute;
+	right: 20%;
+	bottom: -26px;
+	z-index: 3;
+	background: #64ffda !important;
+	color: black !important;
+}
+
+.android-mobile-title {
+	display: none !important;
+}
+
+
+.android-logo-image {
+height: 28px;
+	width: 140px;
+}
+
+
+.android-header {
+	overflow: visible;
+	background-color: white;
+}
+
+.android-header .material-icons {
+	color: #767777 !important;
+}
+
+.android-header .mdl-layout__drawer-button {
+	background: transparent;
+	color: #767777;
+}
+
+.android-header .mdl-navigation__link {
+	color: #757575;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.android-navigation-container {
+	direction: rtl;
+	order: 1;
+	width: 500px;
+	transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+	width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.android-navigation {
+	direction: ltr;
+	justify-content: flex-end;
+	width: 800px;
+}
+
+.android-search-box.is-focused + .android-navigation-container {
+	opacity: 0;
+	width: 100px;
+}
+
+
+.android-navigation .mdl-navigation__link {
+	display: inline-block;
+	height: 60px;
+	line-height: 68px;
+	background-color: transparent !important;
+	border-bottom: 4px solid transparent;
+}
+
+.android-navigation .mdl-navigation__link:hover {
+	border-bottom: 4px solid #8bc34a;
+}
+
+.android-search-box {
+	order: 2;
+	margin-left: 16px;
+	margin-right: 16px;
+}
+
+.android-more-button {
+	order: 3;
+}
+
+
+.android-drawer {
+	border-right: none;
+}
+
+.android-drawer-separator {
+	height: 1px;
+	background-color: #dcdcdc;
+	margin: 8px 0;
+}
+
+.android-drawer .mdl-navigation__link.mdl-navigation__link {
+	font-size: 14px;
+	color: #757575;
+}
+
+.android-drawer span.mdl-navigation__link.mdl-navigation__link {
+	color: #8bc34a;
+}
+
+.android-drawer .mdl-layout-title {
+	position: relative;
+	background: #6ab344;
+	height: 160px;
+}
+
+.android-drawer .android-logo-image {
+	position: absolute;
+	bottom: 16px;
+}
+
+
+
+
+
+
+
+.android-create-character {
+	font-size: 21px;
+	padding-top: 400px;
+}
+
+.android-create-character a {
+	text-decoration: none;
+	color: #767777;
+	font-weight: 300;
+}
+
+.android-screen-section {
+	position: relative;
+	padding-top: 60px;
+	padding-bottom: 80px;
+}
+
+.android-screens {
+text-align: right;
+width: 100%;
+white-space: nowrap;
+overflow-x: auto;
+}
+
+.android-screen {
+text-align: center;
+}
+
+.android-screen .android-link {
+margin-top: 16px;
+display: block;
+z-index: 2;
+}
+
+.android-image-link {
+text-decoration: none;
+}
+
+.android-wear {
+display: inline-block;
+width: 160px;
+margin-right: 32px;
+}
+
+.android-wear .android-screen-image {
+width: 40%;
+z-index: 1;
+}
+
+
+.android-phone {
+display: inline-block;
+width: 64px;
+margin-right: 48px;
+}
+
+.android-phone .android-screen-image {
+width: 100%;
+z-index: 1;
+}
+
+
+.android-tablet {
+display: inline-block;
+width: 110px;
+margin-right: 64px;
+}
+
+.android-tablet .android-screen-image {
+width: 100%;
+z-index: 1;
+}
+
+.android-tablet .android-link {
+display: block;
+z-index: 2;
+}
+
+
+.android-tv {
+display: inline-block;
+width: 300px;
+margin-right: 80px;
+}
+
+.android-tv .android-screen-image {
+width: 100%;
+z-index: 1;
+}
+
+
+.android-auto {
+display: inline-block;
+width: 300px;
+overflow: hidden;
+}
+
+.android-auto .android-screen-image {
+display: block;
+height: 300px;
+z-index: 1;
+}
+
+
+.android-wear-section {
+position: relative;
+background: url('images/wear.png') center top no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.android-wear-band {
+position: absolute;
+bottom: 0;
+width: 100%;
+text-align: center;
+background-color: #37474f;
+}
+
+.android-wear-band-text {
+max-width: 800px;
+margin-left: 25%;
+padding: 24px;
+text-align: left;
+color: white;
+}
+
+.android-wear-band-text p {
+padding-top: 8px;
+}
+
+.android-link {
+text-decoration: none;
+color: #8bc34a !important;
+}
+
+.android-link:hover {
+color: #7cb342 !important;
+}
+
+.android-link .material-icons {
+position: relative;
+top: -1px;
+vertical-align: middle;
+}
+
+.android-alt-link {
+text-decoration: none;
+color: #64ffda !important;
+font-size: 16px;
+}
+
+.android-alt-link:hover {
+color: #00bfa5 !important;
+}
+
+.android-alt-link .material-icons {
+position: relative;
+top: 6px;
+}
+
+.android-customized-section {
+text-align: center;
+}
+
+.android-customized-section-text {
+max-width: 500px;
+margin-left: auto;
+margin-right: auto;
+padding: 80px 16px 0 16px;
+}
+
+.android-customized-section-text p {
+padding-top: 16px;
+}
+
+.android-customized-section-image {
+background: url('images/devices.jpg') center top no-repeat;
+background-size: cover;
+height: 400px;
+}
+
+.android-more-section {
+padding: 80px 0;
+max-width: 1044px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.android-more-section .android-section-title {
+margin-left: 12px;
+padding-bottom: 24px;
+}
+
+.android-card-container {
+}
+
+.android-card-container .mdl-card__media {
+overflow: hidden;
+background: transparent;
+}
+
+.android-card-container .mdl-card__media img {
+width: 100%;
+}
+
+.android-card-container .mdl-card__title {
+background: transparent;
+height: auto;
+}
+
+.android-card-container .mdl-card__title-text {
+color: black;
+height: auto;
+}
+
+.android-card-container .mdl-card__supporting-text {
+height: auto;
+color: black;
+padding-bottom: 56px;
+}
+
+.android-card-container .mdl-card__actions {
+position: absolute;
+bottom: 0;
+}
+
+.android-card-container .mdl-card__actions a {
+border-top: none;
+font-size: 16px;
+}
+
+.android-footer {
+background-color: #fafafa;
+position: relative;
+}
+
+.android-footer a:hover {
+color: #8bc34a;
+}
+
+.android-footer .mdl-mega-footer--top-section::after {
+border-bottom: none;
+}
+
+.android-footer .mdl-mega-footer--middle-section::after {
+border-bottom: none;
+}
+
+.android-footer .mdl-mega-footer--bottom-section {
+position: relative;
+}
+
+.android-footer .mdl-mega-footer--bottom-section a {
+margin-right: 2em;
+}
+
+.android-footer .mdl-mega-footer--right-section a .material-icons {
+position: relative;
+top: 6px;
+}
+
+
+.android-link-menu:hover {
+cursor: pointer;
+}
+
+@media (max-width: 900px) {
+	.android-navigation-container {
+	display: none;
+	}
+	
+	.android-title {
+	display: none !important;
+	}
+	
+	.android-mobile-title {
+	display: block !important;
+	position: absolute;
+	left: calc(50% - 70px);
+	top: 12px;
+	transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	
+	.android.android-search-box.is-focused ~ .android-mobile-title,
+	.android-search-box.is-focused + .android-navigation-container + .android-mobile-title {
+	opacity: 0;
+	}
+	
+	.android-more-button {
+	display: none;
+	}
+	
+	.android-search-box.is-focused {
+	width: calc(100% - 48px);
+	}
+	
+	.android-search-box .mdl-textfield__expandable-holder {
+	width: 100%;
+	}
+	
+	.android-be-together-section {
+	height: 350px;
+	}
+	
+
+	
+	.android-create-character {
+	padding-top: 200px;
+	font-size: 16px;
+	}
+	
+	.android-create-character img {
+	height: 12px;
+	}
+	
+	.android-fab {
+	display: none;
+	}
+	
+	.android-wear-band-text {
+	margin-left: 0;
+	padding: 16px;
+	}
+	
+	.android-footer .mdl-mega-footer--bottom-section {
+	display: none;
+	}
+}
+*/

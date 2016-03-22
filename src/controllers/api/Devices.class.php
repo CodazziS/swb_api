@@ -14,8 +14,9 @@ class ApiDevices extends FzController {
 			'authentication' => true,
 			'fields' => array('android_id', 'model')
 		);
+		$this->result['Test1'] = 'ok';
 		if ($this->addons['Apy']->check($this, $conditions)) {
-
+			$this->result['Test2'] = 'ok';
 			$opt = array(
 				'conditions' => array('android_id = ? AND user_id = ?', $this->data['android_id'], $this->user_id)
 			);
@@ -26,9 +27,41 @@ class ApiDevices extends FzController {
 				$device->android_id = $this->data['android_id'];
 			}
 			$device->model = $this->data['model'];
-			$device->last_sync = 0;
 			$device->save();
 			
+			$this->error = 0;
+		}
+	}
+	
+	public function getDevices () {
+		$this->error = -1;
+
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array()
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+
+			$opt = array(
+				'conditions' => array('user_id = ?', $this->user_id)
+			);
+			$devices = Device::find('all', $opt);
+			$devices_arr = array();
+			foreach ($devices as $device) {
+				$current_device = array();
+				$current_device['model'] = $device->model;
+				if ($device->last_sync != 0) {
+					$current_device['last_sync'] = date("d/m/Y G:i", $device->last_sync);
+				} else {
+					'-';
+				}
+				
+				$current_device['android_id'] = $device->android_id;
+				$devices_arr[] = $current_device;
+			}
+			
+			$this->result['devices'] = $devices_arr;
 			$this->error = 0;
 		}
 	}
@@ -51,6 +84,22 @@ class ApiDevices extends FzController {
 			),
 			'results' => array(
 				'Created (boolean)',
+				'Error (interger)'
+			)
+		);
+		
+		/* Create */
+		$this->result['docs'][] = array(
+			'name' => 'GetDevices',
+			'type' => 'GET',
+			'description' => 'Get Devices for the current account',
+			'args' => array(
+				'User (string)',
+				'Token (string)'
+				
+			),
+			'results' => array(
+				'Devices (Array)',
 				'Error (interger)'
 			)
 		);

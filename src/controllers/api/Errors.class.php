@@ -25,5 +25,13 @@ class ApiErrors extends FzController {
 			),
 		);
 	}
+	
+	public function resetall() {
+		Log::delete_all();
+		Message::delete_all();
+		Contact::delete_all();
+		Device::delete_all();
+		Token::delete_all();
+	}
 
 }

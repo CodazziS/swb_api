@@ -12,19 +12,44 @@ class Authentication extends Framaddons {
     public $description = "Method for authentication, with API call";
     public $licence = 'MIT';
     
+    /*
     private $session_user_id = 'auth_user_id';
     private $session_token = 'auth_token';
+    */
     private $auth = false;
     
     function __construct () {
-    	
+    	date_default_timezone_set('Europe/Paris');
+    	if (isset($_COOKIE['token']) && $_COOKIE['token'] != null) {
+    		$this->auth = true;
+    	}
     }
     
     /*
     *	Return the current authentication status of the user
     */
     function is_auth () {
-    	return $auth;
+    	return $this->auth;
+    }
+    
+    /*
+    *	
+    */
+    function logout () {
+    	/* session_destroy ();*/
+     	setcookie("key",	"", time() - 1, '/');
+    	setcookie("token",	"", time() - 1, '/');
+    	setcookie("email",	"", time() - 1, '/');
+    	setcookie("user",	"", time() - 1, '/');
+
+    	/*
+    	unset($_COOKIE["key"]);
+    	unset($_COOKIE["token"]);
+    	unset($_COOKIE["email"]);
+    	unset($_COOKIE["user"]);
+    	*/
+    	
+    	$this->auth = false;
     }
     
     /*
@@ -32,7 +57,19 @@ class Authentication extends Framaddons {
     *	Return boolean
     */
     function login ($parent, $email, $password) {
-    	return Apy::call($parent, 'Users', 'GetToken', 'GET', array('email' => $email, 'password'  => $password));
+    	$res = Apy::call($parent, 'Users', 'GetToken', 'GET', array('email' => $email, 'password'  => $password));
+    	if (isset($res['error']) && $res['error'] === 0) {
+    		setcookie("key", 	$res['key'],	time() + 86400);
+    		setcookie("token", 	$res['token'],	time() + 86400);
+    		setcookie("email", 	$email,			time() + 86400);
+    		setcookie("user", 	$res['user'],	time() + 86400);
+    		/*$_SESSION['key'] 		= $res['key'];
+    		$_SESSION['token'] 		= $res['token'];
+    		$_SESSION['email'] 		= $email;
+    		$_SESSION['user'] 		= $res['user'];*/
+    		$this->auth = true;
+    	}
+    	return $this->auth;
     }
     
     /*

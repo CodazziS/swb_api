@@ -18,16 +18,18 @@ class Apy extends Framaddons {
     
     function check ($obj, $conditions) {
     	
-    	if (isset($conditions['method'])) {
+    	if (!empty($conditions['method'])) {
     		if ($conditions['method'] !== $obj->request->method) {
+    			$obj->result['test3'] = $_POST;
+    			$obj->result['test4'] = $_GET;
     			$obj->error = 1;
     			return false;
     		}
     	}
     	
-    	if (isset($conditions['fields'])) {
+    	if (!empty($conditions['fields'])) {
     		foreach($conditions['fields'] as $field) {
-    			if (!isset($obj->data[$field])) {
+    			if (empty($obj->data[$field])) {
     				$obj->error = 2;
     				$obj->result['missing field'] = $field;
     				return false;
@@ -35,14 +37,14 @@ class Apy extends Framaddons {
     		}
     	}
     	
-    	if (isset($conditions['authentication'])) {
+    	if (!empty($conditions['authentication']) && $conditions['authentication']) {
     		
-    		if (isset($obj->data['user']) && isset($obj->data['token'])) {
+    		if (!empty($obj->data['user']) && !empty($obj->data['token']) && is_numeric($obj->data['user'])) {
     			$opt = array(
-					'conditions' => array('user_id = ? AND token = ?', $obj->data['user'], $obj->data['token'])
-				);
+    				'conditions' => array('user_id = ? AND token = ?', $obj->data['user'], $obj->data['token'])
+    				);
     			$token = Token::find('first', $opt);
-    			if (isset($token) && $token != null) {
+    			if (!empty($token)) {
     				$obj->user_id = $token->user_id;
     			} else {
     				$obj->error = 6;

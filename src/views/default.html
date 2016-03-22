@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="{{ description }}">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{{ title }}</title>
+		
+		<!-- Page styles -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.teal-blue.min.css" />
+		<!--<link rel="stylesheet" href="/res/material/material.min.css">-->
+		<link rel="stylesheet" href="/res/styles.css">
+		<script src="/res/material/material.min.js"></script>
+		<script src="/res/js/jzodlib/dist/jzodlib.min.js"></script>
+		<script src="/res/js/main.js"></script>
+	</head>
+	<body onload="loadPage()">
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			{{ include('components/layout_navigation.html') }}
+			
+			<div class="mdl-layout__content">
+				<!--<a name="top"></a>-->
+				
+				{% if html == 'account' %}
+					{{ include('pages/account.html') }}
+				{% elseif html == 'messages' %}
+					{{ include('pages/messages.html') }}
+				{% else %}
+					{{ include('pages/home_guest.html') }}
+				{% endif %}
+
+				<footer class="footer mdl-mega-footer">
+					<div class="mdl-mega-footer--top-section">
+						<div class="mdl-mega-footer--left-section">
+							<button class="mdl-mini-footer--social-btn social-btn social-btn__twitter">
+								<span class="visuallyhidden">Twitter</span>
+							</button>
+							<button class="mdl-mini-footer--social-btn social-btn social-btn__gplus">
+								<span class="visuallyhidden">Google Plus</span>
+							</button>
+							<span class="mdl-typography--font-light">
+								2016 SWB Online
+								| <a class="colorized_link mdl-typography--font-light" href="https://codazzi.fr">sCodazzi</a>
+								| <a class="colorized_link mdl-typography--font-light" href="http://swb.ovh">Blog</a>
+								| <a class="colorized_link mdl-typography--font-light" href="">Privacy Policy</a>
+							</span>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</body>
+</html>

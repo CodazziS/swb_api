@@ -94,6 +94,24 @@ class ApiUsers extends FzController {
 			}
 		}
 	}
+	
+	public function getInfos () {
+		$this->error = -1;
+
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array()
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			
+			$this->result['messages'] 			= Message::count(array('conditions' => array('user_id = ?', $this->user_id)));
+			$this->result['messages_unread'] 	= Message::count(array('conditions' => array('user_id = ? AND read = ?', $this->user_id, "0")));
+			$this->result['contacts'] 			= Contact::count(array('conditions' => array('user_id = ?', $this->user_id)));
+
+			$this->error = 0;
+		}
+	}
 
 	public function index() {
 		$this->render_class = 'Render';
@@ -128,6 +146,23 @@ class ApiUsers extends FzController {
 			'results' => array(
 				'Token (string)',
 				'User (int)',
+				'Error (interger)'
+			)
+		);
+		
+		/* GetInfos */
+		$this->result['docs'][] = array(
+			'name' => 'GetInfos',
+			'type' => 'GET',
+			'description' => 'Get infos of the current user',
+			'args' => array(
+				'Email (string)',
+				'Password (string)'
+			),
+			'results' => array(
+				'Messages (string)',
+				'Messages_unread (string)',
+				'Contacts (string)',
 				'Error (interger)'
 			)
 		);
