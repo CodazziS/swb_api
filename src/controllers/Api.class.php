@@ -9,6 +9,7 @@ class Api extends FzController {
 	}
 	
 	public function __call ($method, $args) {
+		$start_time = time();
 		$class_file = 'api/'.ucfirst($method).'.class.php';
 		require ($class_file);
 		$api_class_name = 'Api'.ucfirst($method);
@@ -45,6 +46,7 @@ class Api extends FzController {
 		
 		$this->result 			= $api_class->result;
 		$this->result['error'] 	= $api_class->error;
+		$this->result['exec_time'] 	= time() - $start_time;
 		$this->render_class 	= $api_class->render_class;
 		$this->title 			= $api_class->title;
 		$this->view				= $api_class->view;

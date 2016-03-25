@@ -70,7 +70,11 @@ class Crypto extends Framaddons {
     public static function formatPhoneNumber($str) {
     	/* TODO : Internationnalization for the phone Number */
     	$number = preg_replace('/\s+/', '', $str);
-    	return substr($number, -9);
+    	if (is_numeric($number)) {
+	    	return substr($number, -9);
+    	} else {
+    		return $str;
+    	}
     }
     /*
     public static function crypt ($data, $key) {

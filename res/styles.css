@@ -47,6 +47,9 @@ a {
 	margin-left: auto;
 	margin-right: 0;
 }
+.color_1 {
+	color: #009688;
+}
 .colorized_link {
 	text-decoration: none;
 	color: #26A69A !important;
@@ -243,7 +246,7 @@ a {
 /* MESSAGES */
 .messages_page {
 	width: auto;
-	height: calc(100vh - 160px);
+	height: calc(100vh - 141px);
 	background-color: #80CBC4;
 	margin-left: auto;
 	margin-right: auto;
@@ -252,15 +255,16 @@ a {
 	align-items: stretch;
 }
 #messages_contacts {
-	max-width: 450px;
+	max-width: 300px;
+	min-width: 300px;
 	background-color: #FFF;
 	margin: 10px;
 	padding: 10px;
-	flex-grow: 2;
+	flex: 0;
 	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 	overflow: auto;
 }
-.message_contact_item {
+.messages_contact_item {
 	min-height: 50px;
 	background-color: #E0F2F1;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -270,29 +274,89 @@ a {
 	display: flex;
 	align-items: center;
 }
-.message_contact_item:hover {
+.messages_contact_item:hover {
 	background-color: #B2DFDB;
 }
-.message_contact_item_img {
+.messages_contact_item_img {
 	padding-right: 5px;
 }
-.message_contact_item_name {
+.messages_contact_item_name {
 	color: #004D40;
 	font-weight: bold;
 }
-.message_contact_item_subname {
+.messages_contact_item_subname {
 	color: #00695C;
 	font-size: 12px;
 }
 #messages_list {
+	display: flex;
+	flex-direction: column;
 	background-color: #FFF;
 	margin: 10px;
 	padding: 10px;
-	flex-grow: 6;
+	flex: 1;
 	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-	overflow: auto;
 }
-
+.message_list_title {
+	background-color: #009688;
+	color: #FFF;
+	text-align: center;
+	font-weight: bold;
+	padding: 2px;
+}
+#messages_list_items {
+	overflow: auto;
+	flex-grow: 2;
+}
+.messages_list_item {
+	min-height: 50px;
+	padding: 5px;
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+.messages_list_item_infos {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	padding: 5px;
+	margin-left: 10px;
+	background-color: #FF8A80;
+	order: 1;
+	flex: 1
+}
+#messages_list .type_1 .messages_list_item_infos {
+	background-color: #B2DFDB;
+}
+#messages_list .type_2 {
+	margin-left: auto;
+	margin-right: 0;
+}
+#messages_list .type_2 .messages_list_item_infos {
+	margin-right: 10px;
+	background-color: #FEFEFE;
+	order: -1;
+}
+/*
+#messages_list .messages_list_item_infos:hover {
+	background-color: #E0F2F1;
+}
+*/
+.messages_list_item_body {
+	color: #004D40;
+}
+.messages_list_item_date {
+	color: #00695C;
+	font-size: 12px;
+}
+#messages_inputs {
+	height: 69px;
+	box-shadow: 0px 0px 3px #009688;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#messages_input_block {
+	width: calc(100% - 130px);
+	margin-right: 10px;
+}
 /*
 .messages_bloc {
 	height: calc(100vh - 180px);
@@ -454,7 +518,7 @@ a {
 	}
 	
 	/* MESSAGES */
-	.messages_contacts {
+	#messages_contacts {
 		display: none;
 	}
 }

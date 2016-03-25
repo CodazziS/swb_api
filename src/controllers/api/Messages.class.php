@@ -17,30 +17,39 @@ class ApiMessages extends FzController {
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
+			
+			
+			$mess_transac = Message::connection();
+			$mess_transac->transaction();
+			
 			Message::delete_all(array('conditions' => array('user_id = ? and device = ? ', $this->user_id, $this->data['android_id'])));
+			
 			$messages = json_decode($this->data['messages']);
 			$contacts = array();
+			
 			foreach ($messages as $message) {
 				
 				$format_address = $this->addons['Crypto']->formatPhoneNumber($message->address);
 
-				$message_bdd 					= new Message();
-				$message_bdd->user_id 			= $this->user_id;
-				$message_bdd->android_id 		= $message->id;
-				$message_bdd->device 			= $this->data['android_id'];
-				$message_bdd->date_message 		= $message->date;
-				$message_bdd->date_sync 		= time();
-				$message_bdd->read 				= $message->read;
-				$message_bdd->body 				= $this->addons['Crypto']->encrypt($message->body, $this->data['key']);
-				$message_bdd->address 			= $this->addons['Crypto']->encrypt($message->address, $this->data['key']);
-				$message_bdd->format_address	= $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
-				$message_bdd->type 				= $message->type;
-				$message_bdd->date_sent 		= $message->date_sent;
-				$message_bdd->save();
-				if (!isset($contacts[$message_bdd->format_address]) || $contacts[$message_bdd->format_address] < $message_bdd->date_message) {
-					$contacts[$this->addons['Crypto']->encrypt($format_address, $this->data['key'])] = $message_bdd->date_message;
+				$message_bdd 					= array();
+				$message_bdd['user_id']			= $this->user_id;
+				$message_bdd['android_id'] 		= $message->id;
+				$message_bdd['device'] 			= $this->data['android_id'];
+				$message_bdd['date_message'] 	= $message->date;
+				$message_bdd['date_sync'] 		= time();
+				$message_bdd['unread'] 			= ($message->read == '1') ? 0 : 1;
+				$message_bdd['body'] 			= $this->addons['Crypto']->encrypt($message->body, $this->data['key']);
+				$message_bdd['address'] 		= $this->addons['Crypto']->encrypt($message->address, $this->data['key']);
+				$message_bdd['format_address']	= $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
+				$message_bdd['type'] 			= $message->type;
+				$message_bdd['date_sent'] 		= $message->date_sent;
+				Message::create($message_bdd);
+				
+				if (!isset($contacts[$message_bdd['format_address']]) || $contacts[$message_bdd['format_address']] < $message->date) {
+					$contacts[$this->addons['Crypto']->encrypt($format_address, $this->data['key'])] = $message->date;
 				}
 			}
+			$mess_transac->commit();
 			
 			foreach($contacts as $contact => $value) {
 				$opt = array(
@@ -52,7 +61,7 @@ class ApiMessages extends FzController {
 					$contact_bdd->save();
 				}
 			}
-			
+
 			$this->error = 0;
 		}
 	}
@@ -90,7 +99,7 @@ class ApiMessages extends FzController {
 				}
 				$message_bdd->date_message 		= $message->date;
 				$message_bdd->date_sync 		= time();
-				$message_bdd->read 				= $message->read;
+				$message_bdd->unread 			= ($message->read == '1') ? 0 : 1;
 				$message_bdd->body 				= $this->addons['Crypto']->encrypt($message->body, $this->data['key']);
 				$message_bdd->address 			= $this->addons['Crypto']->encrypt($message->address, $this->data['key']);
 				$message_bdd->format_address	= $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
@@ -139,22 +148,21 @@ class ApiMessages extends FzController {
 			
 			$address = $this->addons['Crypto']->encrypt($this->data['address'], $this->data['key']);
 			$opt = array(
-				'conditions' => array('format_address = ? AND user_id = ? AND device = ?', $address, $this->user_id, $this->data['android_id'])
+				'conditions' => array('format_address = ? AND user_id = ? AND device = ?', $address, $this->user_id, $this->data['android_id']),
+				'order' => 'date_message asc'
 			);
 			$messages = Message::find('all', $opt);
 			$mess_arr = array();
 			foreach ($messages as $mess) {
 				$mess_cur = array();
 				$mess_cur['time'] = $mess->date_message;
-				$mess_cur['read'] = $mess->read;
+				$mess_cur['type'] = $mess->type;
+				$mess_cur['unread'] = $mess->unread;
 				$mess_cur['type'] = $mess->type;
 				$mess_cur['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
 				$mess_arr[] = $mess_cur;
 			} 
-			
 			$this->result['messages'] = $mess_arr;
-			$this->result['opt'] = $opt;
-
 			$this->error = 0;
 		}
 	}

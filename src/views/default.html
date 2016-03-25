@@ -16,9 +16,10 @@
 		<link rel="stylesheet" href="/res/styles.css">
 		<script src="/res/material/material.min.js"></script>
 		<script src="/res/js/jzodlib/dist/jzodlib.min.js"></script>
+		<script src="/res/js/konami.js"></script>
 		<script src="/res/js/main.js"></script>
 	</head>
-	<body onload="loadPage()">
+	<body id="body" onload="loadPage()">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			{{ include('components/layout_navigation.html') }}
 			
@@ -29,11 +30,13 @@
 					{{ include('pages/account.html') }}
 				{% elseif html == 'messages' %}
 					{{ include('pages/messages.html') }}
+				{% elseif html == 'signin' %}
+					{{ include('pages/signin.html') }}	
 				{% else %}
 					{{ include('pages/home_guest.html') }}
 				{% endif %}
 
-				<footer class="footer mdl-mega-footer">
+				<footer id="footer" class="footer mdl-mega-footer">
 					<div class="mdl-mega-footer--top-section">
 						<div class="mdl-mega-footer--left-section">
 							<button class="mdl-mini-footer--social-btn social-btn social-btn__twitter">

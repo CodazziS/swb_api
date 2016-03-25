@@ -33,10 +33,10 @@ class ApiContacts extends FzController {
 				$contact_bdd = Contact::find('first', $opt);
 				if (!isset($contact_bdd) or $contact_bdd == null) {
 				*/
-					$contact_bdd = new Contact();
-					$contact_bdd->user_id = $this->user_id;
-					$contact_bdd->format_address = $c_format_address;
-					$contact_bdd->android_id = $this->data['android_id'];
+				$contact_bdd = new Contact();
+				$contact_bdd->user_id = $this->user_id;
+				$contact_bdd->format_address = $c_format_address;
+				$contact_bdd->android_id = $this->data['android_id'];
 				//}
 				$contact_bdd->address = $c_address;
 				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
@@ -49,9 +49,29 @@ class ApiContacts extends FzController {
 		}
 	}
 	
+	private function getContactName($address, $device) {
+		$opt = array(
+			'select' => 'name',
+			'conditions' => array('user_id = ? AND android_id = ? AND format_address = ?', $this->user_id, $device, $address), 
+		);
+		$contact = Contact::find('first', $opt);
+		if (empty($contact)) {
+			$opt = array(
+				'select' => 'address',
+				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $device, $address), 
+			);
+			$mess = Message::find('first', $opt);
+			return $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
+		} else {
+			return $this->addons['Crypto']->decrypt($contact->name, $this->data['key']);
+		}
+	}
+	
 	public function getactive () {
 		$this->error = -1;
 		
+		$class_file = 'Devices.class.php';
+		require ($class_file);
 
 		$conditions = array(
 			'method' => 'GET',
@@ -60,6 +80,27 @@ class ApiContacts extends FzController {
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
+			$opt = array(
+				'select' => 'format_address, device, MAX(date_message) as date_message, MAX(unread) as unread',
+				'conditions' => array('user_id = ?', $this->user_id), 
+				'order' => 'date_message desc',
+				'group' => 'device, format_address',
+			);
+			$address = Message::find('all', $opt);
+
+			$addr_arr = array();
+			foreach ($address as $addr) {
+				$addr_cur = array();
+				$addr_cur['time'] = $addr->date_message;
+				$addr_cur['android_id'] = $addr->device;
+				$addr_cur['unread'] = $addr->unread;
+				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
+				$addr_cur['model'] = ApiDevices::getDeviceName($this->user_id, $addr->device);
+				$addr_cur['name'] = $this->getContactName($addr->format_address, $addr->device);
+				$addr_arr[] = $addr_cur;
+			} 
+			$this->result['address'] = $addr_arr;
+			/*
 			$opt = array(
 				//'select' => 'format_address',
 				'conditions' => array('user_id = ? AND last_message is not NULL', $this->user_id), 

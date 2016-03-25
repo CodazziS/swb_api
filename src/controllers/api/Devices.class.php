@@ -35,7 +35,7 @@ class ApiDevices extends FzController {
 	
 	public function getDevices () {
 		$this->error = -1;
-
+		
 		$conditions = array(
 			'method' => 'GET',
 			'authentication' => true,
@@ -63,6 +63,19 @@ class ApiDevices extends FzController {
 			
 			$this->result['devices'] = $devices_arr;
 			$this->error = 0;
+		}
+	}
+	
+	static public function getDeviceName($user_id, $android_id) {
+		$opt = array(
+			'select' => 'model',
+			'conditions' => array('user_id = ? AND android_id = ?', $user_id, $android_id), 
+		);
+		$device = Device::find('first', $opt);
+		if (empty($device)) {
+			return $android_id;
+		} else {
+			return $device->model;
 		}
 	}
 	
