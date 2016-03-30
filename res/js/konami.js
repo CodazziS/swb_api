@@ -103,3 +103,14 @@ var Konami = function (callback) {
 
 	return konami;
 };
+
+var easter_egg = new Konami(function() { 
+    konamize();
+});
+function konamize() {
+	var color = "#" + Math.round(Math.random() * 1000000);
+	document.getElementById("header").style.backgroundColor = color;
+	document.getElementById("footer").style.backgroundColor = color;
+
+	setTimeout(function(){ konamize(); }, 50);
+}

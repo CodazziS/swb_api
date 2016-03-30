@@ -6,9 +6,15 @@ class ApiMessages extends FzController {
 		$this->view			= "api/doc.html";
 	}
 	
+	/*
+		Messages types
+		-2: Todo send  
+		-1: sending (in phone)
+		1: ...
+		2: ...
+	*/
 	public function resync () {
 		$this->error = -1;
-		
 
 		$conditions = array(
 			'method' => 'POST',
@@ -16,14 +22,10 @@ class ApiMessages extends FzController {
 			'fields' => array('messages', 'key', 'android_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			
-			
-			
 			$mess_transac = Message::connection();
 			$mess_transac->transaction();
 			
 			Message::delete_all(array('conditions' => array('user_id = ? and device = ? ', $this->user_id, $this->data['android_id'])));
-			
 			$messages = json_decode($this->data['messages']);
 			$contacts = array();
 			
@@ -69,7 +71,6 @@ class ApiMessages extends FzController {
 	public function sync () {
 		$this->error = -1;
 		
-
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
@@ -136,19 +137,70 @@ class ApiMessages extends FzController {
 		}
 	}
 	
+	public function getlastsync() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('key')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			
+			$opt = array(
+				'select' => 'date_sync',
+				'conditions' => array('user_id = ?', $this->user_id),
+				'order' => 'date_sync desc',
+			);
+			$message = Message::find('first', $opt);
+			if (!empty($message)) {
+				$this->result['last_message'] = $message->date_sync;
+			} else {
+				$this->result['last_message'] = 0;
+			}
+			$this->error = 0;
+		}
+	}
+	
+	public function getlastsyncmessage() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('key', 'device', 'format_address')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			
+			$format_address = $this->addons['Crypto']->encrypt($this->data['format_address'], $this->data['key']);
+			$opt = array(
+				'select' => 'date_sync',
+				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $this->data['device'], $format_address),
+				'order' => 'date_sync desc',
+			);
+			$message = Message::find('first', $opt);
+			if (!empty($message)) {
+				$this->result['last_message'] = $message->date_sync;
+			} else {
+				$this->result['last_message'] = 0;
+			}
+			$this->error = 0;
+		}
+	}
+	
 	public function getmessages () {
 		$this->error = -1;
 		
 		$conditions = array(
 			'method' => 'GET',
 			'authentication' => true,
-			'fields' => array('key', 'android_id', 'address')
+			'fields' => array('key', 'android_id', 'format_address')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
-			$address = $this->addons['Crypto']->encrypt($this->data['address'], $this->data['key']);
+			$format_address = $this->addons['Crypto']->encrypt($this->data['format_address'], $this->data['key']);
 			$opt = array(
-				'conditions' => array('format_address = ? AND user_id = ? AND device = ?', $address, $this->user_id, $this->data['android_id']),
+				'conditions' => array('format_address = ? AND user_id = ? AND device = ?', $format_address, $this->user_id, $this->data['android_id']),
 				'order' => 'date_message asc'
 			);
 			$messages = Message::find('all', $opt);

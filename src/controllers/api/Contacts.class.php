@@ -49,22 +49,26 @@ class ApiContacts extends FzController {
 		}
 	}
 	
-	private function getContactName($address, $device) {
+	private function getContactInfos($address, $device) {
 		$opt = array(
-			'select' => 'name',
+			'select' => 'name, address',
 			'conditions' => array('user_id = ? AND android_id = ? AND format_address = ?', $this->user_id, $device, $address), 
 		);
 		$contact = Contact::find('first', $opt);
+		$result = array('name' => '', 'address' => '');
 		if (empty($contact)) {
 			$opt = array(
 				'select' => 'address',
 				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $device, $address), 
 			);
 			$mess = Message::find('first', $opt);
-			return $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
+			$result['name'] 	= $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
+			$result['address']	= $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
 		} else {
-			return $this->addons['Crypto']->decrypt($contact->name, $this->data['key']);
+			$result['name'] 	= $this->addons['Crypto']->decrypt($contact->name, $this->data['key']);
+			$result['address']	= $this->addons['Crypto']->decrypt($contact->address, $this->data['key']);
 		}
+		return $result;
 	}
 	
 	public function getactive () {
@@ -90,13 +94,15 @@ class ApiContacts extends FzController {
 
 			$addr_arr = array();
 			foreach ($address as $addr) {
+				$contact_infos = $this->getContactInfos($addr->format_address, $addr->device);
 				$addr_cur = array();
 				$addr_cur['time'] = $addr->date_message;
 				$addr_cur['android_id'] = $addr->device;
 				$addr_cur['unread'] = $addr->unread;
-				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
+				$addr_cur['address'] = $contact_infos['address'];
+				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
 				$addr_cur['model'] = ApiDevices::getDeviceName($this->user_id, $addr->device);
-				$addr_cur['name'] = $this->getContactName($addr->format_address, $addr->device);
+				$addr_cur['name'] = $contact_infos['name'];
 				$addr_arr[] = $addr_cur;
 			} 
 			$this->result['address'] = $addr_arr;

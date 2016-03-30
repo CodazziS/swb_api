@@ -36,4 +36,9 @@ class Index extends FzController {
 		$this->addons['Authentication']->logout();
 		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 	}
+	
+	public function allowcookies() {
+		$this->render_class = 'Json';
+		setcookie("cookies_ok", "true",	time() + 864000, '/');
+	}
 }

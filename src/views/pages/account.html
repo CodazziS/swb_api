@@ -4,6 +4,18 @@
 		<div class="card_title mdl-typography--display-1-color-contrast">{{ lang['account_information'] | e }}</div>
 		<div class="card1 mdl-grid">
 			
+			<dialog class="mdl-dialog">
+				<h4 class="mdl-dialog__title">{{ lang['account_devices_delete_title'] | e }}</h4>
+				<div class="mdl-dialog__content">
+					<p>
+						{{ lang['account_devices_delete_text'] | nl2br }}
+					</p>
+				</div>
+				<div class="mdl-dialog__actions">
+					<button type="button" class="mdl-button remove">{{ lang['account_devices_delete_ok'] | e }}</button>
+					<button type="button" class="mdl-button close">{{ lang['account_devices_delete_nok'] | e }}</button>
+				</div>
+			</dialog>
 			<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--8-col-phone mdl-card mdl-shadow--3dp">
 				<div class="mdl-card__title">
 					<h2 class="mdl-card__title-text">{{ lang['account_devices'] | e }}</h2>
@@ -14,9 +26,13 @@
 					    <div class="mdl-list__item">
 							<span class="mdl-list__item-primary-content">
 								<i class="icon_margin_right material-icons">stay_primary_portrait</i>
-								<span><b>{{ device.model | e }}</b> - {{ lang['account_device_last_sync'] |e }} {{ device.last_sync | e }}</span>
+								<span onclick="Device.changeName('{{ device.name | e }}', '{{ device.android_id | e }}')">
+									<b>{{ device.name | e }}</b> ({{ device.model | e }}) - {{ device.last_sync | e }}
+								</span>
 							</span>
-							<a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">cancel</i></a>
+							<a onclick="Device.deleteDevice('{{ device.android_id | e }}')" class="mdl-list__item-secondary-action" href="#">
+								<i class="material-icons">cancel</i>
+							</a>
 						</div>
 					{% endfor %}
 

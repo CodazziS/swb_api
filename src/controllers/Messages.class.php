@@ -19,7 +19,6 @@ class Messages extends FzController {
 		if (!$this->result['logged']) {
 			header('Location: /'); 
 		}
-		
 	}
 	
 }
