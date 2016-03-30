@@ -6,20 +6,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="description" content="{{ description }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="google-site-verification" content="fFcuLq68TvKZf4bY0kHzr2yefwOtSUdcrbUCNfwd_X8" />
 		<title>{{ title }}</title>
 		
-		<!-- Page styles -->
+		<!-- JS -->
+		<script src="/res/material/material.min.js"></script>
+		<script src="/res/js/jzodlib/dist/jzodlib.js"></script>
+		<script src="/res/js/main.js"></script>
+		
+		<!-- CSS -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.teal-blue.min.css" />
-		<!--<link rel="stylesheet" href="/res/material/material.min.css">-->
+		<!--<link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.teal-blue.min.css" />-->
+		<link rel="stylesheet" href="/res/material/material.min.css">
 		<link rel="stylesheet" href="/res/styles.css">
-		<script src="/res/material/material.min.js"></script>
-		<script src="/res/js/jzodlib/dist/jzodlib.min.js"></script>
-		<script src="/res/js/konami.js"></script>
-		<script src="/res/js/main.js"></script>
 	</head>
-	<body id="body" onload="loadPage()">
+	<body id="body" onload="init_script()">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			{{ include('components/layout_navigation.html') }}
 			
@@ -39,10 +41,10 @@
 				<footer id="footer" class="footer mdl-mega-footer">
 					<div class="mdl-mega-footer--top-section">
 						<div class="mdl-mega-footer--left-section">
-							<button class="mdl-mini-footer--social-btn social-btn social-btn__twitter">
+							<button onclick="window.open('https://twitter.com/CodazziS');" class="mdl-mini-footer--social-btn social-btn social-btn__twitter">
 								<span class="visuallyhidden">Twitter</span>
 							</button>
-							<button class="mdl-mini-footer--social-btn social-btn social-btn__gplus">
+							<button onclick="window.open('https://www.google.com/+SwbOvhOnline');" class="mdl-mini-footer--social-btn social-btn social-btn__gplus">
 								<span class="visuallyhidden">Google Plus</span>
 							</button>
 							<span class="mdl-typography--font-light">

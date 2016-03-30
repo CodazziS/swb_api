@@ -9,7 +9,7 @@
         Function include is for include scripts, in Ajax
      */
     window.include = function (src, callback) {
-        if (pages_load[src] === undefined && (window.minify_version === undefined || window.minify_version === false)) {
+        if (pages_load[src] === undefined) {
             pages_load[src] = true;
             var head = document.getElementsByTagName('head').item(0),
                 script = document.createElement('script');
@@ -41,10 +41,11 @@
             head.appendChild(script);
         }
     };
-
-    /* Include all framzod libraries */
-    window.include("framzod/modules/Ajax.js");
-    window.include("framzod/modules/Storage.js");
-    window.include("framzod/modules/Utils.js");
-
+	
+	if (window.minify_version === undefined || window.minify_version === false) {
+	    /* Include all framzod libraries */
+	    window.include("framzod/modules/Ajax.js");
+	    window.include("framzod/modules/Storage.js");
+	    window.include("framzod/modules/Utils.js");
+	}
 }(1));

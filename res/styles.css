@@ -39,7 +39,7 @@ a {
 	color: #fff;
 }
 
-.center100 {
+.center100, .full {
 	width: 100%;
 }
 .rightbox {
@@ -99,6 +99,11 @@ a {
 }
 
 /* MENU */
+#cookiebar {
+	background-color: #009688;
+	padding: 10px;
+	color: #FFF;
+}
 .logo_image {
 	height: 50px;
 	/*width: 250px;*/
@@ -303,6 +308,8 @@ a {
 	text-align: center;
 	font-weight: bold;
 	padding: 2px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	z-index: 10;
 }
 #messages_list_items {
 	overflow: auto;
@@ -333,6 +340,15 @@ a {
 #messages_list .type_2 .messages_list_item_infos {
 	margin-right: 10px;
 	background-color: #FEFEFE;
+	order: -1;
+}
+#messages_list .type_-2, #messages_list .type_-1 {
+	margin-left: auto;
+	margin-right: 0;
+}
+#messages_list .type_-2 .messages_list_item_infos, #messages_list .type_-1 .messages_list_item_infos {
+	margin-right: 10px;
+	background-color: #BBDEFB;
 	order: -1;
 }
 /*

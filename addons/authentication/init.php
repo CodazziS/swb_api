@@ -13,8 +13,8 @@ class Authentication extends Framaddons {
     public $licence = 'MIT';
     
     /*
-    private $session_user_id = 'auth_user_id';
-    private $session_token = 'auth_token';
+	*	private $session_user_id = 'auth_user_id';
+	*   private $session_token = 'auth_token';
     */
     private $auth = false;
     
@@ -41,14 +41,6 @@ class Authentication extends Framaddons {
     	setcookie("token",	"", time() - 1, '/');
     	setcookie("email",	"", time() - 1, '/');
     	setcookie("user",	"", time() - 1, '/');
-
-    	/*
-    	unset($_COOKIE["key"]);
-    	unset($_COOKIE["token"]);
-    	unset($_COOKIE["email"]);
-    	unset($_COOKIE["user"]);
-    	*/
-    	
     	$this->auth = false;
     }
     
@@ -59,14 +51,10 @@ class Authentication extends Framaddons {
     function login ($parent, $email, $password) {
     	$res = Apy::call($parent, 'Users', 'GetToken', 'GET', array('email' => $email, 'password'  => $password));
     	if (isset($res['error']) && $res['error'] === 0) {
-    		setcookie("key", 	$res['key'],	time() + 86400);
-    		setcookie("token", 	$res['token'],	time() + 86400);
-    		setcookie("email", 	$email,			time() + 86400);
-    		setcookie("user", 	$res['user'],	time() + 86400);
-    		/*$_SESSION['key'] 		= $res['key'];
-    		$_SESSION['token'] 		= $res['token'];
-    		$_SESSION['email'] 		= $email;
-    		$_SESSION['user'] 		= $res['user'];*/
+    		setcookie("key", 	$res['key'],	time() + 86400, '/');
+    		setcookie("token", 	$res['token'],	time() + 86400, '/');
+    		setcookie("email", 	$email,			time() + 86400, '/');
+    		setcookie("user", 	$res['user'],	time() + 86400, '/');
     		$this->auth = true;
     	}
     	return $this->auth;

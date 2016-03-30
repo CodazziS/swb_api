@@ -52,4 +52,7 @@
 		{% endif %}
 	</nav>
 </div>
-
+<div id="cookiebar">
+	{{ lang['cookies_text'] | e }}
+	<button onclick="acceptCookies();" type="button" class="mdl-button">{{ lang['cookies_ok'] | e }}</button>
+</div>

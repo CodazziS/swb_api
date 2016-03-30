@@ -22,6 +22,7 @@ class ApiErrors extends FzController {
 				'4: Password is too short ('.MIN_PASSWORD_LEN.' min)',
 				'5: This email is already exist',
 				'6: Bad credentials or user not found',
+				'7: Object not found',
 			),
 		);
 	}

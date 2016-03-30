@@ -1,0 +1,34 @@
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+    }
+    return undefined;
+}
+
+function acceptCookies() {
+	opt = {
+		'url': '/Index/allowcookies',
+		'data': {
+		},
+		'callback': function() {
+			document.getElementById('cookiebar').style.display = 'none';
+		},
+		'checkErrors': false,
+		'decode': false
+	};
+	Ajax.get(opt);
+}
+
+function timeToDate(unix_timestamp) {
+	var d = new Date(unix_timestamp * 1);
+	var m = d.getMonth() + 1;
+	var r = (d.getDate() < 10 ? '0' : '') + d.getDate() + '/' + (m < 10 ? '0' : '') + m + '/' + d.getFullYear() + ' ';
+	r += (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+	return r;
+}
+
+window.nb_script_to_load--;
