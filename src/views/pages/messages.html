@@ -1,4 +1,15 @@
 <div class="messages_page">
+	
+	<dialog class="mdl-dialog emoji_list">
+		<h4 class="mdl-dialog__title">{{ lang['messages_emojis_title'] | e }}</h4>
+		<div class="emoji_list_content">
+			{{ include('components/emoji.html') }}
+		</div>
+		<div class="mdl-dialog__actions">
+			<button type="button" class="mdl-button close">{{ lang['messages_emojis_close'] | e }}</button>
+		</div>
+	</dialog>
+			
 	<div id="messages_contacts" >
 
 	</div>

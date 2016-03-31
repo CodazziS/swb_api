@@ -80,6 +80,16 @@ class ApiMessages extends FzController {
 			
 			$messages = json_decode($this->data['messages']);
 			$contacts = array();
+			
+			/* Delete all messages type -1 */
+			Message::delete_all(
+				array('conditions' =>
+					array(
+						'user_id = ? and device = ? AND type = ? ',
+						$this->user_id,
+						$this->data['android_id'],
+						-1)
+					));
 			foreach ($messages as $message) {
 				
 				$opt = array(
@@ -133,6 +143,57 @@ class ApiMessages extends FzController {
 			$device->last_sync = time();
 			$device->save();
 			
+			/*
+				The update is ended.
+				Now, we check if the phone have to send messages
+			*/
+			
+			$opt = array(
+				'conditions' => array(
+					'user_id = ? AND device = ? AND type = ?',
+					$this->user_id,
+					$this->data['android_id'],
+					-2)
+			);
+			$messages_to_send = Message::find('all', $opt);
+			$messages_arr = array();
+			foreach($messages_to_send as $mess) {
+				$message_arr = array();
+				$message_arr['id'] = $mess->android_id;
+				$message_arr['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
+				$message_arr['address'] = $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
+				$messages_arr[] = $message_arr;
+			}
+			
+			$this->error = 0;
+			$this->result['messages_to_send'] = $messages_arr;
+		}
+	}
+	
+	public function confirmsent() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'POST',
+			'authentication' => true,
+			'fields' => array('message_id', 'key')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			$opt = array(
+				'conditions' => array(
+					'user_id = ? AND device = ? AND android_id = ?',
+					$this->user_id,
+					$this->data['android_id'],
+					$this->data['message_id'])
+			);
+			$message = Message::find('first', $opt);
+			if (!empty($message)) {
+				$message->type = -1;
+				$message->date_sync = time();
+				$message->save();
+			} else {
+				$this->error = 7;
+			}
 			$this->error = 0;
 		}
 	}

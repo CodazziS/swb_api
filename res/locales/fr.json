@@ -44,9 +44,12 @@
 	"messages_description": "Gerez vos messages depuis cette page",
 	"messages_start": "Pour commencer, choisissez un contact dans le menu de gauche",
 	"messages_todo_send": "En file d'attente",
-	"messages_sent": "Envoie en cours ...",
+	"messages_sent": "Envoi en cours ...",
+	"messages_send": "Message envoyé",
+	"messages_send_error": "Erreur dans l'envoie du message",
+	"messages_emojis_title": "Emoticônes",
+	"messages_emojis_close": "Fermer",
 	
 
 	"end": "fin"
-	
 }
