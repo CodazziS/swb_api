@@ -174,15 +174,18 @@ MessagesClass.prototype = {
 		html += '<div id="messages_inputs">';
 		html += '	<form action="#" onsubmit="Messages.sendMessage(\'' + Messages.last_address + '\', \'' + Messages.last_android_id + '\'); return false;">';
 		html += '		<div id="messages_input_block" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">';
-		html += '			<input class="mdl-textfield__input" type="text" id="messages_input">';
+		html += '			<input class="mdl-textfield__input" autocomplete="off" type="text" id="messages_input">';
 		html += '			<label class="mdl-textfield__label" for="messages_input">Envoyer un message</label>';
 		html += '		</div>';
-		html += '		<button id="messages_emoji_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">';
-		html += '			<i class="material-icons">mood</i>';
-		html += '		</button>';
+		
 		html += '		<button id="messages_send_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">';
 		html += '			<i class="material-icons">send</i>';
 		html += '		</button>';
+		
+		html += '		<button onclick="Messages.showEmojis(); return false;" id="messages_emoji_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">';
+		html += '			<i class="material-icons">mood</i>';
+		html += '		</button>';
+		
 		html += '	</form>';
 		html += '</div>';
 		return html;
@@ -195,7 +198,7 @@ MessagesClass.prototype = {
 			
 		for (i in json_data.messages) {
 			mess = json_data.messages[i];
-			html += '<div class="messages_list_item type_' + mess.type + '">';
+			html += '<div class="messages_list_item emoji_like type_' + mess.type + '">';
 			html += '	<div class="messages_list_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
 			html += '	<div class="messages_list_item_infos">';
 			html += '		<div class="messages_list_item_body">' + mess.body + '</div>';
@@ -218,7 +221,10 @@ MessagesClass.prototype = {
 			message,
 			input;
 		
-		input = document.getElementById('messages_input');	
+		input = document.getElementById('messages_input');
+		if (input.value === '' || input.value === null) {
+			return;
+		}
 		message = {
 			'id': (new Date()).getTime(),
 			'date': (new Date()).getTime(),
@@ -253,15 +259,25 @@ MessagesClass.prototype = {
 		json_data = JSON.parse(data);
 		var snackbarContainer = document.querySelector('#messages_confirm_send');
 		if (json_data.error === 0) {
-			snackbarContainer.MaterialSnackbar.showSnackbar({message: 'Message send'});
-			/*
-			Search Contact in menu by ID (format_address_android_id) and simulate click
-				Or view to new method for refresh the sms list
-			*/
+			snackbarContainer.MaterialSnackbar.showSnackbar({message: window.lang.messages_send});
 		} else {
-			snackbarContainer.MaterialSnackbar.showSnackbar({message: 'Error'});
+			snackbarContainer.MaterialSnackbar.showSnackbar({message: window.lang.messages_send_error});
 		}
+	},
+	
+	showEmojis: function() {
+		var dialog = document.querySelector('dialog');
+	    dialog.showModal();
+	    dialog.querySelector('.close').addEventListener('click', function() {
+	    	dialog.close();
+	    });
+	},
+	
+	addEmoji:function(span) {
+		document.getElementById('messages_input').value += span.innerHTML;
+		componentHandler.upgradeDom();
 	}
+	
 };
 var Messages = new MessagesClass();
 

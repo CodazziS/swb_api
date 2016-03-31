@@ -111,7 +111,7 @@ rewrite ^/(.+)$ /index.php?class=$1 last;
 rewrite ^/$ /main.php last;
 rewrite ^/(.+\..+)$ /$1 last;
 rewrite ^/(.*)/(.*)$ /main.php?class=$1&method=$2 last;
-rewrite ^/(.+)$ /main.php?class=$1 last;;
+rewrite ^/(.+)$ /main.php?class=$1 last;
 			</pre>
 		</div>
 	</body>

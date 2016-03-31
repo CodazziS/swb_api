@@ -85,7 +85,7 @@ class ApiContacts extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
 			$opt = array(
-				'select' => 'format_address, device, MAX(date_message) as date_message, MAX(unread) as unread',
+				'select' => 'format_address, device, MAX(date_message) as date_message, SUM(unread) as unread',
 				'conditions' => array('user_id = ?', $this->user_id), 
 				'order' => 'date_message desc',
 				'group' => 'device, format_address',

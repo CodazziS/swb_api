@@ -1,8 +1,58 @@
-
 body {
 	margin: 0;
 }
 
+/* Emojis */
+
+/*
+Emoji Symbols Font (c)blockworks - Kenichi Kaneko
+http://emojisymbols.com/
+*/
+@font-face {
+	font-family: "EmojiSymbols";
+	src: url("EmojiSymbols-Regular.woff");
+}
+
+.emoji_like {
+	font-family: "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols",sans-serif;
+}
+.emoji_list {
+	width: 80%;
+	font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+}
+.emoji_list_content {
+	font-size: 28px;
+    line-height: 30px;
+}
+.emoji_list_content span:hover {
+	cursor: pointer;
+	color: #555;
+}
+/*
+@font-face {
+	font-family: "Symbola";
+	src: local('Apple Color Emoji'),
+       local('Android Emoji'),
+       url(Symbola.ttf) format("truetype");
+
+	unicode-range: U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+2600-26FF;
+}
+
+.emoji_like {
+	font-family: "Helvetica","Arial","Symbola",sans-serif;
+}
+.emoji_list {
+	width: 80%;
+	font-family: "Helvetica","Arial","Symbola",sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+}
+.emoji_list_content {
+	font-size: 28px;
+    line-height: 30px;
+}
+*/
+    
 /* Disable ugly boxes around images in IE10 */
 a img{
 	border: 0px;
@@ -358,6 +408,7 @@ a {
 */
 .messages_list_item_body {
 	color: #004D40;
+	font-size: 16px;
 }
 .messages_list_item_date {
 	color: #00695C;
