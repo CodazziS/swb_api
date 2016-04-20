@@ -1,33 +1,36 @@
 
-<div class="home_img_top mdl-typography--text-center">
-	<div class="logo-font home_title">{{ lang['home_title'] }}</div>
-	<div class="logo-font home_subtitle">{{ lang['home_slogan'] }}</div>
-	<div class="logo-font android_application">
-		<a class="logo-font" href="https://play.google.com/store/apps/details?id=fr.codazzi.smsonline">
-			<i class="icon_margin_right material-icons">android</i>{{ lang['home_install_app'] }}</a>
+<div class="home_top">
+	<div class="home_title">{{ lang['home_title'] }}</div>
+	<div class="home_subtitle">{{ lang['home_slogan'] }}</div>
+	<div class="home_application">
+		<a href="https://play.google.com/store/apps/details?id=fr.codazzi.smsonline">
+			<i class="material-icons">android</i>
+			{{ lang['home_install_app'] }}
+		</a>
 	</div>
 </div>
 
 {% if not logged %}
 
 	<div class="home_forms">
-		<div id="home_use_app" class="card_title mdl-typography--display-1-color-contrast">{{ lang['home_use_app'] }}</div>
-		<div class="card1 mdl-grid">
-			<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--8-col-phone mdl-card mdl-shadow--3dp">
-				<div class="mdl-card__media">
+		<div class="home_forms_title mdl-typography--display-1-color-contrast">{{ lang['home_use_app'] }}</div>
+		<div class="home_cards">
+			
+			<div class="home_card mdl-shadow--3dp">
+				<div class="home_card_img">
 					<img alt="{{ lang['home_login'] }}" src="/res/img/img1.jpg">
 				</div>
-				<div class="mdl-card__title">
-					<h4 class="mdl-card__title-text">{{ lang['home_login'] }}</h4>
+				<div id="home_login" class="home_card_title">
+					<h4>{{ lang['home_login'] }}</h4>
 				</div>
 				
-				<div class="mdl-card__supporting-text">
+				<div class="home_card_text">
 					<form action="/" method="post">
 						<input type="hidden" name="action" value="login" />
 						<div class="center100 mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="text" id="email_login" name="email_login">
+							<input class="mdl-textfield__input" type="text" id="email_login" name="email_login" autofocus>
 							<label class="mdl-textfield__label" for="email_login">{{ lang['home_login_email'] }}</label>
-						</div>
+						</div><br />
 						<div class="center100 mdl-textfield mdl-js-textfield">
 							<input class="mdl-textfield__input" type="password" id="password_login" name="password_login">
 							<label class="mdl-textfield__label" for="password_login">{{ lang['home_login_password'] }}</label>
@@ -38,8 +41,8 @@
 							<span class="mdl-checkbox__label">{{ lang['home_login_remember'] }}</span>
 						</label>
 						-->
-						<div class="mdl-card__actions">
-							<button class="rightbox colorized_link mdl-button mdl-js-button mdl-button--primary">
+						<div class="home_card_action">
+							<button class="rightbox mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 								{{ lang['home_login_submit'] }} <i class="material-icons">chevron_right</i>
 							</button>
 						</div>
@@ -47,18 +50,18 @@
 				</div>
 			</div>
 			
-			<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--8-col-phone mdl-card mdl-shadow--3dp">
-				<div class="mdl-card__media">
+			<div class="home_card mdl-shadow--3dp">
+				<div class="home_card_img">
 					<img alt="{{ lang['home_signin'] }}" src="/res/img/img2.jpg">
 				</div>
-				<div class="mdl-card__title">
-					<h4 class="mdl-card__title-text">{{ lang['home_signin'] }}</h4>
+				<div class="home_card_title">
+					<h4>{{ lang['home_signin'] }}</h4>
 				</div>
-				<div class="mdl-card__supporting-text">
+				<div class="home_card_text">
 					<span class="mdl-typography--font-light mdl-typography--subhead">{{ lang['home_signin_tips'] }}</span>
 				</div>
-				<div class="mdl-card__actions">
-					<button class="rightbox colorized_link mdl-button mdl-js-button mdl-button--primary">
+				<div class="home_card_action">
+					<button class="rightbox mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 						{{ lang['home_signin_submit'] }} <i class="material-icons">chevron_right</i>
 					</button>
 				</div>

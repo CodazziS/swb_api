@@ -160,8 +160,8 @@ class ApiMessages extends FzController {
 			foreach($messages_to_send as $mess) {
 				$message_arr = array();
 				$message_arr['id'] = $mess->android_id;
-				$message_arr['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
-				$message_arr['address'] = $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
+				//$message_arr['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
+				//$message_arr['address'] = $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
 				$messages_arr[] = $message_arr;
 			}
 			
@@ -191,6 +191,8 @@ class ApiMessages extends FzController {
 				$message->type = -1;
 				$message->date_sync = time();
 				$message->save();
+				$this->result['body'] = $this->addons['Crypto']->decrypt($message->body, $this->data['key']);
+				$this->result['address'] = urlencode($this->addons['Crypto']->decrypt($message->address, $this->data['key']));
 			} else {
 				$this->error = 7;
 			}
