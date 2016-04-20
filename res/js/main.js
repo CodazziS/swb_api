@@ -33,12 +33,12 @@ function loadPage () {
 			loadPage();
 		}, 5);
 	} else {
-		if (getCookie('cookies_ok')) {
-			document.getElementById('cookiebar').style.display = 'none';
+		if (getCookie('accept_cookies') !== 'ok') {
+			document.getElementById('cookiebar').style.display = 'flex';
 		}
 		
 		if (document.getElementById('messages_contacts') !== null) {
-			Messages.getLastSync();
+			Messages.init();
 		}
 	}
 }

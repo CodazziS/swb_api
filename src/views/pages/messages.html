@@ -1,24 +1,35 @@
 <div class="messages_page">
 	
-	<dialog class="mdl-dialog emoji_list">
-		<h4 class="mdl-dialog__title">{{ lang['messages_emojis_title'] | e }}</h4>
-		<div class="emoji_list_content">
+	<div id="emoji_list" class="dialog mdl-shadow--3dp emoji_list">
+		<h4>{{ lang['messages_emojis_title'] | e }}</h4>
+		<div class="dialog_content emoji_list_content">
 			{{ include('components/emoji.html') }}
 		</div>
-		<div class="mdl-dialog__actions">
-			<button type="button" class="mdl-button close">{{ lang['messages_emojis_close'] | e }}</button>
+		<div class="dialog_action">
+			<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent close">{{ lang['messages_emojis_close'] | e }}</button>
 		</div>
-	</dialog>
-			
-	<div id="messages_contacts" >
-
 	</div>
-
-	<div id="messages_list">
-		<h4 class="color_1">{{ lang['messages_start'] }}</h4>
+	
+	<div id="messages_contacts_bloc">
+		<div id="messages_contact_active" class="messages_action_button top" onclick="Messages.switchView(true);">
+			<i class="material-icons center">comment</i>
+			{{ lang['messages_messages'] }}
+		</div>
+		<div id="messages_contacts"></div>
+	</div>
+	
+	<div id="messages_messages_bloc">
+		<div id="messages_list_active" class="messages_action_button top" onclick="Messages.switchView(false);">
+			<i class="material-icons center">contacts</i>
+			{{ lang['messages_contacts'] }}
+		</div>
+		<div id="messages_list">
+			<h4 class="color_1">{{ lang['messages_start'] }}</h4>
+		</div>
 	</div>
 </div>
+
 <div id="messages_confirm_send" class="mdl-js-snackbar mdl-snackbar">
-  <div class="mdl-snackbar__text"></div>
-  <button class="mdl-snackbar__action" type="button"></button>
+	<div class="mdl-snackbar__text"></div>
+	<button class="mdl-snackbar__action" type="button"></button>
 </div>

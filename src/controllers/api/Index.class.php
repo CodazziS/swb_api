@@ -6,6 +6,20 @@ class ApiIndex extends FzController {
 		$this->view			= "api/index.html";
 	}
 	
+	function tester() {
+		$this->render_class = 'Json';
+		
+		$this->result['data'] = $this->data;
+		$this->result['request'] = $this->request;
+	}
+	
+	function getversion() {
+		$this->render_class = 'Json';
+		
+		/* Need to be here for git's commits */
+		$this->result['api_version'] = 1;
+	}
+	
 	public function index() {
 		$this->result = array('lines' => array());
 		

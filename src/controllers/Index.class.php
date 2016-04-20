@@ -39,6 +39,6 @@ class Index extends FzController {
 	
 	public function allowcookies() {
 		$this->render_class = 'Json';
-		setcookie("cookies_ok", "true",	time() + 864000, '/');
+		setcookie("accept_cookies", "ok",	time() + 864000, '/');
 	}
 }

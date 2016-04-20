@@ -41,6 +41,8 @@
 
 	"messages_title": "SWB. Mes messages",
 	"messages_subtitle": "Mes messages",
+	"messages_contacts": "Mes contacts",
+	"messages_messages": "Mes messages",
 	"messages_description": "Gerez vos messages depuis cette page",
 	"messages_start": "Pour commencer, choisissez un contact dans le menu de gauche",
 	"messages_todo_send": "En file d'attente",

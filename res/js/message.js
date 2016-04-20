@@ -11,10 +11,15 @@ MessagesClass.prototype = {
 	refresh_started: false,
 	last_contact_page: '',
 	
+	init: function() {
+		//Messages.resizeSoResetSwitch()
+		Messages.getLastSync();
+		window.addEventListener("resize", Messages.resizeSoResetSwitch);
+		
+	},
 	getLastSync: function() {
 		var opt;
 		
-		/* TODO: set correct URL */
 		opt = {
 			'url': '/api/messages/getlastsync',
 			'data': {
@@ -43,7 +48,6 @@ MessagesClass.prototype = {
 	getActiveContacts: function() {
 		var opt;
 		
-		/* TODO: set correct URL */
 		opt = {
 			'url': '/Api/Contacts/GetActive',
 			'data': {
@@ -67,7 +71,7 @@ MessagesClass.prototype = {
 		json_data = JSON.parse(data);
 		for (i in json_data.address) {
 			addr = json_data.address[i];
-			html += '<div class="messages_contact_item" onclick="Messages.launchContactRefresh(\'' + addr.address + '\', \'' + addr.format_address + '\', \'' + addr.android_id + '\', \'' + addr.name + '\')">';
+			html += '<div class="messages_contact_item" onclick="Messages.switchView(true); Messages.launchContactRefresh(\'' + addr.address + '\', \'' + addr.format_address + '\', \'' + addr.android_id + '\', \'' + addr.name + '\')">';
 			html += '	<div class="messages_contact_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
 			html += '	<div class="messages_contact_item_infos">';
 			html += '		<div class="messages_contact_item_name">' + addr.name + '</div>';
@@ -84,8 +88,7 @@ MessagesClass.prototype = {
 	
 	launchContactRefresh: function(address, format_address, android_id, name) {
 		
-		
-		document.getElementById('messages_list').innerHTML = '<div class="mdl-progress mdl-js-progress mdl-progress__indeterminate full"></div>';
+		document.getElementById('messages_list').innerHTML = '<div class="mdl-progress mdl-js-progress mdl-progress__indeterminate center100"></div>';
 		
 		Messages.last_format_address = format_address;
 		Messages.last_address = address;
@@ -104,7 +107,6 @@ MessagesClass.prototype = {
 	getLastSyncMess: function() {
 		var opt;
 		
-		/* TODO: set correct URL */
 		opt = {
 			'url': '/api/messages/getLastSyncMessage',
 			'data': {
@@ -266,16 +268,54 @@ MessagesClass.prototype = {
 	},
 	
 	showEmojis: function() {
-		var dialog = document.querySelector('dialog');
-	    dialog.showModal();
+		var dialog = document.getElementById('emoji_list');
+		dialog.style.display = 'block';
 	    dialog.querySelector('.close').addEventListener('click', function() {
-	    	dialog.close();
+	    	dialog.style.display = 'none';
 	    });
 	},
 	
 	addEmoji:function(span) {
 		document.getElementById('messages_input').value += span.innerHTML;
 		componentHandler.upgradeDom();
+	},
+	
+	/* Switch view, for small screen */
+	switchView: function(toMessage) {
+		var contacts = document.getElementById('messages_contacts_bloc'),
+			messages = document.getElementById('messages_messages_bloc'),
+			width = window.innerWidth
+					|| document.documentElement.clientWidth
+					|| document.body.clientWidth;
+		if (width >= 960) {
+			return;
+		}
+		if (toMessage) {
+			contacts.style.display = 'none';
+			messages.style.display = 'flex';
+			if (document.getElementById("messages_list_items") != null) {
+				document.getElementById("messages_list_items").scrollTop = document.getElementById("messages_list_items").scrollHeight;
+			}
+		} else {
+			contacts.style.display = 'flex';
+			messages.style.display = 'none';
+		}
+	},
+	
+	resizeSoResetSwitch: function() {
+		var contacts = document.getElementById('messages_contacts_bloc'),
+			messages = document.getElementById('messages_messages_bloc'),
+			width = window.innerWidth
+					|| document.documentElement.clientWidth
+					|| document.body.clientWidth;
+
+		if (width >= 960) {
+			contacts.style.display = 'flex';
+			messages.style.display = 'flex';
+		} else {
+			contacts.style.display = 'flex';
+			messages.style.display = 'none';
+		}
 	}
 	
 };

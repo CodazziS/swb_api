@@ -27,10 +27,11 @@ DeviceClass.prototype = {
 		
 	},
 	deleteDevice: function (android_id) {
-		var dialog = document.querySelector('dialog');
-	    dialog.showModal();
+		var dialog = document.getElementById('delete_device');
+		dialog.style.display = 'block';
+	    //dialog.showModal();
 	    dialog.querySelector('.close').addEventListener('click', function() {
-	    	dialog.close();
+	    	dialog.style.display = 'none';
 	    });
 	    dialog.querySelector('.remove').addEventListener('click', function() {
 	    	opt = {
@@ -49,7 +50,7 @@ DeviceClass.prototype = {
 			};
 			
 			Ajax.post(opt);
-	    	dialog.close();
+	    	dialog.style.display = 'block';
 	    });
 	}
 };
