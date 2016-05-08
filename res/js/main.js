@@ -11,6 +11,16 @@ function init_script() {
 	loadPage();
 }
 
+function pageLoaded () {
+	if (getCookie('accept_cookies') !== 'ok') {
+		document.getElementById('cookiebar').style.display = 'flex';
+	}
+	
+	if (document.getElementById('messages_contacts') !== null) {
+		Messages.init();
+	}
+}
+
 function loadPage () {
 	if (window.nb_script_to_load > 0) {
 		if (window.nb_script_to_load == 1 && (window.load_lang === false)) {
@@ -33,13 +43,7 @@ function loadPage () {
 			loadPage();
 		}, 5);
 	} else {
-		if (getCookie('accept_cookies') !== 'ok') {
-			document.getElementById('cookiebar').style.display = 'flex';
-		}
-		
-		if (document.getElementById('messages_contacts') !== null) {
-			Messages.init();
-		}
+		pageLoaded();
 	}
 }
 

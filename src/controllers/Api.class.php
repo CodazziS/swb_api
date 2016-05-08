@@ -30,7 +30,7 @@ class Api extends FzController {
 			$log = new Log();
 			$log->time = time();
 			$log->date = date("d/m/Y H:i:s");
-			$log->fonction = $method . '/' . $_GET['args'];
+			$log->function = $method . '/' . $_GET['args'];
 			$log->json = json_encode($params);
 			$log->save();
 		}
