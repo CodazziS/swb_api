@@ -16,11 +16,12 @@ class Account extends FzController {
 	public function signin() {
 		$this->init();
 		$this->result['html'] = "signin";
-		if (!empty($this->data['email'])) {
-			if ($this->addons['Authentication']->signin ($this, $this->data['email'], $this->data['password'])) {
-				header('Location: /#home_use_app'); 
+		if (!empty($this->data['email']) && $this->data['password1'] === $this->data['password2']) {
+			if ($this->addons['Authentication']->signin ($this, $this->data['email'], $this->data['password1'])) {
+				/* Auto connect */ 
 			}
 		}
+		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 	}
 	
 	public function index() {

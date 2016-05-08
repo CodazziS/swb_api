@@ -1,5 +1,36 @@
-<form method="post" action="/account/signin">
-	Email: <input type="text" name="email" />
-	PAssword: <input type="password" name="password" />
-	<input type="submit" value="Enregistrer" />
-</form>
+
+<div class="signin_page">
+	<div class="signin_blocs">
+		{% if not logged %}
+			<div class="signin_bloc">
+				<div class="signin_title">{{ lang['signin_title_1'] | e }}</div>
+				
+				<form method="post" action="/Account/SignIn">
+					<div class="mdl-textfield mdl-js-textfield">
+				    	<input class="mdl-textfield__input" type="email" name="email" id="email">
+				    	<label class="mdl-textfield__label" for="email">Email</label>
+				  	</div><br />
+				  	<div class="mdl-textfield mdl-js-textfield">
+				    	<input class="mdl-textfield__input" type="password" name="password1" id="password1">
+				    	<label class="mdl-textfield__label" for="password1">Password</label>
+				  	</div><br />
+				  	<div class="mdl-textfield mdl-js-textfield">
+				    	<input class="mdl-textfield__input" type="password" name="password2" id="password2">
+				    	<label class="mdl-textfield__label" for="password2">Password Confirmation</label>
+				  	</div><br />
+				  	<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+						Sign In
+					</button>
+				</form>
+			</div>
+		{% else %}
+			<div class="signin_bloc">
+				<div class="signin_title">{{ lang['signin_title_2'] | e }}</div>
+				
+				<a href="https://play.google.com/store/apps/details?id=fr.codazzi.smsonline">
+					<img class="signin_img" alt="Disponible sur Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/fr_badge_web_generic.png"/>
+				</a>
+			</div>
+		{% endif %}
+	</div>
+</div>

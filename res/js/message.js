@@ -12,6 +12,7 @@ MessagesClass.prototype = {
 	last_contact_page: '',
 	
 	init: function() {
+		console.log("Init Messages");
 		//Messages.resizeSoResetSwitch()
 		Messages.getLastSync();
 		window.addEventListener("resize", Messages.resizeSoResetSwitch);

@@ -105,12 +105,34 @@ var Konami = function (callback) {
 };
 
 var easter_egg = new Konami(function() { 
+	window.kona_c1 = ((1<<24)*Math.random()|0).toString(16);
+	window.kona_c2 = ((1<<24)*Math.random()|0).toString(16);
+	window.kona_r = 0;
     konamize();
 });
-function konamize() {
-	var color = "#" + Math.round(Math.random() * 1000000);
-	document.getElementById("header").style.backgroundColor = color;
-	document.getElementById("footer").style.backgroundColor = color;
 
-	setTimeout(function(){ konamize(); }, 50);
+function hex (x) {
+	x = x.toString(16);
+    return (x.length == 1) ? '0' + x : x;
+} 
+function getGradient(color1, color2, ratio) {
+	var r = Math.ceil(parseInt(color1.substring(0,2), 16) * (1-ratio) + parseInt(color2.substring(0,2), 16) * (ratio));
+	var g = Math.ceil(parseInt(color1.substring(2,4), 16) * (1-ratio) + parseInt(color2.substring(2,4), 16) * (ratio));
+	var b = Math.ceil(parseInt(color1.substring(4,6), 16) * (1-ratio) + parseInt(color2.substring(4,6), 16) * (ratio));
+	
+	return hex(r) + hex(g) + hex(b);
+}
+
+function konamize() {
+	var color = "#" + getGradient(window.kona_c1, window.kona_c2, window.kona_r);
+	window.kona_r += 0.01;
+	document.getElementsByClassName("header_large")[0].style.backgroundColor = color;
+	document.getElementsByClassName("header_min")[0].style.backgroundColor = color;
+	document.getElementById("footer").style.backgroundColor = color;
+	if (window.kona_r > 1) {
+		window.kona_c1 = window.kona_c2;
+		window.kona_c2 = ((1<<24)*Math.random()|0).toString(16);
+		window.kona_r = 0;	
+	}
+	setTimeout(function(){ konamize(); }, 25);
 }
