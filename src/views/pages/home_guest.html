@@ -25,10 +25,10 @@
 				</div>
 				
 				<div class="home_card_text">
-					<form action="/" method="post">
+					<form action="/#email_login" method="post">
 						<input type="hidden" name="action" value="login" />
 						<div class="center100 mdl-textfield mdl-js-textfield">
-							<input class="mdl-textfield__input" type="text" id="email_login" name="email_login" autofocus>
+							<input class="mdl-textfield__input" type="text" id="email_login" name="email_login">
 							<label class="mdl-textfield__label" for="email_login">{{ lang['home_login_email'] }}</label>
 						</div><br />
 						<div class="center100 mdl-textfield mdl-js-textfield">
@@ -41,6 +41,8 @@
 							<span class="mdl-checkbox__label">{{ lang['home_login_remember'] }}</span>
 						</label>
 						-->
+						
+						<div class="home_card_error">{{ errorstr | e }}</div>
 						<div class="home_card_action">
 							<button class="rightbox mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 								{{ lang['home_login_submit'] }} <i class="material-icons">chevron_right</i>

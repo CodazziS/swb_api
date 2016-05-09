@@ -73,8 +73,11 @@ class Apy extends Framaddons {
     * 	Result: The API function result, in json format
     */
     public static function call($parent, $api_class, $api_method, $http_method, $data) {
-    	$class_file = SOURCES_PATH.'/controllers/api/' . ucfirst($api_class) . '.class.php';
-		require ($class_file);
+    	
+    	if (!class_exists('Api'.ucfirst($api_class))) {
+	    	$class_file = SOURCES_PATH.'/controllers/api/' . ucfirst($api_class) . '.class.php';
+			require ($class_file);
+    	}
 		$api_class_name = 'Api'.ucfirst($api_class);
 		$api_class = new $api_class_name();
 		
