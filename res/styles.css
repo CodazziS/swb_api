@@ -249,6 +249,7 @@ h1, h2, h3, h4 {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
+	overflow: hidden;
 }
 .message_list_title {
 	background-color: #009688;
@@ -470,4 +471,16 @@ http://emojisymbols.com/
 	.emoji_list_content {
 	    height: 250px;
 	}
+}
+
+/* Firefox fix */
+@-moz-document url-prefix() { 
+	.mdl-button {
+	 	vertical-align: 35px;
+	}
+}
+
+/* IE fix */
+.ie .mdl-button {
+ 	vertical-align: 15px;
 }
