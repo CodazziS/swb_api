@@ -18,11 +18,18 @@
 	"home_login_email": "Email",
 	"home_login_password": "Password",
 	"home_login_remember": "Se souvenir de moi",
+	"home_login_error": "L'identifiant n'existe pas ou le mot de passe est incorrect.",
 	"home_login_submit": "Se connecter",
 	
 	"home_signin": "Découvrir l'application et créer un compte",
 	"home_signin_tips": "Suivez un guide pas à pas pour créer votre compte SWB et vous familiariser avec votre nouvelle application.",
 	"home_signin_submit": "Créer son compte",
+	"home_signin_error_email": "Les champs doivent être remplis",
+	"home_signin_error_password": "Les mots de passes sont différents",
+	"home_signin_api_error_2": "Les mots de passes doivent être remplis",
+	"home_signin_api_error_3": "L'adresse email n'est pas valide",
+	"home_signin_api_error_4": "Le mot de passe est trop petit",
+	"home_signin_api_error_5": "L'adresse email existe déjà",
 	
 	
 	"account_title": "SWB. Mon compte",
@@ -54,6 +61,8 @@
 	
 	"signin_title_1": "Créer son compte",
 	"signin_title_2": "Télécharger et paramétrer l'application",
+	"signin_text": "Votre compte est créé, et vous êtes maintenant connecté. \n Vous pouvez maintenant télécharger l'application sur votre téléphone en vous rendant sur le lien ci dessous.",
+	"signin_text_2": "Quand l'application sera installée, ouvrez la et rendez-vous dans les Paramètres. Rentrez vos identifiants et sauvegardez. Le téléphone devrait maintenant commencer à synchroniser vos contacts et vos messages. \n Vous pouvez voir l'avancement en actualisant les informations sur le téléphone, ou sur la page Mon compte, sur le site. Pour commencer à lire vos messages, rendez vous sur la page Mes messages. \n\n Nous vous vous remercions d'utiliser notre application, et restons à votre disposition pour vous aider sur les réseaux sociaux.",
 	
 
 	"end": "fin"

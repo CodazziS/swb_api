@@ -10,8 +10,11 @@ class Api extends FzController {
 	
 	public function __call ($method, $args) {
 		$start_time = time();
-		$class_file = 'api/'.ucfirst($method).'.class.php';
-		require ($class_file);
+		
+		if (!class_exists('Api'.ucfirst($method))) {
+			$class_file = 'api/'.ucfirst($method).'.class.php';
+			require_once ($class_file);
+		}
 		$api_class_name = 'Api'.ucfirst($method);
 		$api_class = new $api_class_name();
 		
@@ -41,8 +44,6 @@ class Api extends FzController {
 		} else {
 			$api_class->index();
 		}
-		
-		
 		
 		$this->result 			= $api_class->result;
 		$this->result['error'] 	= $api_class->error;

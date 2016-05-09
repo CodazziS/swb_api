@@ -16,12 +16,27 @@ class Account extends FzController {
 	public function signin() {
 		$this->init();
 		$this->result['html'] = "signin";
-		if (!empty($this->data['email']) && $this->data['password1'] === $this->data['password2']) {
-			if ($this->addons['Authentication']->signin ($this, $this->data['email'], $this->data['password1'])) {
-				/* Auto connect */ 
+		if (isset($this->data['email'])) {
+			// Empty email
+			if (empty($this->data['email'])) {
+				$this->result['errorstr'] = $this->lang['home_signin_error_email'];
+				return;
 			}
+			// Passwords not match
+			if ($this->data['password1'] !== $this->data['password2']) {
+				$this->result['errorstr'] = $this->lang['home_signin_error_password'];
+				return;
+			}
+			
+			$signin = $this->addons['Authentication']->signin ($this, $this->data['email'], $this->data['password1']);
+			if ($signin['created']) {
+				$this->addons['Authentication']->login($this, $this->data['email'], $this->data['password1']);
+			} else {
+				$this->result['errorstr'] = /*"Error " . $signin['error'] . ": " . */$this->lang['home_signin_api_error_' . $signin['error']];
+			}
+	
+			$this->result['logged'] = $this->addons['Authentication']->is_auth();
 		}
-		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 	}
 	
 	public function index() {
