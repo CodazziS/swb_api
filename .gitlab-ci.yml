@@ -7,5 +7,6 @@ before_script:
 atoum:
   script:
     - pwd
-    - php /home/gitlab/atoum.phar src/controllers/api/tests/units/
+    - cp config.inc.php config.php 
+    - php /home/gitlab/atoum.phar -d src/controllers/api/tests/units/
 
