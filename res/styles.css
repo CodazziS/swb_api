@@ -22,7 +22,7 @@ h1, h2, h3, h4 {
 }
 ::-webkit-scrollbar-thumb {
     /*border-radius: 2px;*/
-    background: #00BFA5; 
+    background: #00BFA5;
     /*box-shadow: inset 0 0 6px rgba(0,0,0,0.5); */
 }
 ::-webkit-scrollbar-thumb:active {
@@ -318,17 +318,28 @@ h1, h2, h3, h4 {
 	width: calc(100% - 130px);
 	margin-right: 10px;
 }
+
+@font-face{
+    font-family:'EmojiSymbols';
+    src:url('emoji/symbola.eot');
+    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),
+        url('emoji/symbola.woff') format('woff'),
+        url('emoji/symbola.ttf') format('truetype'),
+        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');
+    font-weight:normal;
+    font-style:normal;
+}
 /*
 Emoji Symbols Font (c)blockworks - Kenichi Kaneko
 http://emojisymbols.com/
 */
-@font-face {
+/*@font-face {
 	font-family: "EmojiSymbols";
 	src: url("EmojiSymbols-Regular.woff");
-}
+}*/
 
 .emoji_like {
-	font-family: "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols",sans-serif;
+	font-family: "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 }
 .emoji_list {
 	font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
@@ -387,7 +398,7 @@ http://emojisymbols.com/
 @media screen and (min-width: 960px) {
 	/* Header */
 	/* Hide larges displays */
-	.header_large { 
+	.header_large {
 		display: flex;
 		height: 48px; /* 50px */
 		border-bottom: 2px solid #004D40;
@@ -438,7 +449,7 @@ http://emojisymbols.com/
 	.home_cards {
 		flex-direction: row;
 	}
-	
+
 	/* Devices */
 	.account_blocs {
 		flex-direction: row;
@@ -452,7 +463,7 @@ http://emojisymbols.com/
 	.account_bloc:nth-child(2) {
 		margin-left: 10px;
 	}
-	
+
 	/* Messages */
 	.messages_page {
 		flex-direction: row;
@@ -474,7 +485,7 @@ http://emojisymbols.com/
 }
 
 /* Firefox fix */
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
 	.mdl-button {
 	 	vertical-align: 35px;
 	}
