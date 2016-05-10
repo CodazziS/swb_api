@@ -187,7 +187,7 @@ class ApiUsers extends atoum
         	->given($this->testedInstance->delete())
             ->then
 	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(6)
+	            	->integer['error']->isEqualTo(0)
         ;
     }
 }
