@@ -19,6 +19,9 @@ class Messages extends FzController {
 		if (!$this->result['logged']) {
 			header('Location: /'); 
 		}
+		
+		$res = Apy::call($this, 'Devices', 'GetDevices', 'GET', array('user' => $_COOKIE['user'], 'token' => $_COOKIE['token']));
+		$this->result['devices'] = $res['devices'];
 	}
 	
 }

@@ -59,4 +59,17 @@ class FzController {
             Designer::put_result_html($this->title, $this->$layout_type);
 		}
     }
+    
+    public function get_result() {
+    	//var_dump($this->result);
+		$this->result['error'] = $this->error;
+    	return $this->result;	
+    }
+    
+    public function copy_attrs($other_inst) {
+    	$this->request 	= $other_inst->request;
+        $this->data 	= $other_inst->data;
+        $this->addons 	= $other_inst->addons;
+        $this->lang 	= $other_inst->lang;
+    }
 }

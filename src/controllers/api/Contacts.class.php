@@ -26,18 +26,12 @@ class ApiContacts extends FzController {
 				$format_address = $this->addons['Crypto']->formatPhoneNumber($address);
 				$c_address = $this->addons['Crypto']->encrypt($address, $this->data['key']);
 				$c_format_address = $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
-				/*
-				$opt = array(
-					'conditions' => array('format_address = ? AND user_id = ?', $c_format_address, $this->user_id)
-				);
-				$contact_bdd = Contact::find('first', $opt);
-				if (!isset($contact_bdd) or $contact_bdd == null) {
-				*/
+
 				$contact_bdd = new Contact();
 				$contact_bdd->user_id = $this->user_id;
 				$contact_bdd->format_address = $c_format_address;
 				$contact_bdd->android_id = $this->data['android_id'];
-				//}
+
 				$contact_bdd->address = $c_address;
 				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
 				if (isset($contact->image)) {
@@ -69,6 +63,39 @@ class ApiContacts extends FzController {
 			$result['address']	= $this->addons['Crypto']->decrypt($contact->address, $this->data['key']);
 		}
 		return $result;
+	}
+	
+	public function getcontacts() {
+		$this->error = -1;
+		
+		require_once ('Devices.class.php');
+
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('key')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			
+			$opt = array(
+				'conditions' => array('user_id = ?', $this->user_id), 
+				'order' => 'android_id ASC, name ASC'
+			);
+			$address = Contact::find('all', $opt);
+
+			$addr_arr = array();
+			foreach ($address as $addr) {
+				$addr_cur = array();
+				$addr_cur['android_id'] = $addr->android_id;
+				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->address, $this->data['key']);
+				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
+				$addr_cur['model'] = \ApiDevices::getDeviceName($this->user_id, $addr->android_id);
+				$addr_cur['name'] = $this->addons['Crypto']->decrypt($addr->name, $this->data['key']);
+				$addr_arr[] = $addr_cur;
+			} 
+			$this->result['address'] = $addr_arr;
+			$this->error = 0;
+		}
 	}
 	
 	public function getactive () {
@@ -106,50 +133,6 @@ class ApiContacts extends FzController {
 				$addr_arr[] = $addr_cur;
 			} 
 			$this->result['address'] = $addr_arr;
-			/*
-			$opt = array(
-				//'select' => 'format_address',
-				'conditions' => array('user_id = ? AND last_message is not NULL', $this->user_id), 
-				//'order' => 'last_message desc'
-				//'group' => 'format_address',
-			);
-			$address = Contact::find('all', $opt);
-			$addr_arr = array();
-			foreach ($address as $addr) {
-				$addr_cur = array();
-				$addr_cur['time'] = $addr->last_message;
-				$addr_cur['android_id'] = $addr->android_id;
-				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
-				$addr_cur['name'] = $this->addons['Crypto']->decrypt($addr->name, $this->data['key']);
-				$addr_arr[] = $addr_cur;
-			} 
-			
-			$this->result['address'] = $addr_arr;
-			/*
-			$contacts = json_decode($this->data['contacts']);
-			foreach ($contacts as $contact) {
-				
-				$address = $contact->address;
-				$format_address = $this->addons['Crypto']->formatPhoneNumber($address);
-				$c_address = $this->addons['Crypto']->encrypt($address, $this->data['key']);
-				$c_format_address = $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
-				$opt = array(
-					'conditions' => array('format_address = ? AND user_id = ?', $c_format_address, $this->user_id)
-				);
-				$contact_bdd = Contact::find('first', $opt);
-				if (!isset($contact_bdd) or $contact_bdd == null) {
-					$contact_bdd = new Contact();
-					$contact_bdd->user_id = $this->user_id;
-					$contact_bdd->format_address = $c_format_address;
-				}
-				$contact_bdd->address = $c_address;
-				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
-				if (isset($contact->image)) {
-					$contact_bdd->image = $contact->image;
-				}
-				$contact_bdd->save();
-			}
-			*/
 			$this->error = 0;
 		}
 	}

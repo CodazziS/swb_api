@@ -43,8 +43,8 @@ define('ERROR404_CLASS', "AppIndex");
 define('ERROR404_CLASSFILE', "Index");
 define('ERROR404_METHOD', "index");
 
-/* TODO
-
+/*
+*	TODO
 */
 
 /*
@@ -57,7 +57,8 @@ define("ADDON_PATH", ROOT_PATH.'/addons');
 define("SOURCES_PATH", ROOT_PATH.'/src');
 define("CORE_PATH", ROOT_PATH.'/core');
 define("CONTENT", ROOT_PATH.'/content');
-define("LOCALE_PATH", SOURCES_PATH.'/locales');
+define("RESOURCES_PATH", ROOT_PATH.'/res');
+define("LOCALE_PATH", RESOURCES_PATH.'/locales');
 
 /* 
 *	Your's Defines
@@ -65,12 +66,15 @@ define("LOCALE_PATH", SOURCES_PATH.'/locales');
 */
 
 define("PHPAR_ADDON_MODEL_DIR", SOURCES_PATH . "/models/");
-define("PHPAR_ADDON_DB_DEV", 'pgsql://user:password@HOST/database');
-define("PHPAR_ADDON_DB_TEST", 'pgsql://user:password@HOST/database');
-define("PHPAR_ADDON_DB_PROD", 'pgsql://user:password@HOST/database');
-define("PHPAR_ADDON_DB_ENV", 'development'); // development test production
+
+define("PHPAR_ADDON_DB_DEV", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_onlineb');
+define("PHPAR_ADDON_DB_TEST", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_online');
+define("PHPAR_ADDON_DB_PROD", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_online');
+
+define("PHPAR_ADDON_DB_ENV", 'development');
 define("MIN_PASSWORD_LEN", 5);
 define("LOG_ALL", true);
+define("DEFAULT_LANG", 'fr');
 
 
 

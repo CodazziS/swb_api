@@ -87,7 +87,35 @@ class Framzod {
         } else if ($fz_class->render_class == 'Json') {
         	echo json_encode($fz_class->result);
         }
-
+    }
+    
+    function prepareclass ($file, $class) {
+    	
+        if (file_exists(SOURCES_PATH.'/controllers/'.$file.'.class.php'))
+            require_once(SOURCES_PATH.'/controllers/'.$file.'.class.php');
+        else {
+            $this->fz_request->class = ERROR404_CLASSFILE;
+            $this->fz_request->method_name = ERROR404_METHOD;
+            echo SOURCES_PATH.'/controllers/'.$file.'.class.php';
+        }
+        /* Création de la classe du site */
+        $fz_class = new $class();
+        $fz_class->request = $this->fz_request;
+        $fz_class->data = $fz_class->request->data;
+        $fz_class->addons = $this->addons;
+        $fz_class->lang = $this->addons['Lang']->getLang();
+        return $fz_class;
+        /*
+        $fz_class->{$this->fz_request->method_name}();
+        if ($fz_class->render_class == 'Render') {
+        	$fz_class->result['lang'] = $fz_class->lang;
+        	$this->addons[$fz_class->render_class]->render($fz_class);
+        } else if ($fz_class->render_class == 'Text') {
+        	echo $fz_class->result;
+        } else if ($fz_class->render_class == 'Json') {
+        	echo json_encode($fz_class->result);
+        }
+        */
     }
 }
 

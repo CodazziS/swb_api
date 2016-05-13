@@ -14,9 +14,7 @@ class ApiDevices extends FzController {
 			'authentication' => true,
 			'fields' => array('android_id', 'model')
 		);
-		$this->result['Test1'] = 'ok';
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			$this->result['Test2'] = 'ok';
 			$opt = array(
 				'conditions' => array('android_id = ? AND user_id = ?', $this->data['android_id'], $this->user_id)
 			);
@@ -45,7 +43,8 @@ class ApiDevices extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 
 			$opt = array(
-				'conditions' => array('user_id = ?', $this->user_id)
+				'conditions' => array('user_id = ?', $this->user_id),
+				'order' => 'last_sync desc'
 			);
 			$devices = Device::find('all', $opt);
 			$devices_arr = array();

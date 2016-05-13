@@ -55,15 +55,20 @@
 	"messages_todo_send": "En file d'attente",
 	"messages_sent": "Envoi en cours ...",
 	"messages_send": "Message envoyé",
+	"messages_new_message": "Nouveau message",
+	"messages_new_message_title": "Commencer une nouvelle conversation",
+	"messages_new_message_device": "Choisissez votre appareil",
+	"messages_new_message_address": "Numéro de téléphone",
+	"messages_new_message_input": "Mon message",
+	"messages_new_message_bad_field": "Le champs est incorrect",
 	"messages_send_error": "Erreur dans l'envoie du message",
 	"messages_emojis_title": "Emoticônes",
 	"messages_emojis_close": "Fermer",
 	
 	"signin_title_1": "Créer son compte",
 	"signin_title_2": "Télécharger et paramétrer l'application",
-	"signin_text": "Votre compte est créé, et vous êtes maintenant connecté. \n Vous pouvez maintenant télécharger l'application sur votre téléphone en vous rendant sur le lien ci dessous.",
-	"signin_text_2": "Quand l'application sera installée, ouvrez la et rendez-vous dans les Paramètres. Rentrez vos identifiants et sauvegardez. Le téléphone devrait maintenant commencer à synchroniser vos contacts et vos messages. \n Vous pouvez voir l'avancement en actualisant les informations sur le téléphone, ou sur la page Mon compte, sur le site. Pour commencer à lire vos messages, rendez vous sur la page Mes messages. \n\n Nous vous vous remercions d'utiliser notre application, et restons à votre disposition pour vous aider sur les réseaux sociaux.",
-	
+	"signin_text": "Votre compte est créé, et vous êtes maintenant connecté. \n Vous pouvez télécharger l'application sur votre téléphone en vous rendant sur le lien ci dessous.",
+	"signin_text_2": "Quand l'application sera installée, ouvrez la et rendez-vous dans les Paramètres. Entrez vos identifiants et sauvegardez. Le téléphone devrait maintenant commencer à synchroniser vos contacts et vos messages. \n Vous pouvez voir l'avancement en actualisant les informations sur le téléphone, ou sur la page Mon compte du site. Pour commencer à lire vos messages, rendez vous sur la page Mes messages. \n\n Nous vous vous remercions d'utiliser notre application, et restons à votre disposition pour vous aider sur les réseaux sociaux.",
 
 	"end": "fin"
 }

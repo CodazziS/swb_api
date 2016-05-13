@@ -57,6 +57,32 @@ class ApiUsers extends FzController {
 		}
 	}
 	
+	public function delete () {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'POST',
+			'fields' => array('email', 'password')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			$password = $this->addons['Crypto']->hash1($this->data['password']);
+			$opt = array(
+				'conditions' => array('email = ? AND password = ?', $this->data['email'], $password)
+			);
+			$account = User::find('first', $opt);
+			if (isset($account) && $account != null) {
+				Message::delete_all(array('conditions' => array('user_id = ?', $account->id)));
+				Contact::delete_all(array('conditions' => array('user_id = ?', $account->id)));
+				Device::delete_all(array('conditions' => array('user_id = ?', $account->id)));
+				$account->delete();
+				
+				$this->error = 0;
+			} else {
+				$this->error = 6;
+			}
+		}
+	}
+	
 	public function gettoken () {
 		$this->error = -1;
 		
@@ -140,12 +166,12 @@ class ApiUsers extends FzController {
 			'description' => 'Get token for the current user (Used by all functions).',
 			'args' => array(
 				'Email (string)',
-				'Password (string)',
-				'Key (string)'
+				'Password (string)'
 			),
 			'results' => array(
 				'Token (string)',
 				'User (int)',
+				'Key (string)',
 				'Error (interger)'
 			)
 		);
@@ -160,9 +186,9 @@ class ApiUsers extends FzController {
 				'Password (string)'
 			),
 			'results' => array(
-				'Messages (string)',
-				'Messages_unread (string)',
-				'Contacts (string)',
+				'Messages (int)',
+				'Messages_unread (int)',
+				'Contacts (int)',
 				'Error (interger)'
 			)
 		);

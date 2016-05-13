@@ -1,0 +1,12 @@
+before_script:
+#  - echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
+#  - wget -O- https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+#  - apt update
+#  - apt install -y php7.0 php7.0-cli php7.0-pgsql php7.0-curl php7.0-json php7.0-gd php7.0-mcrypt
+
+atoum:
+  script:
+    - pwd
+    - cp config.inc.php config.php 
+    - php /home/gitlab/atoum.phar -d src/controllers/api/tests/units/
+
