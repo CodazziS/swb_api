@@ -273,6 +273,10 @@ class ApiMessages extends FzController {
 				$mess_cur['time'] = $mess->date_message;
 				$mess_cur['type'] = $mess->type;
 				$mess_cur['unread'] = $mess->unread;
+				if ($mess->unread) {
+					$mess->unread = 0;
+					$mess->save();
+				}
 				$mess_cur['type'] = $mess->type;
 				$mess_cur['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
 				$mess_arr[] = $mess_cur;
@@ -315,7 +319,8 @@ class ApiMessages extends FzController {
 				'Messages (json string)',
 			),
 			'results' => array(
-				'Error (interger)'
+				'Error (interger)',
+				'messages_to_send (message)'
 			)
 		);
 		
