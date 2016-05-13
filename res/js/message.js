@@ -22,7 +22,7 @@ MessagesClass.prototype = {
 		var opt;
 		
 		opt = {
-			'url': '/api/messages/getlastsync',
+			'url': '/api/messages/getLastSync',
 			'data': {
 				'user': getCookie('user'),
 				'token': getCookie('token'),
@@ -115,7 +115,7 @@ MessagesClass.prototype = {
 				'token': getCookie('token'),
 				'key': getCookie('key'),
 				'device': Messages.last_android_id,
-				'format_address': Messages.last_format_address
+				'format_address': encodeURI(Messages.last_format_address)
 			},
 			'callback': Messages.getLastSyncMessRes,
 			'checkErrors': false,
@@ -145,7 +145,7 @@ MessagesClass.prototype = {
 				'user': getCookie('user'),
 				'token': getCookie('token'),
 				'key': getCookie('key'),
-				'format_address': Messages.last_format_address,
+				'format_address': encodeURI(Messages.last_format_address),
 				'android_id': Messages.last_android_id
 			},
 			'callback': Messages.getMessagesRes,
@@ -178,7 +178,7 @@ MessagesClass.prototype = {
 		html += '	<form action="#" onsubmit="Messages.sendMessage(\'' + Messages.last_address + '\', \'' + Messages.last_android_id + '\'); return false;">';
 		html += '		<div id="messages_input_block" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">';
 		html += '			<input class="mdl-textfield__input" autocomplete="off" type="text" id="messages_input">';
-		html += '			<label class="mdl-textfield__label" for="messages_input">Envoyer un message</label>';
+		html += '			<label class="mdl-textfield__label" for="messages_input">' + window.lang.messages_new_message_input + '</label>';
 		html += '		</div>';
 		
 		html += '		<button id="messages_send_btn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">';
@@ -219,6 +219,51 @@ MessagesClass.prototype = {
 		return html;
 	},
 	
+	sendNewMessage: function() {
+		var opt,
+			message,
+			input_mess,
+			input_dev,
+			input_pho;
+		
+		input_mess = document.getElementById('messages_new_input_message');
+		input_dev = document.getElementById('messages_new_input_device');
+		input_pho = document.getElementById('messages_new_input_address');
+		if (input_mess.value === '' || input_mess.value === null ||
+			input_dev.value === '' || input_dev.value === null ||
+			input_pho.value === '' || input_pho.value === null) {
+			return;
+		}
+		message = {
+			'id': (new Date()).getTime(),
+			'date': (new Date()).getTime(),
+			'read': 1,
+			'body': encodeURI(input_mess.value),
+			'address': encodeURI(input_pho.value),
+			'type': -2,
+			'date_sent': (new Date()).getTime()
+		};
+		opt = {
+			'url': '/Api/Messages/Sync',
+			'data': {
+				'user': getCookie('user'),
+				'token': getCookie('token'),
+				'key': getCookie('key'),
+				'address': input_dev.value,
+				'android_id': input_dev.value,
+				'messages': JSON.stringify([message])
+			},
+			'callback': Messages.sendMessageRes,
+			'checkErrors': false,
+			'decode': false
+		};
+		Ajax.post(opt);
+		input_mess.value = '';
+		input_dev.value = '';
+		input_pho.value = '';
+		document.getElementById('messages_new_box').style.display = 'none';
+	},
+	
 	sendMessage: function(address, android_id) {
 		var opt,
 			message,
@@ -232,8 +277,8 @@ MessagesClass.prototype = {
 			'id': (new Date()).getTime(),
 			'date': (new Date()).getTime(),
 			'read': 1,
-			'body': input.value,
-			'address': address,
+			'body': encodeURI(input.value),
+			'address': encodeURI(address),
 			'type': -2,
 			'date_sent': (new Date()).getTime()
 		};
@@ -270,6 +315,14 @@ MessagesClass.prototype = {
 	
 	showEmojis: function() {
 		var dialog = document.getElementById('emoji_list');
+		dialog.style.display = 'block';
+	    dialog.querySelector('.close').addEventListener('click', function() {
+	    	dialog.style.display = 'none';
+	    });
+	},
+	
+	showNewMessages: function() {
+		var dialog = document.getElementById('messages_new_box');
 		dialog.style.display = 'block';
 	    dialog.querySelector('.close').addEventListener('click', function() {
 	    	dialog.style.display = 'none';

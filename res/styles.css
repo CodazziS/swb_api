@@ -13,6 +13,43 @@ h1, h2, h3, h4 {
 /* Hide larges displays */
 .header_large { display: none; }
 
+/* Style Select Field */
+select {
+  font-family: inherit;
+  background-color: transparent;
+  width: 100%;
+  padding: 4px 0;
+  font-size: 16px;
+  color: #009688;
+  border: none;
+  border-bottom: 1px solid #004D40;
+}
+
+/* Remove focus */
+select:focus {
+  outline: none;
+}
+/* Use custom arrow */
+.mdl-selectfield select {appearance: none}
+.mdl-selectfield {
+	font-family: 'Roboto','Helvetica','Arial',sans-serif;
+	position: relative;
+	&:after {
+		position: absolute;
+		top: 0.75em;
+		right: 0.5em;
+		/* Styling the down arrow */
+		width: 0;
+		height: 0;
+		padding: 0;
+		content: '';
+		border-left: .25em solid transparent;
+		border-right: .25em solid transparent;
+		border-top: .375em solid #004D40;
+		pointer-events: none;
+	}
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 11px;
@@ -67,19 +104,20 @@ h1, h2, h3, h4 {
 }
 .dialog {
 	width: calc(100% - 20px);
-	left: 0;
 	position: absolute;
 	display: none;
 	z-index: 99;
-	background-color: #E0F2F1;
+	background-color: #FFF;
 	padding: 10px;
-	box-shadow: 0px 0px 400px #000000;
 }
 .dialog_content {
+	height: calc(100vh - 280px);
 	margin-top: 10px;
 	margin-bottom: 10px;
+	overflow: auto;
 }
 .dialog_action {
+	margin-top: 5px;
 	text-align: right;
 }
 .center100 {
@@ -318,6 +356,22 @@ h1, h2, h3, h4 {
 	width: calc(100% - 130px);
 	margin-right: 10px;
 }
+#messages_new_btn {
+	padding: 8px;
+	background-color: #009688;
+	color: #E0F2F1;
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+}
+#messages_new_form {
+	margin-right: auto;
+	margin-left: auto;
+	width: 300px;
+}
+#messages_new_send_btn {
+	left: 260px;
+}
 
 @font-face{
     font-family:'EmojiSymbols';
@@ -347,8 +401,8 @@ http://emojisymbols.com/
 .emoji_list_content {
 	font-size: 28px;
     line-height: 40px;
-    height: 150px;
-    overflow: auto;
+    /*height: 150px;*/
+    
 }
 .emoji_list_content span:hover {
 	cursor: pointer;
@@ -396,6 +450,11 @@ http://emojisymbols.com/
 }
 
 @media screen and (min-width: 960px) {
+	
+	.dialog {
+		width: calc(70% - 20px);
+		margin-left: 15%;
+	}
 	/* Header */
 	/* Hide larges displays */
 	.header_large {
@@ -478,9 +537,6 @@ http://emojisymbols.com/
 	#messages_messages_bloc {
 		display: flex;
 		flex: 2;
-	}
-	.emoji_list_content {
-	    height: 250px;
 	}
 }
 

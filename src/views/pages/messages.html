@@ -10,12 +10,47 @@
 		</div>
 	</div>
 	
+	<div id="messages_new_box" class="dialog mdl-shadow--3dp">
+		<h4>{{ lang['messages_new_message_title'] | e }}</h4>
+		<div id="messages_new_form" class="dialog_content">
+			<div class="mdl-selectfield">
+				<select id="messages_new_input_device" class="browser-default">
+					<option value="" disabled selected>{{ lang['messages_new_message_device'] | e }}</option>
+					{% for device in devices %}
+						<option value="{{ device.android_id | e }}">{{ device.name | e }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				<input class="mdl-textfield__input" type="text" pattern=".[0-9]*" id="messages_new_input_address">
+				<label class="mdl-textfield__label" for="address">{{ lang['messages_new_message_address'] | e }}</label>
+				<span class="mdl-textfield__error">{{ lang['messages_new_message_bad_field'] | e }}</span>
+			</div>
+			<br />
+			<div class="mdl-textfield mdl-js-textfield">
+				<input class="mdl-textfield__input" type="text" id="messages_new_input_message">
+				<label class="mdl-textfield__label" for="message">{{ lang['messages_new_message_input'] | e }}</label>
+			</div>
+			<br />
+			<button id="messages_new_send_btn" onclick="Messages.sendNewMessage();" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+				<i class="material-icons">send</i>
+			</button>
+		</div>
+		<div class="dialog_action">
+			<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent close">{{ lang['messages_emojis_close'] | e }}</button>
+		</div>
+	</div>
+	
 	<div id="messages_contacts_bloc">
 		<div id="messages_contact_active" class="messages_action_button top" onclick="Messages.switchView(true);">
 			<i class="material-icons center">comment</i>
 			{{ lang['messages_messages'] }}
 		</div>
 		<div id="messages_contacts"></div>
+		<div id="messages_new_btn" onclick="Messages.showNewMessages();">
+			{{ lang['messages_new_message'] }}
+		</div>
 	</div>
 	
 	<div id="messages_messages_bloc">

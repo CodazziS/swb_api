@@ -71,7 +71,11 @@ class ApiUsers extends FzController {
 			);
 			$account = User::find('first', $opt);
 			if (isset($account) && $account != null) {
+				Message::delete_all(array('conditions' => array('user_id = ?', $account->id)));
+				Contact::delete_all(array('conditions' => array('user_id = ?', $account->id)));
+				Device::delete_all(array('conditions' => array('user_id = ?', $account->id)));
 				$account->delete();
+				
 				$this->error = 0;
 			} else {
 				$this->error = 6;
