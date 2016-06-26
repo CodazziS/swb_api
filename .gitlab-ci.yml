@@ -1,10 +1,10 @@
 staging:
-  type: deploy
+  type: tests
   script:
-  - sudo echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
-  - sudo wget -O- https://www.dotdeb.org/dotdeb.gpg | apt-key add -
-  - sudo apt update
-  - sudo apt install -y php7.0 php7.0-cli php7.0-pgsql php7.0-curl php7.0-json php7.0-gd php7.0-mcrypt
+  - echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list
+  - wget -O- https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+  - apt update
+  - apt install -y php7.0 php7.0-cli php7.0-pgsql php7.0-curl php7.0-json php7.0-gd php7.0-mcrypt
   - cp config.inc.php config.php 
   - php /home/gitlab/atoum.phar -d src/controllers/api/tests/units/
   only:
