@@ -67,13 +67,13 @@ define("LOCALE_PATH", RESOURCES_PATH.'/locales');
 
 define("PHPAR_ADDON_MODEL_DIR", SOURCES_PATH . "/models/");
 
-define("PHPAR_ADDON_DB_DEV", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_onlineb');
-define("PHPAR_ADDON_DB_TEST", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_online');
-define("PHPAR_ADDON_DB_PROD", 'pgsql://swb_online:a200VP5T2c52bk48960R@192.168.2.20/swb_online');
+define("PHPAR_ADDON_DB_DEV", 'pgsql://swb_online:aSA97FNLG4b0qRQUulX4@192.168.2.20/swb_onlineb');
+define("PHPAR_ADDON_DB_TEST", 'pgsql://database:password@localhost/localhost');
+define("PHPAR_ADDON_DB_PROD", 'pgsql://database:password@localhost/localhost');
 
 define("PHPAR_ADDON_DB_ENV", 'development');
 define("MIN_PASSWORD_LEN", 5);
-define("LOG_ALL", true);
+define("LOG_ALL", false);
 define("DEFAULT_LANG", 'fr');
 
 
