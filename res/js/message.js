@@ -10,10 +10,9 @@ MessagesClass.prototype = {
 	last_sync_mess: 0,
 	refresh_started: false,
 	last_contact_page: '',
+	images: null,
 	
 	init: function() {
-		console.log("Init Messages");
-		//Messages.resizeSoResetSwitch()
 		Messages.getLastSync();
 		window.addEventListener("resize", Messages.resizeSoResetSwitch);
 		
@@ -69,11 +68,17 @@ MessagesClass.prototype = {
 			addr,
 			i;
 		
+		Messages.images = {};
 		json_data = JSON.parse(data);
 		for (i in json_data.address) {
 			addr = json_data.address[i];
 			html += '<div class="messages_contact_item" onclick="Messages.switchView(true); Messages.launchContactRefresh(\'' + addr.address + '\', \'' + addr.format_address + '\', \'' + addr.android_id + '\', \'' + addr.name + '\')">';
-			html += '	<div class="messages_contact_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+			if (addr.image === undefined || addr.image === null || addr.image === '') {
+				html += '	<div class="messages_contact_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+			} else {
+				Messages.images[addr.android_id + '_' + addr.format_address] = addr.image;
+				html += '	<div class="messages_contact_item_img"><img src="data:image/png;base64,'+addr.image+'" /></div>';
+			}
 			html += '	<div class="messages_contact_item_infos">';
 			html += '		<div class="messages_contact_item_name">' + addr.name + '</div>';
 			if (addr.unread > 0) {
@@ -197,12 +202,21 @@ MessagesClass.prototype = {
 	formatMessageList: function(json_data) {
 		var html = '',
 			mess,
+			img = null,
 			i;
 			
+		if (Messages.images[Messages.last_android_id + '_' + Messages.last_format_address] !== undefined) {
+			img = Messages.images[Messages.last_android_id + '_' + Messages.last_format_address]
+		}	
 		for (i in json_data.messages) {
 			mess = json_data.messages[i];
 			html += '<div class="messages_list_item emoji_like type_' + mess.type + '">';
-			html += '	<div class="messages_list_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+			// Type 1 : received
+			if (img === null || mess.type != '1') {
+				html += '	<div class="messages_list_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+			} else {
+				html += '	<div class="messages_contact_item_img"><img src="data:image/png;base64,' + img + '" /></div>';
+			}
 			html += '	<div class="messages_list_item_infos">';
 			html += '		<div class="messages_list_item_body">' + mess.body + '</div>';
 			html += '		<div class="messages_list_item_date">';

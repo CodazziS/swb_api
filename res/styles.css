@@ -269,6 +269,10 @@ select:focus {
 .messages_contact_item_img {
 	padding-right: 5px;
 }
+.messages_contact_item_img img {
+	width: 40px;
+	border-radius: 20px;
+}
 .messages_contact_item_name {
 	color: #004D40;
 	font-weight: bold;

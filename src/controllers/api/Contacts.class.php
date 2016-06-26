@@ -34,8 +34,8 @@ class ApiContacts extends FzController {
 
 				$contact_bdd->address = $c_address;
 				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
-				if (isset($contact->image)) {
-					$contact_bdd->image = $contact->image;
+				if (isset($contact->photo)) {
+					$contact_bdd->image = $this->addons['Crypto']->encrypt($contact->photo, $this->data['key']);
 				}
 				$contact_bdd->save();
 			}
@@ -43,17 +43,18 @@ class ApiContacts extends FzController {
 		}
 	}
 	
-	private function getContactInfos($address, $device) {
+	private function getContactInfos($format_address, $device) {
 		$opt = array(
-			'select' => 'name, address',
-			'conditions' => array('user_id = ? AND android_id = ? AND format_address = ?', $this->user_id, $device, $address), 
+			'select' => 'name, address, image',
+			'conditions' => array('user_id = ? AND android_id = ? AND format_address = ?', $this->user_id, $device, $format_address), 
 		);
 		$contact = Contact::find('first', $opt);
-		$result = array('name' => '', 'address' => '');
+		$result = array('name' => '', 'address' => '', 'image' => '');
 		if (empty($contact)) {
+			/* Contact doesn't exist, so, we have only his address on messages */
 			$opt = array(
 				'select' => 'address',
-				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $device, $address), 
+				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $device, $format_address), 
 			);
 			$mess = Message::find('first', $opt);
 			$result['name'] 	= $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
@@ -61,6 +62,8 @@ class ApiContacts extends FzController {
 		} else {
 			$result['name'] 	= $this->addons['Crypto']->decrypt($contact->name, $this->data['key']);
 			$result['address']	= $this->addons['Crypto']->decrypt($contact->address, $this->data['key']);
+			$result['image']	= $this->addons['Crypto']->decrypt($contact->image, $this->data['key']);
+			// $result['image']	= $contact->image;
 		}
 		return $result;
 	}
@@ -130,6 +133,7 @@ class ApiContacts extends FzController {
 				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
 				$addr_cur['model'] = ApiDevices::getDeviceName($this->user_id, $addr->device);
 				$addr_cur['name'] = $contact_infos['name'];
+				$addr_cur['image'] = $contact_infos['image'];
 				$addr_arr[] = $addr_cur;
 			} 
 			$this->result['address'] = $addr_arr;
