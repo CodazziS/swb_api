@@ -1,13 +1,13 @@
 {
-    "code": "fr",
-	"menu_home": "Accueil",
+    "code": "en",
+	"menu_home": "Home",
 	"menu_blog": "Blog",
-	"menu_account": "Mon compte",
-	"menu_messages": "Mes messages",
-	"menu_logout": "Déconnexion",
-	"menu_signin": "Connexion",
+	"menu_account": "My account",
+	"menu_messages": "My sms",
+	"menu_logout": "Logout",
+	"menu_signin": "Sign in",
 	"cookies_text": "Ce site utilise des cookies pour l'identification à votre compte. En utilisant ce site, vous acceptez leur utilisation.",
-	"cookies_ok": "Ne plus afficher",
+	"cookies_ok": "Ok",
 	
 	"home_title": "SWB: SMS by Web Browser, Online",
 	"home_description": "Avec SWB online gérez vos SMS depuis votre ordinateur, même loin de votre téléphone.",
@@ -48,7 +48,7 @@
 	
 
 	"messages_title": "SWB. Mes messages",
-	"message_notification": "Vous avez un nouveau message",
+	"messages_subtitle": "Mes messages",
 	"messages_contacts": "Mes contacts",
 	"messages_messages": "Mes messages",
 	"messages_description": "Gerez vos messages depuis cette page",

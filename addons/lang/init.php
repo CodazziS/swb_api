@@ -22,8 +22,8 @@ class Lang extends Framaddons {
     		$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
     	}
     	/* Look if lang is forced */
-    	if (isset($_COOKIE['lang']) && $_COOKIE['lang'] !== null) {
-    		$lang = $_COOKIE['lang'];
+    	if (isset($_GET['lang']) && $_GET['lang'] !== null) {
+    		$lang = $_GET['lang'];
     	}
     	/* Get file */
     	$file_path = LOCALE_PATH . '/' . $lang . '.json';

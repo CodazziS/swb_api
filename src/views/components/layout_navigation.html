@@ -1,27 +1,27 @@
 <div class="header_min">
 	<div><img class="logo_image" alt="SWB SMS by Web Browser" src="/res/img/logo_transp.png"></div>
-	<a href="/" title="{{ lang['menu_home'] }}"><div class="material-icons">home</div></a>
+	<a href="/{{ lang['code'] }}/" title="{{ lang['menu_home'] }}"><div class="material-icons">home</div></a>
 	<a target="blank" href="http://swb.ovh" title="{{ lang['menu_blog'] }}"><div class="material-icons">public</div></a>
 	{% if logged %}
-		<a href="/account" title="{{ lang['menu_account'] }}"><div class="material-icons">settings</div></a>
-		<a href="/messages" title="{{ lang['menu_messages'] }}"><div class="material-icons">sms</div></a>
-		<a href="/index/logout" title="{{ lang['menu_logout'] }}"><div class="material-icons">power_settings_new</div></a>
+		<a href="/{{ lang['code'] }}/account" title="{{ lang['menu_account'] }}"><div class="material-icons">settings</div></a>
+		<a href="/{{ lang['code'] }}/messages" title="{{ lang['menu_messages'] }}"><div class="material-icons">sms</div></a>
+		<a href="/{{ lang['code'] }}/index/logout" title="{{ lang['menu_logout'] }}"><div class="material-icons">power_settings_new</div></a>
 	{% else %}
-		<a href="/#email_login" title="{{ lang['menu_signin'] }}"><div class="material-icons">power_settings_new</div></a>
+		<a href="/{{ lang['code'] }}/#email_login" title="{{ lang['menu_signin'] }}"><div class="material-icons">power_settings_new</div></a>
 	{% endif %}
 </div>
 
 <div class="header_large">
 	<div class="header_large_logo"><img class="logo_image" alt="SWB SMS by Web Browser" src="/res/img/logo_transp.png"></div>
 	<nav>
-		<a href="/"><div>{{ lang['menu_home'] }}</div></a>
+		<a href="/{{ lang['code'] }}/"><div>{{ lang['menu_home'] }}</div></a>
 		<a target="hover" href="http://swb.ovh"><div>{{ lang['menu_blog'] }}</div></a>
 		{% if logged %}
-			<a href="/account"><div>{{ lang['menu_account'] }}</div></a>
-			<a href="/messages"><div>{{ lang['menu_messages'] }}</div></a>
-			<a href="/index/logout"><div>{{ lang['menu_logout'] }}</div></a>
+			<a href="/{{ lang['code'] }}/account"><div>{{ lang['menu_account'] }}</div></a>
+			<a href="/{{ lang['code'] }}/messages"><div>{{ lang['menu_messages'] }}</div></a>
+			<a href="/{{ lang['code'] }}/index/logout"><div>{{ lang['menu_logout'] }}</div></a>
 		{% else %}
-			<a href="/#email_login"><div>{{ lang['menu_signin'] }}</div></a>
+			<a href="/{{ lang['code'] }}/#email_login"><div>{{ lang['menu_signin'] }}</div></a>
 		{% endif %}
 	</nav>
 </div>

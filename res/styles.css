@@ -247,6 +247,7 @@ select:focus {
 	height: calc(100vh - 90px); /* 100% - (header + footer)*/
 	display: flex;
 	flex-direction: column;
+	background-color: #FFFFFF;
 }
 #messages_contacts {
 	flex-grow: 1;
@@ -379,34 +380,25 @@ select:focus {
 
 @font-face{
     font-family:'EmojiSymbols';
+    
     src:url('emoji/symbola.eot');
     src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),
         url('emoji/symbola.woff') format('woff'),
         url('emoji/symbola.ttf') format('truetype'),
         url('emoji/symbola.svg#FontAwesomeRegular') format('svg');
-    font-weight:normal;
+            font-weight:normal;
     font-style:normal;
 }
-/*
-Emoji Symbols Font (c)blockworks - Kenichi Kaneko
-http://emojisymbols.com/
-*/
-/*@font-face {
-	font-family: "EmojiSymbols";
-	src: url("EmojiSymbols-Regular.woff");
-}*/
 
 .emoji_like {
-	font-family: "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+	font-family: "Helvetica", "Arial", "Apple Color Emoji", "NotoColorEmoji", "EmojiSymbols", "Segoe UI Emoji";
 }
 .emoji_list {
-	font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+	font-family: "Apple Color Emoji", "NotoColorEmoji", "EmojiSymbols", "Segoe UI Emoji";
 }
 .emoji_list_content {
 	font-size: 28px;
     line-height: 40px;
-    /*height: 150px;*/
-    
 }
 .emoji_list_content span:hover {
 	cursor: pointer;

@@ -26,12 +26,9 @@ $GLOBALS['ADDONS_ENABLE'] = [
     'apy',
     'authentication',
     'crypto',
-    //'date',
     'lang',
     'phpar',
-    //'random',
     'render'
-    //'exemple'
 ];
 
 /*
@@ -43,9 +40,6 @@ define('ERROR404_CLASS', "AppIndex");
 define('ERROR404_CLASSFILE', "Index");
 define('ERROR404_METHOD', "index");
 
-/*
-*	TODO
-*/
 
 /*
 *		Here is the various paths, 

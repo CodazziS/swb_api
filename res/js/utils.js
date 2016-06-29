@@ -31,4 +31,25 @@ function timeToDate(unix_timestamp) {
 	return r;
 }
 
+function notifyClient (text) {
+    var opt = {
+        'icon': '/res/img/logo_transp.png'  
+    };
+    if (!("Notification" in window)) {
+        return;
+    } else if (Notification.permission === "granted") {
+        
+        var notification = new Notification(text, opt);
+    } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) {
+            if(!('permission' in Notification)) {
+                Notification.permission = permission;
+            }
+            if (permission === "granted") {
+                var notification = new Notification(text, opt);
+            }
+        });
+    }
+}
+
 window.nb_script_to_load--;

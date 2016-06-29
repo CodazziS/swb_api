@@ -135,10 +135,15 @@ MessagesClass.prototype = {
 		
 		json_data = JSON.parse(data);
 		if (json_data.last_message > Messages.last_sync_mess) {
+		    
+		    if (Messages.last_sync_mess > 0) {
+		        notifyClient(window.lang.message_notification);
+		    }
 			Messages.last_sync_mess = json_data.last_message;
 			Messages.getMessages();
+			
 		}
-		Utils.setTimeout(function(){ Messages.getLastSyncMess(); }, 2000);
+		Utils.setTimeout(function(){ Messages.getLastSyncMess(); }, 3000);
 	},
 	
 	getMessages: function() {

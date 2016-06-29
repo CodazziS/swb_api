@@ -18,7 +18,7 @@ class Index extends FzController {
 			if ($this->data['action'] === 'login') {
 				$this->addons['Authentication']->login($this, $this->data['email_login'], $this->data['password_login']);
 				if ($this->addons['Authentication']->is_auth()) {
-					header('Location: /Account'); 
+					header('Location: /'.$this->lang['code'].'/Account'); 
 				} else {
 					$this->result['errorstr'] = $this->lang['home_login_error'];
 				}
