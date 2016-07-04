@@ -34,9 +34,8 @@ class Account extends FzController {
 			} else {
 				$this->result['errorstr'] = /*"Error " . $signin['error'] . ": " . */$this->lang['home_signin_api_error_' . $signin['error']];
 			}
-	
-			$this->result['logged'] = $this->addons['Authentication']->is_auth();
 		}
+		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 	}
 	
 	public function index() {

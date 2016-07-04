@@ -108,8 +108,7 @@ class ApiMessages extends FzController {
 					$message_bdd->android_id 	= $message->id;
 					$message_bdd->device 		= $this->data['android_id'];
 				}
-				$message_bdd->date_message 		= $message->date;
-				$message_bdd->date_sync 		= time();
+				
 				if ($message_bdd->unread !== 0) {
 					$message_bdd->unread 			= ($message->read == '1') ? 0 : 1;
 				}
@@ -118,6 +117,13 @@ class ApiMessages extends FzController {
 				$message_bdd->format_address	= $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
 				$message_bdd->type 				= $message->type;
 				$message_bdd->date_sent 		= $message->date_sent;
+				$message_bdd->date_message 		= $message->date;
+				$message_bdd->date_sync 		= time();
+				if ($message_bdd->type == -2) {
+				    $message_bdd->date_sent 	= time();
+				    $message_bdd->date_message 	= time();
+				}
+				
 				$message_bdd->save();
 				if (!isset($contacts[$message_bdd->format_address]) || $contacts[$message_bdd->format_address] < $message_bdd->date_message) {
 					$contacts[$this->addons['Crypto']->encrypt($format_address, $this->data['key'])] = $message_bdd->date_message;
@@ -155,7 +161,8 @@ class ApiMessages extends FzController {
 					'user_id = ? AND device = ? AND type = ?',
 					$this->user_id,
 					$this->data['android_id'],
-					-2)
+					-2),
+				'order' => 'android_id asc'
 			);
 			$messages_to_send = Message::find('all', $opt);
 			$messages_arr = array();
@@ -186,7 +193,8 @@ class ApiMessages extends FzController {
 					'user_id = ? AND device = ? AND android_id = ?',
 					$this->user_id,
 					$this->data['android_id'],
-					$this->data['message_id'])
+					$this->data['message_id']),
+				'order' => 'date_message asc'
 			);
 			$message = Message::find('first', $opt);
 			if (!empty($message)) {
@@ -213,15 +221,27 @@ class ApiMessages extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
 			$opt = array(
-				'select' => 'date_sync',
+				'select' => 'date_sent',
 				'conditions' => array('user_id = ?', $this->user_id),
-				'order' => 'date_sync desc',
+				'order' => 'date_sent desc',
 			);
 			$message = Message::find('first', $opt);
 			if (!empty($message)) {
-				$this->result['last_message'] = $message->date_sync;
+				$this->result['last_message'] = $message->date_sent;
 			} else {
 				$this->result['last_message'] = 0;
+			}
+			
+			$opt = array(
+				'select' => 'date_sent',
+				'conditions' => array('user_id = ? AND unread = ?', $this->user_id, "1"),
+				'order' => 'date_sent desc',
+			);
+			$unread_message = Message::find('first', $opt);
+			if (!empty($unread_message)) {
+				$this->result['last_message_unread'] = $unread_message->date_sent;
+			} else {
+				$this->result['last_message_unread'] = 0;
 			}
 			$this->error = 0;
 		}
@@ -248,6 +268,18 @@ class ApiMessages extends FzController {
 				$this->result['last_message'] = $message->date_sync;
 			} else {
 				$this->result['last_message'] = 0;
+			}
+			
+			$opt = array(
+				'select' => 'date_sync',
+				'conditions' => array('user_id = ? AND device = ? AND format_address = ? AND unread = ?', $this->user_id, $this->data['device'], $format_address, "1"),
+				'order' => 'date_sync desc',
+			);
+			$unread_message = Message::find('first', $opt);
+			if (!empty($unread_message)) {
+				$this->result['last_message_unread'] = $unread_message->date_sync;
+			} else {
+				$this->result['last_message_unread'] = 0;
 			}
 			$this->error = 0;
 		}
@@ -322,7 +354,7 @@ class ApiMessages extends FzController {
 			),
 			'results' => array(
 				'Error (interger)',
-				'messages_to_send (message)'
+				'Messages_to_send (message)'
 			)
 		);
 		
@@ -335,13 +367,28 @@ class ApiMessages extends FzController {
 				'Token (string)',
 				'Key (String)',
 				'Android_id (String)',
-				'address (String)',
+				'Address (String)',
 			),
 			'results' => array(
 				'Error (interger)'
 			)
 		);
 		
+		$this->result['docs'][] = array(
+			'name' => 'getLastSync',
+			'type' => 'GET',
+			'description' => 'Get time to last message',
+			'args' => array(
+				'User (string)',
+				'Token (string)',
+				'Key (String)',
+			),
+			'results' => array(
+				'Error (interger)',
+				'Last_message (long)',
+				'Last_message_unread (long)',
+			)
+		);
 	}
 
 }

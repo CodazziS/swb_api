@@ -20,8 +20,6 @@ class Apy extends Framaddons {
     	
     	if (!empty($conditions['method'])) {
     		if ($conditions['method'] !== $obj->request->method) {
-    			$obj->result['test3'] = $_POST;
-    			$obj->result['test4'] = $_GET;
     			$obj->error = 1;
     			return false;
     		}

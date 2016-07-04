@@ -11,7 +11,7 @@ function getCookie(cname) {
 
 function acceptCookies() {
 	opt = {
-		'url': '/Index/allowcookies',
+		'url': '/En/Index/allowcookies',
 		'data': {
 		},
 		'callback': function() {
@@ -35,6 +35,7 @@ function notifyClient (text) {
     var opt = {
         'icon': '/res/img/logo_transp.png'  
     };
+    console.log("Notif called at " + Date().toString());
     if (!("Notification" in window)) {
         return;
     } else if (Notification.permission === "granted") {

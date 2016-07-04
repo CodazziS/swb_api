@@ -1,7 +1,5 @@
 
 <div class="account_body">
-
-	<div class="account_title">{{ lang['account_information'] | e }}</div>
 	
 	<div id="delete_device" class="dialog mdl-shadow--3dp">
 		<h4>{{ lang['account_devices_delete_title'] | e }}</h4>
@@ -13,58 +11,61 @@
 			<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent close">{{ lang['account_devices_delete_nok'] | e }}</button>
 		</div>
 	</div>
-	
-	<div class="account_blocs">
-		<div class="account_bloc mdl-shadow--3dp">
-			<div class="account_title">
-				<h3>{{ lang['account_devices'] | e }}</h3>
-			</div>
-			
-			<div class="account_content mdl-list">
-				{% for device in devices %}
-				    <div class="mdl-list__item">
-						<span class="mdl-list__item-primary-content">
-							<i class="icon_margin_right material-icons">stay_primary_portrait</i>
-							<span onclick="Device.changeName('{{ device.name | e }}', '{{ device.android_id | e }}')">
-								<b>{{ device.name | e }}</b> ({{ device.model | e }}) - {{ device.last_sync | e }}
-							</span>
-						</span>
-						<a onclick="Device.deleteDevice('{{ device.android_id | e }}')" class="mdl-list__item-secondary-action" href="#">
-							<i class="material-icons">cancel</i>
-						</a>
-					</div>
-				{% endfor %}
-			</div>
-		</div>
-	
-		<div class="account_bloc mdl-shadow--3dp">
-			<div class="account_title">
-				<h3>{{ lang['account_account'] | e }}</h3>
-			</div>
-			
-			<div class="mdl-list">
-				<div class="mdl-list__item">
-					<span class="mdl-list__item-primary-content">
-						<i class="icon_margin_right material-icons">person</i>
-						<span>{{ contacts | e }} {{ lang['account_contacts'] | e}}</span>
-					</span>
-				</div>
-				
-				<div class="mdl-list__item">
-					<span class="mdl-list__item-primary-content">
-						<i class="icon_margin_right material-icons">drafts</i>
-						<span>{{ messages | e }} {{ lang['account_messages'] | e }}</span>
-					</span>
-				</div>
-				
-				<div class="mdl-list__item">
-					<span class="mdl-list__item-primary-content">
-						<i class="icon_margin_right material-icons">markunread</i>
-						<span>{{ messages_unread | e }}  {{ lang['account_messages_unread'] }}</span>
-					</span>
-				</div>
-				
-			</div>
-		</div>	
+	<div class="account_content">
+    	<div class="account_title">{{ lang['account_information'] | e }}</div>
+    	
+    	<div class="account_blocs">
+    		<div class="account_bloc mdl-shadow--3dp">
+    			<div class="account_title">
+    				<h3>{{ lang['account_devices'] | e }}</h3>
+    			</div>
+    			
+    			<div class="account_content mdl-list">
+    				{% for device in devices %}
+    				    <div class="mdl-list__item">
+    						<span class="mdl-list__item-primary-content">
+    							<i class="icon_margin_right material-icons">stay_primary_portrait</i>
+    							<span onclick="Device.changeName('{{ device.name | e }}', '{{ device.android_id | e }}')">
+    								<b>{{ device.name | e }}</b> ({{ device.model | e }}) - {{ device.last_sync | e }}
+    							</span>
+    						</span>
+    						<a onclick="Device.deleteDevice('{{ device.android_id | e }}')" class="mdl-list__item-secondary-action" href="#">
+    							<i class="material-icons">cancel</i>
+    						</a>
+    					</div>
+    				{% endfor %}
+    			</div>
+    		</div>
+    	
+    		<div class="account_bloc mdl-shadow--3dp">
+    			<div class="account_title">
+    				<h3>{{ lang['account_account'] | e }}</h3>
+    			</div>
+    			
+    			<div class="mdl-list">
+    				<div class="mdl-list__item">
+    					<span class="mdl-list__item-primary-content">
+    						<i class="icon_margin_right material-icons">person</i>
+    						<span>{{ contacts | e }} {{ lang['account_contacts'] | e}}</span>
+    					</span>
+    				</div>
+    				
+    				<div class="mdl-list__item">
+    					<span class="mdl-list__item-primary-content">
+    						<i class="icon_margin_right material-icons">drafts</i>
+    						<span>{{ messages | e }} {{ lang['account_messages'] | e }}</span>
+    					</span>
+    				</div>
+    				
+    				<div class="mdl-list__item">
+    					<span class="mdl-list__item-primary-content">
+    						<i class="icon_margin_right material-icons">markunread</i>
+    						<span>{{ messages_unread | e }}  {{ lang['account_messages_unread'] }}</span>
+    					</span>
+    				</div>
+    				
+    			</div>
+    		</div>	
+    	</div>
 	</div>
 </div>

@@ -104,8 +104,7 @@ class ApiContacts extends FzController {
 	public function getactive () {
 		$this->error = -1;
 		
-		$class_file = 'Devices.class.php';
-		require ($class_file);
+		require_once ('Devices.class.php');
 
 		$conditions = array(
 			'method' => 'GET',

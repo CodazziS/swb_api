@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	background-color: white;
 }
 a {
 	text-decoration: none;
@@ -200,7 +201,10 @@ select:focus {
 /* Account */
 .account_body {
 	background-color: #009688;
-	padding: 10px;
+	/*padding: 10px;*/
+}
+.account_content {
+    padding: 10px;
 }
 .account_title {
 	font-size: 26px;
@@ -378,23 +382,23 @@ select:focus {
 	left: 260px;
 }
 
-@font-face{
-    font-family:'EmojiSymbols';
+/*@font-face{*/
+/*    font-family:'EmojiSymbols';*/
     
-    src:url('emoji/symbola.eot');
-    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),
-        url('emoji/symbola.woff') format('woff'),
-        url('emoji/symbola.ttf') format('truetype'),
-        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');
-            font-weight:normal;
-    font-style:normal;
-}
+/*    src:url('emoji/symbola.eot');*/
+/*    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),*/
+/*        url('emoji/symbola.woff') format('woff'),*/
+/*        url('emoji/symbola.ttf') format('truetype'),*/
+/*        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');*/
+/*            font-weight:normal;*/
+/*    font-style:normal;*/
+/*}*/
 
 .emoji_like {
-	font-family: "Helvetica", "Arial", "Apple Color Emoji", "NotoColorEmoji", "EmojiSymbols", "Segoe UI Emoji";
+	font-family: "Helvetica", "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji", "Arial";
 }
 .emoji_list {
-	font-family: "Apple Color Emoji", "NotoColorEmoji", "EmojiSymbols", "Segoe UI Emoji";
+	font-family: "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji";
 }
 .emoji_list_content {
 	font-size: 28px;

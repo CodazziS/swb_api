@@ -8,6 +8,7 @@ MessagesClass.prototype = {
 	last_android_id: '',
 	last_sync: 0,
 	last_sync_mess: 0,
+	last_sync_mess_unread: 0,
 	refresh_started: false,
 	last_contact_page: '',
 	images: null,
@@ -38,7 +39,16 @@ MessagesClass.prototype = {
 		var json_data;
 		
 		json_data = JSON.parse(data);
+		
+		if (json_data.last_message_unread > 0 && json_data.last_message_unread > Messages.last_sync_mess_unread) {
+	        if (Messages.last_sync_mess_unread > 0 ) {
+	            notifyClient(window.lang.message_notification);
+	        }
+	        Messages.last_sync_mess_unread = json_data.last_message_unread;
+	    }
+		    
 		if (json_data.last_message > Messages.last_sync) {
+
 			Messages.last_sync = json_data.last_message;
 			Messages.getActiveContacts();
 		}
@@ -134,11 +144,14 @@ MessagesClass.prototype = {
 		var json_data;
 		
 		json_data = JSON.parse(data);
-		if (json_data.last_message > Messages.last_sync_mess) {
+		if (json_data.last_message_unread > 0 && json_data.last_message_unread > Messages.last_sync_mess_unread) {
+	        if (Messages.last_sync_mess_unread > 0 ) {
+	            notifyClient(window.lang.message_notification);
+	        }
+	        Messages.last_sync_mess_unread = json_data.last_message_unread;
+	    }
 		    
-		    if (Messages.last_sync_mess > 0) {
-		        notifyClient(window.lang.message_notification);
-		    }
+		if (json_data.last_message > Messages.last_sync_mess) {
 			Messages.last_sync_mess = json_data.last_message;
 			Messages.getMessages();
 			

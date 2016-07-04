@@ -95,7 +95,7 @@ class ApiUsers extends FzController {
 			$password = $this->addons['Crypto']->hash1($this->data['password']);
 			
 			$opt = array(
-				'conditions' => array('email = ? AND password = ?', $this->data['email'], $password)
+				'conditions' => array('LOWER(email) = LOWER(?) AND password = ?', $this->data['email'], $password)
 			);
 			$account = User::find('first', $opt);
 			if (isset($account) && $account != null) {
