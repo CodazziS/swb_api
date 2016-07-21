@@ -88,7 +88,7 @@ class ApiUsers extends FzController {
 		
 		$conditions = array(
 			'method' => 'GET',
-			'fields' => array('email', 'password')
+			'fields' => array('email', 'password', 'type')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			/* hash password (and email ?) */
@@ -108,7 +108,7 @@ class ApiUsers extends FzController {
 				$token->user_id = $account->id;
 				$token->expire_date = time() + 60 * 60 * 24; // 1 day
 				$token->user_id = $account->id;
-				$token->type = "Test";
+				$token->type = $this->data['type'];
 				$token->save();
 				
 				$this->result['key'] = $key;

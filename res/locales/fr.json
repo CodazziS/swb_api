@@ -41,6 +41,7 @@
 	"account_devices_delete_text": "La suppression de l'appareil entrainera la suppression des contacts et des messages liés à cet appareil.\n Si l'application est encore installée sur votre appareil, les informations seront de nouveau synchronisées. Si vous ne voulez plus utiliser nos services, veuillez d'abord supprimer l'application de votre téléphone",
 	"account_devices_delete_ok": "Ok, j'ai compris",
 	"account_devices_delete_nok": "Annuler",
+	"account_devices_last_resync": "Denière synchro :",
 	"account_account": "Mon compte",
 	"account_contacts": "contacts",
 	"account_messages": "messages",
@@ -65,6 +66,7 @@
 	"messages_send_error": "Erreur dans l'envoie du message",
 	"messages_emojis_title": "Emoticônes",
 	"messages_emojis_close": "Fermer",
+	"messages_download": "Télécharger la photo",
 	
 	"signin_title_1": "Créer son compte",
 	"signin_title_2": "Télécharger et paramétrer l'application",

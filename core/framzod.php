@@ -83,7 +83,7 @@ class Framzod {
         	$fz_class->result['lang'] = $fz_class->lang;
         	$this->addons[$fz_class->render_class]->render($fz_class);
         } else if ($fz_class->render_class == 'Text') {
-        	echo $fz_class->result;
+        	echo $fz_class->result['text'];
         } else if ($fz_class->render_class == 'Json') {
         	echo json_encode($fz_class->result);
         }

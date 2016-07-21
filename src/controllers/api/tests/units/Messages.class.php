@@ -27,7 +27,7 @@ class ApiMessages extends atoum
 		'token'         => null,
 		'key'           => null,
 		'user'          => null,
-		'android_id'    => "123654789A",
+		'device_id'    => "123654789A",
 		);
 	
 	function __construct() {
@@ -48,7 +48,7 @@ class ApiMessages extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = 'fff';
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = $this->infos['android_id'];
+        $this->testedInstance->data['device_id'] = $this->infos['device_id'];
         $this->testedInstance->data['key'] = $this->infos['key'];
         $this->testedInstance->data['messages'] = json_encode(array(
         	array(
@@ -90,7 +90,7 @@ class ApiMessages extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = $this->infos['token'];
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = $this->infos['android_id'];
+        $this->testedInstance->data['device_id'] = $this->infos['device_id'];
         $this->testedInstance->data['key'] = $this->infos['key'];
         $this->testedInstance->data['messages'] = json_encode(array(
         	array(

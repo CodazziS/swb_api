@@ -317,6 +317,7 @@ select:focus {
 	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
+	max-width: 100%;
 }
 .messages_list_item_infos {
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -382,6 +383,26 @@ select:focus {
 	left: 260px;
 }
 
+.messages_list_item_mms {
+    display: inline-block;
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+    margin: 10px;
+    box-shadow: 2px 2px 10px 1px #656565;
+}
+
+.messages_list_item_mms img {
+    min-height: 0;
+    min-width: 0;
+    max-height: 100%;
+    max-width: 70vw;
+}
+.messages_list_item_mms a {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
 /*@font-face{*/
 /*    font-family:'EmojiSymbols';*/
     
