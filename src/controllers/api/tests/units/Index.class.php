@@ -28,7 +28,7 @@ class ApiIndex extends atoum
             ->given($this->testedInstance->getversion())
             ->then
 	            ->phparray($this->testedInstance->get_result())
-	            	->integer['api_version']->isEqualTo(1)
+	            	->integer['api_version']->isEqualTo(2)
         ;
     }
 }

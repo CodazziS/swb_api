@@ -22,6 +22,7 @@ class ApiDevices extends FzController {
 			if (!isset($device) || $device == null) {
 				$device = new Device();
 				$device->user_id = $this->user_id;
+				$device->device_id = $this->data['device_id'];
 				$device->name = $this->data['model'];
 			}
 			$device->model = $this->data['model'];
@@ -111,7 +112,7 @@ class ApiDevices extends FzController {
 				$this->error = 7;
 			} else {
 				Message::delete_all(array('conditions' => array(
-					'user_id = ? and device = ? ', $this->user_id, $this->data['device_id'])
+					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])
 					));
 				Contact::delete_all(array('conditions' => array(
 					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])

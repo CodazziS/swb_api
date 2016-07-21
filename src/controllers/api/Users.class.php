@@ -131,7 +131,7 @@ class ApiUsers extends FzController {
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
-			$this->result['messages'] 			= Message::count(array('conditions' => array('user_id = ?', $this->user_id)));
+			$this->result['messages'] 			= intval(Message::count(array('conditions' => array('user_id = ?', $this->user_id))));
 			$this->result['messages_unread'] 	= Message::count(array('conditions' => array('user_id = ? AND unread = ?', $this->user_id, "1")));
 			$this->result['contacts'] 			= Contact::count(array('conditions' => array('user_id = ?', $this->user_id)));
 

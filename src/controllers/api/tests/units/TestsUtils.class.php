@@ -8,6 +8,7 @@ class TestsUtils {
     	$usr_instance = $framzod->prepareclass("api/Users", 'ApiUsers');
     	
     	$usr_instance->request->method = "POST";
+    	$usr_instance->data['type'] = 'test';
         $usr_instance->data['password'] = $infos['password'];
         $usr_instance->data['email'] = $infos['email'];
         $usr_instance->create();
@@ -18,6 +19,7 @@ class TestsUtils {
     	$usr_instance = $framzod->prepareclass("api/Users", 'ApiUsers');
     	
     	$usr_instance->request->method = "GET";
+    	$usr_instance->data['type'] = 'test';
         $usr_instance->data['password'] = $infos['password'];
         $usr_instance->data['email'] = $infos['email'];
         $usr_instance->gettoken();
@@ -50,6 +52,7 @@ class TestsUtils {
     	$usr_instance = $framzod->prepareclass("api/Users", 'ApiUsers');
     	
     	$usr_instance->request->method = "POST";
+    	$usr_instance->data['type'] = 'test';
         $usr_instance->data['password'] = $infos['password'];
         $usr_instance->data['email'] = $infos['email'];
         $usr_instance->delete();
