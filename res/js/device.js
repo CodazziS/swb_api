@@ -2,7 +2,7 @@ var DeviceClass = function () {
     return;
 };
 DeviceClass.prototype = {
-	changeName: function(name, android_id) {
+	changeName: function(name, device_id) {
 		var newname = prompt("New name", name);
 		if (newname === null) {
 			return;
@@ -14,10 +14,10 @@ DeviceClass.prototype = {
 				'token': getCookie('token'),
 				'key': getCookie('key'),
 				'new_name': newname,
-				'android_id': android_id
+				'device_id': device_id
 			},
 			'callback': function() {
-				document.location.href = '/account';
+				document.location.href = '/' + window.lang.code + '/account';
 			},
 			'checkErrors': false,
 			'decode': false
@@ -26,7 +26,7 @@ DeviceClass.prototype = {
 		Ajax.post(opt);
 		
 	},
-	deleteDevice: function (android_id) {
+	deleteDevice: function (device_id) {
 		var dialog = document.getElementById('delete_device');
 		dialog.style.display = 'block';
 	    //dialog.showModal();
@@ -40,10 +40,10 @@ DeviceClass.prototype = {
 					'user': getCookie('user'),
 					'token': getCookie('token'),
 					'key': getCookie('key'),
-					'android_id': android_id
+					'device_id': device_id
 				},
 				'callback': function() {
-					document.location.href = '/account';
+					document.location.href = '/' + window.lang.code + '/account';
 				},
 				'checkErrors': false,
 				'decode': false

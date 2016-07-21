@@ -1,7 +1,17 @@
 You must have url rewriting activated, and this rules :
+
+rewrite ^/$ /main.php last;
 rewrite ^/(.+\..+)$ /$1 last;
-rewrite ^/(.*)/(.*)$ /index.php?class=$1&method=$2 last;
-rewrite ^/(.+)$ /index.php?class=$1 last;
+
+rewrite ^/(?i)api/(.*)/(.*)$ /main.php?class=api&method=$1&args=$2 last;
+rewrite ^/(?i)api/(.*)$ /main.php?class=api&method=$1 last;
+rewrite ^/(?i)api$ /main.php?class=api last;
+
+rewrite ^/(.*)/(.*)/(.*)/(.*)$ /main.php?lang=$1&class=$2&method=$3&args=$4 last;
+rewrite ^/(.*)/(.*)/(.*)$ /main.php?lang=$1&class=$2&method=$3 last;
+rewrite ^/(.*)/(.*)$ /main.php?lang=&1&class=$2 last;
+rewrite ^/(.+)$ /main.php?lang=$1 last;
+
 
 You can have more help in :
 https://gitlab.com/stephane.codazzi/framzod-api-php/wikis

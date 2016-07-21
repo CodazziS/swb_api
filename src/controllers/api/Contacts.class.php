@@ -9,15 +9,14 @@ class ApiContacts extends FzController {
 	public function add () {
 		$this->error = -1;
 		
-
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('contacts', 'key', 'android_id')
+			'fields' => array('contacts', 'key', 'device_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
-			Contact::delete_all(array('conditions' => array('user_id = ? and android_id = ? ', $this->user_id, $this->data['android_id'])));
+			Contact::delete_all(array('conditions' => array('user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])));
 			
 			$contacts = json_decode($this->data['contacts']);
 			foreach ($contacts as $contact) {
@@ -30,11 +29,12 @@ class ApiContacts extends FzController {
 				$contact_bdd = new Contact();
 				$contact_bdd->user_id = $this->user_id;
 				$contact_bdd->format_address = $c_format_address;
-				$contact_bdd->android_id = $this->data['android_id'];
+				$contact_bdd->device_id = $this->data['device_id'];
 
 				$contact_bdd->address = $c_address;
 				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
 				if (isset($contact->photo)) {
+				    $contact_bdd->have_img = true;
 					$contact_bdd->image = $this->addons['Crypto']->encrypt($contact->photo, $this->data['key']);
 				}
 				$contact_bdd->save();
@@ -43,18 +43,54 @@ class ApiContacts extends FzController {
 		}
 	}
 	
-	private function getContactInfos($format_address, $device) {
+	public function getContactImg() {
+	    $this->render_class = 'Text';
+	    $this->error = 0;
+	    $this->result['text'] = '';
+	    
+        header('Pragma: public');
+        header('Cache-Control: max-age=86400');
+        header('Expires: '. gmdate('D, d M Y H:i:s \G\M\T', time() + 86400));
+        header('Content-Type: image/png');
+		
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('key', 'device_id')
+		);
+		
+		if ($this->addons['Apy']->check($this, $conditions)) {
+		    $opt = array(
+    			'select' => 'image',
+    			'conditions' => array(
+    			    'user_id = ? AND device_id = ? AND format_address = ?',
+                    $this->user_id,
+                    $this->data['device_id'],
+                    $this->addons['Crypto']->encrypt($this->data['format_address'], $this->data['key'])
+                ), 
+    		);
+    		$contact = Contact::find('first', $opt);
+    
+    		if (!empty($contact)) {
+    		    if ($contact->image != '') {
+    		        $this->result['text'] = base64_decode($this->addons['Crypto']->decrypt($contact->image, $this->data['key']));
+    		    }
+    		}
+		}
+	}
+	
+	private function getContactInfos($format_address, $device_id) {
 		$opt = array(
-			'select' => 'name, address, image',
-			'conditions' => array('user_id = ? AND android_id = ? AND format_address = ?', $this->user_id, $device, $format_address), 
+			'select' => 'name, address, have_img',
+			'conditions' => array('user_id = ? AND device_id = ? AND format_address = ?', $this->user_id, $device_id, $format_address), 
 		);
 		$contact = Contact::find('first', $opt);
-		$result = array('name' => '', 'address' => '', 'image' => '');
+		$result = array('name' => '', 'address' => '', 'have_img' => false);
 		if (empty($contact)) {
 			/* Contact doesn't exist, so, we have only his address on messages */
 			$opt = array(
 				'select' => 'address',
-				'conditions' => array('user_id = ? AND device = ? AND format_address = ?', $this->user_id, $device, $format_address), 
+				'conditions' => array('user_id = ? AND device_id = ? AND format_address = ?', $this->user_id, $device_id, $format_address), 
 			);
 			$mess = Message::find('first', $opt);
 			$result['name'] 	= $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
@@ -62,8 +98,7 @@ class ApiContacts extends FzController {
 		} else {
 			$result['name'] 	= $this->addons['Crypto']->decrypt($contact->name, $this->data['key']);
 			$result['address']	= $this->addons['Crypto']->decrypt($contact->address, $this->data['key']);
-			$result['image']	= $this->addons['Crypto']->decrypt($contact->image, $this->data['key']);
-			// $result['image']	= $contact->image;
+			$result['have_img']	= ($contact->have_img) ? true: false;
 		}
 		return $result;
 	}
@@ -81,18 +116,19 @@ class ApiContacts extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
 			$opt = array(
+			    'select' => 'name, address, have_img, device_id, format_address',
 				'conditions' => array('user_id = ?', $this->user_id), 
-				'order' => 'android_id ASC, name ASC'
+				'order' => 'device_id ASC, name ASC'
 			);
 			$address = Contact::find('all', $opt);
 
 			$addr_arr = array();
 			foreach ($address as $addr) {
 				$addr_cur = array();
-				$addr_cur['android_id'] = $addr->android_id;
+				$addr_cur['device_id'] = $addr->device_id;
 				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->address, $this->data['key']);
 				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
-				$addr_cur['model'] = \ApiDevices::getDeviceName($this->user_id, $addr->android_id);
+				$addr_cur['model'] = \ApiDevices::getDeviceName($this->user_id, $addr->device_id);
 				$addr_cur['name'] = $this->addons['Crypto']->decrypt($addr->name, $this->data['key']);
 				$addr_arr[] = $addr_cur;
 			} 
@@ -104,8 +140,7 @@ class ApiContacts extends FzController {
 	public function getactive () {
 		$this->error = -1;
 		
-		$class_file = 'Devices.class.php';
-		require ($class_file);
+		require_once ('Devices.class.php');
 
 		$conditions = array(
 			'method' => 'GET',
@@ -115,25 +150,25 @@ class ApiContacts extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
 			$opt = array(
-				'select' => 'format_address, device, MAX(date_message) as date_message, SUM(unread) as unread',
+				'select' => 'format_address, device_id, MAX(date_message) as date_message, SUM(unread) as unread',
 				'conditions' => array('user_id = ?', $this->user_id), 
 				'order' => 'date_message desc',
-				'group' => 'device, format_address',
+				'group' => 'device_id, format_address',
 			);
 			$address = Message::find('all', $opt);
 
 			$addr_arr = array();
 			foreach ($address as $addr) {
-				$contact_infos = $this->getContactInfos($addr->format_address, $addr->device);
+				$contact_infos = $this->getContactInfos($addr->format_address, $addr->device_id);
 				$addr_cur = array();
 				$addr_cur['time'] = $addr->date_message;
-				$addr_cur['android_id'] = $addr->device;
+				$addr_cur['device_id'] = $addr->device_id;
 				$addr_cur['unread'] = $addr->unread;
 				$addr_cur['address'] = $contact_infos['address'];
 				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
-				$addr_cur['model'] = ApiDevices::getDeviceName($this->user_id, $addr->device);
+				$addr_cur['model'] = ApiDevices::getDeviceName($this->user_id, $addr->device_id);
 				$addr_cur['name'] = $contact_infos['name'];
-				$addr_cur['image'] = $contact_infos['image'];
+				$addr_cur['have_img'] = $contact_infos['have_img'];
 				$addr_arr[] = $addr_cur;
 			} 
 			$this->result['address'] = $addr_arr;
@@ -154,7 +189,7 @@ class ApiContacts extends FzController {
 				'User (string)',
 				'Token (string)',
 				'Contacts (json string)',
-				'Android_id (string)',
+				'Device_id (string)',
 				'Key (string)'
 				
 			),

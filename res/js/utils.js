@@ -11,7 +11,7 @@ function getCookie(cname) {
 
 function acceptCookies() {
 	opt = {
-		'url': '/Index/allowcookies',
+		'url': '/En/Index/allowcookies',
 		'data': {
 		},
 		'callback': function() {
@@ -29,6 +29,28 @@ function timeToDate(unix_timestamp) {
 	var r = (d.getDate() < 10 ? '0' : '') + d.getDate() + '/' + (m < 10 ? '0' : '') + m + '/' + d.getFullYear() + ' ';
 	r += (d.getHours() < 10 ? '0' : '') + d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ':' + (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
 	return r;
+}
+
+function notifyClient (text) {
+    var opt = {
+        'icon': '/res/img/logo_transp.png'  
+    };
+    console.log("Notif called at " + Date().toString());
+    if (!("Notification" in window)) {
+        return;
+    } else if (Notification.permission === "granted") {
+        
+        var notification = new Notification(text, opt);
+    } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) {
+            if(!('permission' in Notification)) {
+                Notification.permission = permission;
+            }
+            if (permission === "granted") {
+                var notification = new Notification(text, opt);
+            }
+        });
+    }
 }
 
 window.nb_script_to_load--;

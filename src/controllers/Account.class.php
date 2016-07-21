@@ -34,16 +34,15 @@ class Account extends FzController {
 			} else {
 				$this->result['errorstr'] = /*"Error " . $signin['error'] . ": " . */$this->lang['home_signin_api_error_' . $signin['error']];
 			}
-	
-			$this->result['logged'] = $this->addons['Authentication']->is_auth();
 		}
+		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 	}
 	
 	public function index() {
 		$this->init();
 		$this->result['logged'] = $this->addons['Authentication']->is_auth();
 		if (!$this->result['logged']) {
-			header('Location: /'); 
+			header('Location: /'.$this->lang['code']); 
 		}
 		
 		$res = Apy::call($this, 'Devices', 'GetDevices', 'GET', array('user' => $_COOKIE['user'], 'token' => $_COOKIE['token']));
@@ -51,7 +50,7 @@ class Account extends FzController {
 		if ($res['error'] == 0) {
 			$this->result['devices'] = $res['devices'];
 		} else {
-			header('Location: /index/logout');
+			header('Location: /'.$this->lang['code'].'/index/logout');
 		}
 		$res = Apy::call($this, 'Users', 'GetInfos', 'GET', array('user' => $_COOKIE['user'], 'token' => $_COOKIE['token']));
 		
@@ -60,7 +59,7 @@ class Account extends FzController {
 			$this->result['messages_unread'] 	= $res['messages_unread'];
 			$this->result['contacts'] 			= $res['contacts'];
 		} else {
-			header('Location: /index/logout');
+			header('Location: /'.$this->lang['code'].'/index/logout');
 		}
 	}
 	

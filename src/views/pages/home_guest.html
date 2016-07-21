@@ -25,7 +25,7 @@
 				</div>
 				
 				<div class="home_card_text">
-					<form action="/#email_login" method="post">
+					<form action="/{{ lang['code'] }}#email_login" method="post">
 						<input type="hidden" name="action" value="login" />
 						<div class="center100 mdl-textfield mdl-js-textfield">
 							<input class="mdl-textfield__input" type="text" id="email_login" name="email_login">
@@ -63,7 +63,7 @@
 					<span class="mdl-typography--font-light mdl-typography--subhead">{{ lang['home_signin_tips'] }}</span>
 				</div>
 				<div class="home_card_action">
-					<button onclick="location.href='/Account/SignIn';" class="rightbox mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+					<button onclick="location.href='/{{ lang['code'] }}/Account/SignIn';" class="rightbox mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
 						{{ lang['home_signin_submit'] }} <i class="material-icons">chevron_right</i>
 					</button>
 				</div>

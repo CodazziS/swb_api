@@ -1,4 +1,5 @@
 {
+    "code": "fr",
 	"menu_home": "Accueil",
 	"menu_blog": "Blog",
 	"menu_account": "Mon compte",
@@ -9,9 +10,9 @@
 	"cookies_ok": "Ne plus afficher",
 	
 	"home_title": "SWB: SMS by Web Browser, Online",
-	"home_description": "Avec SWB online gérez vos SMS depuis votre ordinateur, même loin de votre téléphone.",
-	"home_slogan": "Bienvenue sur l'application en ligne de SWB. Profitez de vos sms où que vous soyez.",
-	"home_install_app": "Installer l'application android",
+	"home_description": "Avec SWB online lisez et ecrivez vos SMS depuis un navigateur internet, même loin de votre téléphone Android.",
+	"home_slogan": "Bienvenue sur l'application en ligne de SWB. Gérez vos SMS depuis internet.",
+	"home_install_app": "Installer l'application Android",
 	"home_use_app": "Utiliser l'application",
 	
 	"home_login": "Vous avez déjà un compte ?",
@@ -40,6 +41,7 @@
 	"account_devices_delete_text": "La suppression de l'appareil entrainera la suppression des contacts et des messages liés à cet appareil.\n Si l'application est encore installée sur votre appareil, les informations seront de nouveau synchronisées. Si vous ne voulez plus utiliser nos services, veuillez d'abord supprimer l'application de votre téléphone",
 	"account_devices_delete_ok": "Ok, j'ai compris",
 	"account_devices_delete_nok": "Annuler",
+	"account_devices_last_resync": "Denière synchro :",
 	"account_account": "Mon compte",
 	"account_contacts": "contacts",
 	"account_messages": "messages",
@@ -47,7 +49,7 @@
 	
 
 	"messages_title": "SWB. Mes messages",
-	"messages_subtitle": "Mes messages",
+	"message_notification": "Vous avez un nouveau message",
 	"messages_contacts": "Mes contacts",
 	"messages_messages": "Mes messages",
 	"messages_description": "Gerez vos messages depuis cette page",
@@ -64,6 +66,7 @@
 	"messages_send_error": "Erreur dans l'envoie du message",
 	"messages_emojis_title": "Emoticônes",
 	"messages_emojis_close": "Fermer",
+	"messages_download": "Télécharger la photo",
 	
 	"signin_title_1": "Créer son compte",
 	"signin_title_2": "Télécharger et paramétrer l'application",

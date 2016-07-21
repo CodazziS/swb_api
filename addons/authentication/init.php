@@ -49,7 +49,7 @@ class Authentication extends Framaddons {
     *	Return boolean
     */
     function login ($parent, $email, $password) {
-    	$res = Apy::call($parent, 'Users', 'GetToken', 'GET', array('email' => $email, 'password'  => $password));
+    	$res = Apy::call($parent, 'Users', 'GetToken', 'GET', array('email' => $email, 'password'  => $password, 'type' => 'Web'));
     	if (isset($res['error']) && $res['error'] === 0) {
     		setcookie("key", 	$res['key'],	time() + 86400, '/');
     		setcookie("token", 	$res['token'],	time() + 86400, '/');

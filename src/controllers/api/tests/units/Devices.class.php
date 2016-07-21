@@ -45,7 +45,7 @@ class ApiDevices extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = 'fff';
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
         $this->testedInstance->data['model'] = 'Unit Tests Model';
         $this
         	->given($this->testedInstance->add())
@@ -58,7 +58,7 @@ class ApiDevices extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = $this->infos['token'];
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
         $this->testedInstance->data['model'] = 'Unit Tests Model';
         $this
         	->given($this->testedInstance->add())
@@ -78,7 +78,7 @@ class ApiDevices extends atoum
         $this->testedInstance->data['token'] = 'fff';
         $this->testedInstance->data['user'] = $this->infos['user'];
         $this->testedInstance->data['new_name'] = 'Awersome name';
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
 
         $this
         	->given($this->testedInstance->changename())
@@ -92,7 +92,7 @@ class ApiDevices extends atoum
         $this->testedInstance->data['token'] = $this->infos['token'];
         $this->testedInstance->data['user'] = $this->infos['user'];
         $this->testedInstance->data['new_name'] = 'Awersome name';
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
 		
         $this
         	->given($this->testedInstance->changename())
@@ -129,7 +129,7 @@ class ApiDevices extends atoum
             ->then
 	            ->phparray($this->testedInstance->get_result())
 	            	->phparray['devices']->phparray[0]
-	            		->string['android_id']->isEqualTo('test123456')
+	            		->string['device_id']->isEqualTo('test123456')
 	            	->phparray['devices']->phparray[0]	
 	            		->string['model']->isEqualTo('Unit Tests Model')
 	            	->phparray['devices']->phparray[0]	
@@ -148,7 +148,7 @@ class ApiDevices extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = 'fff';
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
 
         $this
         	->given($this->testedInstance->remove())
@@ -161,7 +161,7 @@ class ApiDevices extends atoum
         $this->testedInstance->request->method = "POST";
         $this->testedInstance->data['token'] = $this->infos['token'];
         $this->testedInstance->data['user'] = $this->infos['user'];
-        $this->testedInstance->data['android_id'] = 'test123456';
+        $this->testedInstance->data['device_id'] = 'test123456';
 		
         $this
         	->given($this->testedInstance->remove())

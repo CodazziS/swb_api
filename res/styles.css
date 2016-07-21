@@ -2,6 +2,7 @@ body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	background-color: white;
 }
 a {
 	text-decoration: none;
@@ -200,7 +201,10 @@ select:focus {
 /* Account */
 .account_body {
 	background-color: #009688;
-	padding: 10px;
+	/*padding: 10px;*/
+}
+.account_content {
+    padding: 10px;
 }
 .account_title {
 	font-size: 26px;
@@ -247,6 +251,7 @@ select:focus {
 	height: calc(100vh - 90px); /* 100% - (header + footer)*/
 	display: flex;
 	flex-direction: column;
+	background-color: #FFFFFF;
 }
 #messages_contacts {
 	flex-grow: 1;
@@ -312,6 +317,7 @@ select:focus {
 	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
+	max-width: 100%;
 }
 .messages_list_item_infos {
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -377,36 +383,47 @@ select:focus {
 	left: 260px;
 }
 
-@font-face{
-    font-family:'EmojiSymbols';
-    src:url('emoji/symbola.eot');
-    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),
-        url('emoji/symbola.woff') format('woff'),
-        url('emoji/symbola.ttf') format('truetype'),
-        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');
-    font-weight:normal;
-    font-style:normal;
+.messages_list_item_mms {
+    display: inline-block;
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+    margin: 10px;
+    box-shadow: 2px 2px 10px 1px #656565;
 }
-/*
-Emoji Symbols Font (c)blockworks - Kenichi Kaneko
-http://emojisymbols.com/
-*/
-/*@font-face {
-	font-family: "EmojiSymbols";
-	src: url("EmojiSymbols-Regular.woff");
-}*/
+
+.messages_list_item_mms img {
+    min-height: 0;
+    min-width: 0;
+    max-height: 100%;
+    max-width: 70vw;
+}
+.messages_list_item_mms a {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+/*@font-face{*/
+/*    font-family:'EmojiSymbols';*/
+    
+/*    src:url('emoji/symbola.eot');*/
+/*    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),*/
+/*        url('emoji/symbola.woff') format('woff'),*/
+/*        url('emoji/symbola.ttf') format('truetype'),*/
+/*        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');*/
+/*            font-weight:normal;*/
+/*    font-style:normal;*/
+/*}*/
 
 .emoji_like {
-	font-family: "Helvetica", "Arial", "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+	font-family: "Helvetica", "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji", "Arial";
 }
 .emoji_list {
-	font-family: "Apple Color Emoji", "Segoe UI Emoji", "NotoColorEmoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
+	font-family: "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji";
 }
 .emoji_list_content {
 	font-size: 28px;
     line-height: 40px;
-    /*height: 150px;*/
-    
 }
 .emoji_list_content span:hover {
 	cursor: pointer;

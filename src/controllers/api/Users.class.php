@@ -88,14 +88,14 @@ class ApiUsers extends FzController {
 		
 		$conditions = array(
 			'method' => 'GET',
-			'fields' => array('email', 'password')
+			'fields' => array('email', 'password', 'type')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			/* hash password (and email ?) */
 			$password = $this->addons['Crypto']->hash1($this->data['password']);
 			
 			$opt = array(
-				'conditions' => array('email = ? AND password = ?', $this->data['email'], $password)
+				'conditions' => array('LOWER(email) = LOWER(?) AND password = ?', $this->data['email'], $password)
 			);
 			$account = User::find('first', $opt);
 			if (isset($account) && $account != null) {
@@ -108,7 +108,7 @@ class ApiUsers extends FzController {
 				$token->user_id = $account->id;
 				$token->expire_date = time() + 60 * 60 * 24; // 1 day
 				$token->user_id = $account->id;
-				$token->type = "Test";
+				$token->type = $this->data['type'];
 				$token->save();
 				
 				$this->result['key'] = $key;
@@ -131,7 +131,7 @@ class ApiUsers extends FzController {
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
-			$this->result['messages'] 			= Message::count(array('conditions' => array('user_id = ?', $this->user_id)));
+			$this->result['messages'] 			= intval(Message::count(array('conditions' => array('user_id = ?', $this->user_id))));
 			$this->result['messages_unread'] 	= Message::count(array('conditions' => array('user_id = ? AND unread = ?', $this->user_id, "1")));
 			$this->result['contacts'] 			= Contact::count(array('conditions' => array('user_id = ?', $this->user_id)));
 

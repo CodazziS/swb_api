@@ -19,7 +19,7 @@ namespace {
 			$this->render_class = 'Json';
 			
 			/* Need to be here for git's commits */
-			$this->result['api_version'] = 1;
+			$this->result['api_version'] = 2;
 		}
 		
 		public function index() {

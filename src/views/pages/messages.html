@@ -17,7 +17,7 @@
 				<select id="messages_new_input_device" class="browser-default">
 					<option value="" disabled selected>{{ lang['messages_new_message_device'] | e }}</option>
 					{% for device in devices %}
-						<option value="{{ device.android_id | e }}">{{ device.name | e }}</option>
+						<option value="{{ device.device_id | e }}">{{ device.name | e }}</option>
 					{% endfor %}
 				</select>
 			</div>

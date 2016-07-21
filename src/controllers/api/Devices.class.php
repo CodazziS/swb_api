@@ -12,20 +12,22 @@ class ApiDevices extends FzController {
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('android_id', 'model')
+			'fields' => array('device_id', 'model')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			$opt = array(
-				'conditions' => array('android_id = ? AND user_id = ?', $this->data['android_id'], $this->user_id)
+				'conditions' => array('device_id = ? AND user_id = ?', $this->data['device_id'], $this->user_id)
 			);
 			$device = Device::find('first', $opt);
 			if (!isset($device) || $device == null) {
 				$device = new Device();
 				$device->user_id = $this->user_id;
-				$device->android_id = $this->data['android_id'];
+				$device->device_id = $this->data['device_id'];
 				$device->name = $this->data['model'];
 			}
 			$device->model = $this->data['model'];
+			$device->resync_date = time();
+			$device->last_sync = 0;
 			$device->save();
 			
 			$this->error = 0;
@@ -52,13 +54,14 @@ class ApiDevices extends FzController {
 				$current_device = array();
 				$current_device['model'] = $device->model;
 				$current_device['name'] = $device->name;
+				$current_device['resync_date'] = date("d/m/Y G:i", $device->resync_date);
 				if ($device->last_sync != 0) {
 					$current_device['last_sync'] = date("d/m/Y G:i", $device->last_sync);
 				} else {
 					'-';
 				}
 				
-				$current_device['android_id'] = $device->android_id;
+				$current_device['device_id'] = $device->device_id;
 				$devices_arr[] = $current_device;
 			}
 			
@@ -73,12 +76,12 @@ class ApiDevices extends FzController {
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('android_id', 'new_name')
+			'fields' => array('device_id', 'new_name')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 
 			$opt = array(
-				'conditions' => array('user_id = ? AND android_id = ?', $this->user_id, $this->data['android_id'])
+				'conditions' => array('user_id = ? AND device_id = ?', $this->user_id, $this->data['device_id'])
 			);
 			$device = Device::find('first', $opt);
 			if (empty($device)) {
@@ -97,22 +100,22 @@ class ApiDevices extends FzController {
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('android_id')
+			'fields' => array('device_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 
 			$opt = array(
-				'conditions' => array('user_id = ? AND android_id = ?', $this->user_id, $this->data['android_id'])
+				'conditions' => array('user_id = ? AND device_id = ?', $this->user_id, $this->data['device_id'])
 			);
 			$device = Device::find('first', $opt);
 			if (empty($device)) {
 				$this->error = 7;
 			} else {
 				Message::delete_all(array('conditions' => array(
-					'user_id = ? and device = ? ', $this->user_id, $this->data['android_id'])
+					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])
 					));
 				Contact::delete_all(array('conditions' => array(
-					'user_id = ? and android_id = ? ', $this->user_id, $this->data['android_id'])
+					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])
 					));
 				$device->delete();
 			}
@@ -120,14 +123,14 @@ class ApiDevices extends FzController {
 		}
 	}
 	
-	static public function getDeviceName($user_id, $android_id) {
+	static public function getDeviceName($user_id, $device_id) {
 		$opt = array(
 			'select' => 'name',
-			'conditions' => array('user_id = ? AND android_id = ?', $user_id, $android_id), 
+			'conditions' => array('user_id = ? AND device_id = ?', $user_id, $device_id), 
 		);
 		$device = Device::find('first', $opt);
 		if (empty($device)) {
-			return $android_id;
+			return $device_id;
 		} else {
 			return $device->name;
 		}
@@ -141,11 +144,11 @@ class ApiDevices extends FzController {
 		$this->result['docs'][] = array(
 			'name' => 'Add',
 			'type' => 'POST',
-			'description' => 'Create a device with android_id. If the device exist, delete all information about the device (SMS/MMS/...)',
+			'description' => 'Create a device with device_id. If the device exist, delete all information about the device (SMS/MMS/...)',
 			'args' => array(
 				'User (string)',
 				'Token (string)',
-				'Android_id (string)',
+				'Device_id (string)',
 				'Model (string)',
 				
 			),
@@ -180,7 +183,7 @@ class ApiDevices extends FzController {
 				'User (string)',
 				'Token (string)',
 				'New_name (string)',
-				'Android_id (string)'
+				'Device_id (string)'
 			),
 			'results' => array(
 				'Error (interger)'
@@ -195,7 +198,7 @@ class ApiDevices extends FzController {
 			'args' => array(
 				'User (string)',
 				'Token (string)',
-				'Android_id (string)'
+				'Device_id (string)'
 			),
 			'results' => array(
 				'Error (interger)'
