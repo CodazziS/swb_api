@@ -15,8 +15,9 @@ class ApiContacts extends FzController {
 			'fields' => array('contacts', 'key', 'device_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			
-			Contact::delete_all(array('conditions' => array('user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])));
+			if (!empty($this->data['reset']) && $this->data['reset'] == "true") {
+			    Contact::delete_all(array('conditions' => array('user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])));
+			}
 			
 			$contacts = json_decode($this->data['contacts']);
 			foreach ($contacts as $contact) {
@@ -190,7 +191,8 @@ class ApiContacts extends FzController {
 				'Token (string)',
 				'Contacts (json string)',
 				'Device_id (string)',
-				'Key (string)'
+				'Key (string)',
+				'Reset (boolean)'
 				
 			),
 			'results' => array(
