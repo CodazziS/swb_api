@@ -22,15 +22,23 @@ class ApiContacts extends FzController {
 			$contacts = json_decode($this->data['contacts']);
 			foreach ($contacts as $contact) {
 				
+				
 				$address = $contact->address;
 				$format_address = $this->addons['Crypto']->formatPhoneNumber($address);
 				$c_address = $this->addons['Crypto']->encrypt($address, $this->data['key']);
 				$c_format_address = $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
+                
+                $opt = array(
+            		'conditions' => array('user_id = ? AND device_id = ? AND format_address = ?', $this->user_id, $this->data['device_id'], $format_address), 
+            	);
 
-				$contact_bdd = new Contact();
-				$contact_bdd->user_id = $this->user_id;
-				$contact_bdd->format_address = $c_format_address;
-				$contact_bdd->device_id = $this->data['device_id'];
+    		    $contact_bdd = Contact::find('first', $opt);
+    		    if (empty($contact_bdd)) {
+    				$contact_bdd = new Contact();
+    				$contact_bdd->user_id = $this->user_id;
+    				$contact_bdd->format_address = $c_format_address;
+    				$contact_bdd->device_id = $this->data['device_id'];
+    		    }
 
 				$contact_bdd->address = $c_address;
 				$contact_bdd->name = $this->addons['Crypto']->encrypt($contact->name, $this->data['key']);
