@@ -29,7 +29,7 @@ class ApiContacts extends FzController {
 				$c_format_address = $this->addons['Crypto']->encrypt($format_address, $this->data['key']);
                 
                 $opt = array(
-            		'conditions' => array('user_id = ? AND device_id = ? AND format_address = ?', $this->user_id, $this->data['device_id'], $format_address), 
+            		'conditions' => array('user_id = ? AND device_id = ? AND format_address = ?', $this->user_id, $this->data['device_id'], $c_format_address), 
             	);
 
     		    $contact_bdd = Contact::find('first', $opt);
