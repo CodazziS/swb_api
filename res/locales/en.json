@@ -9,9 +9,9 @@
 	"cookies_text": "This site uses cookies to identify your account. By using this site, you agree to their use.",
 	"cookies_ok": "Ok, I understand",
 	
-	"home_title": "SWB: SMS by Web Browser, Online",
-	"home_description": "With SWB online application, read and write SMS from a web browser, even away from your Android phone.",
-	"home_slogan": "Welcome to the online application SWB. Manage your SMS from the Internet..",
+	"home_title": "Smsonline",
+	"home_description": "With SmsOnline application: Read and write SMS from a web browser, even away from your Android phone. View and download your mms",
+	"home_slogan": "With Smsonline application: <br /> - Read and write SMS from a web browser, even away from your Android phone. <br /> - View and download your mms <br /> - The site is multi screen, you can watch it on computer, tablet, smartphone, ...<br /> <br /> This application is open source on <a href=\"https://gitlab.com/groups/SWB\">gitlab</a>",
 	"home_install_app": "Donwload Android application",
 	"home_use_app": "Use the application",
 	
@@ -23,7 +23,7 @@
 	"home_login_submit": "Log in",
 	
 	"home_signin": "Discover the application and create an account",
-	"home_signin_tips": "Follow a step by step guide to create your SWB account and familiarize yourself with your new application.",
+	"home_signin_tips": "Follow a step by step guide to create your smsonline account and familiarize yourself with your new application.",
 	"home_signin_submit": "Sign in",
 	"home_signin_error_email": "The fields can't be blank",
 	"home_signin_error_password": "Passwords not match",
@@ -33,7 +33,7 @@
 	"home_signin_api_error_5": "This email is already registered",
 	
 	
-	"account_title": "SWB. My account",
+	"account_title": "Smsonline. My account",
 	"account_description": "Manage my account",
 	"account_information": "My informations",
 	"account_devices": "My devices",
@@ -48,7 +48,7 @@
 	"account_messages_unread": "unread messages",
 	
 
-	"messages_title": "SWB. My messages",
+	"messages_title": "Smsonline. My messages",
 	"message_notification": "You have a new message",
 	"messages_contacts": "My contacts",
 	"messages_messages": "My messages",

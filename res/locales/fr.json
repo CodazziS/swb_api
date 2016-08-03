@@ -9,9 +9,9 @@
 	"cookies_text": "Ce site utilise des cookies pour l'identification à votre compte. En utilisant ce site, vous acceptez leur utilisation.",
 	"cookies_ok": "Ne plus afficher",
 	
-	"home_title": "SWB: SMS by Web Browser, Online",
-	"home_description": "Avec SWB online lisez et ecrivez vos SMS depuis un navigateur internet, même loin de votre téléphone Android.",
-	"home_slogan": "Bienvenue sur l'application en ligne de SWB. Gérez vos SMS depuis internet.",
+	"home_title": "Smsonline",
+	"home_description": "Avec Smsonline lisez et ecrivez vos SMS depuis un navigateur internet, même loin de votre téléphone Android.\n Visualisez et téléchargez vos MMS.\n",
+	"home_slogan": "Bienvenue sur l'application en ligne smsonline. <br />Lisez et envoyez vos SMS depuis internet. <br />Visualisez et téléchargez vos MMS sur votre ordinateur.<br /> Le site est compatible tout écran, vous pouvez lire vos SMS depuis un ordinateur, une tablette, un téléphone, ...<br /> Les sources de l'application et du site web sont ouvertes et disponibles sur <a href=\"https://gitlab.com/groups/SWB\">gitlab</a>. <br />Pour se tenir informer des prochaines mises à jours, pensez à visiter le <a href=\"https://blog.smsonline.fr\">blog</a>.",
 	"home_install_app": "Installer l'application Android",
 	"home_use_app": "Utiliser l'application",
 	
@@ -23,7 +23,7 @@
 	"home_login_submit": "Se connecter",
 	
 	"home_signin": "Découvrir l'application et créer un compte",
-	"home_signin_tips": "Suivez un guide pas à pas pour créer votre compte SWB et vous familiariser avec votre nouvelle application.",
+	"home_signin_tips": "Suivez un guide pas à pas pour créer votre compte sur smsonline et vous familiariser avec votre nouvelle application.",
 	"home_signin_submit": "Créer son compte",
 	"home_signin_error_email": "Les champs doivent être remplis",
 	"home_signin_error_password": "Les mots de passes sont différents",
@@ -33,7 +33,7 @@
 	"home_signin_api_error_5": "L'adresse email existe déjà",
 	
 	
-	"account_title": "SWB. Mon compte",
+	"account_title": "Smsonline. Mon compte",
 	"account_description": "Gestion de compte",
 	"account_information": "Mes informations",
 	"account_devices": "Mes appareils",
@@ -48,7 +48,7 @@
 	"account_messages_unread": "message(s) non lu(s)",
 	
 
-	"messages_title": "SWB. Mes messages",
+	"messages_title": "Smsonline. Mes messages",
 	"message_notification": "Vous avez un nouveau message",
 	"messages_contacts": "Mes contacts",
 	"messages_messages": "Mes messages",
