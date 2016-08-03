@@ -21,8 +21,6 @@ class ApiContacts extends FzController {
 			
 			$contacts = json_decode($this->data['contacts']);
 			foreach ($contacts as $contact) {
-				
-				
 				$address = $contact->address;
 				$format_address = $this->addons['Crypto']->formatPhoneNumber($address);
 				$c_address = $this->addons['Crypto']->encrypt($address, $this->data['key']);

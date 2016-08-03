@@ -248,7 +248,6 @@ MessagesClass.prototype = {
     			img_mms = 'user='+getCookie('user')+'&token='+getCookie('token')+'&key='+getCookie('key')+'&device_id='+Messages.last_device_id+'&message_id='+mess.message_id+'&part_nb='+mess.parts[part];
 			    html += '<div class="messages_list_item_mms">';
 			    html += '   <img src="/api/Messages/getPart?'+img_mms+'" />';
-			    //html += '   <a href="/api/Messages/getPart?'+img_mms+'" title="'+window.lang.messages_download+'" download="my_mms.png"><i class="material-icons">file_download</i></a>';
                 html += '   <a href="/api/Messages/getPart?'+img_mms+'" title="'+window.lang.messages_download+'" download="my_mms.png">';
                 html += '       <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">';
                 html += '           <i class="material-icons">file_download</i>';

@@ -73,7 +73,7 @@ select:focus {
 	display: flex;
 	justify-content: space-around;
 	background-color: #A7FFEB;
-	border-bottom: 2px solid #004D40;
+	/*border-bottom: 2px solid #004D40;*/
 }
 .header_min .material-icons {
 	font-size: 48px;
@@ -144,22 +144,24 @@ select:focus {
 	background-color: #f3f3f3;
 	background: url('img/home_top.jpg') center 30% no-repeat;
 	background-size: cover;
-	color: #E0F7FA;
-	border-bottom: 2px solid #004D40;
+	color: #004D40;
+	/*border-bottom: 2px solid #004D40;*/
 	margin-bottom: 20px;
 }
 .home_title {
 	padding: 10px;
-	font-size: 20px;
+	font-size: 3em;
+	line-height: 1em;
 	font-weight: bold;
 	text-align: center;
 	margin-bottom: 10px;
 }
 .home_subtitle {
 	flex-grow: 1;
-	text-align: center;
+	text-align: left;
 	padding: 10px;
-	font-size: 18px;
+	font-size: 1.5em;
+	line-height: 1em;
 	margin-bottom: 20px;
 }
 .home_application {
@@ -169,7 +171,7 @@ select:focus {
 	margin-bottom: 20px;
 }
 .home_application a {
-	color: #E0F7FA;
+	color: #004D40;
 }
 .home_forms {
 	width: 100%;
@@ -298,6 +300,10 @@ select:focus {
 	flex-direction: column;
 	overflow: hidden;
 }
+#messages_list h4 {
+    margin: 20px;
+    text-align: center;
+}
 .message_list_title {
 	background-color: #009688;
 	color: #FFF;
@@ -384,24 +390,23 @@ select:focus {
 }
 
 .messages_list_item_mms {
-    display: inline-block;
-    position: relative;
-    height: 50vh;
-    overflow: hidden;
+    display: block;
     margin: 10px;
-    box-shadow: 2px 2px 10px 1px #656565;
+    position: relative;
+    height: 200px;
 }
 
 .messages_list_item_mms img {
     min-height: 0;
     min-width: 0;
-    max-height: 100%;
-    max-width: 70vw;
+    max-height: 200px;
+    max-width: 90%;
+    box-shadow: 2px 2px 10px 1px #656565;
 }
 .messages_list_item_mms a {
     position: absolute;
     bottom: 15px;
-    right: 15px;
+    left: 15px;
 }
 /*@font-face{*/
 /*    font-family:'EmojiSymbols';*/
@@ -470,6 +475,14 @@ select:focus {
 	border-top: 2px solid #004D40;
 }
 
+#footer .footer_icon {
+    height: 20px;
+}
+
+#footer .footer_flag {
+    height: 15px;
+}
+
 @media screen and (min-width: 960px) {
 	
 	.dialog {
@@ -481,7 +494,7 @@ select:focus {
 	.header_large {
 		display: flex;
 		height: 48px; /* 50px */
-		border-bottom: 2px solid #004D40;
+		/*border-bottom: 2px solid #004D40;*/
 		background-color: #A7FFEB;
 	}
 	.header_large a {
@@ -525,6 +538,9 @@ select:focus {
 	/* Home */
 	.home_top {
 		min-height: 350px;
+		padding-left: 10%;
+		padding-right: 10%;
+		width: 80%;
 	}
 	.home_cards {
 		flex-direction: row;
