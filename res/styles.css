@@ -584,7 +584,15 @@ select:focus {
 	}
 }
 
-/* IE fix */
+/* IE 10- */
 .ie .mdl-button {
  	vertical-align: 15px;
 }
+
+/* IE 10+ */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .home_card {
+ 	    max-width: 45%;
+    }
+}
+

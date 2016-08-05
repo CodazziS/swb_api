@@ -138,6 +138,20 @@ class ApiUsers extends FzController {
 			$this->error = 0;
 		}
 	}
+	
+	public function getUnread () {
+		$this->error = -1;
+
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array()
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			$this->result['messages_unread'] 	= Message::count(array('conditions' => array('user_id = ? AND unread = ?', $this->user_id, "1")));
+			$this->error = 0;
+		}
+	}
 
 	public function index() {
 		$this->render_class = 'Render';
