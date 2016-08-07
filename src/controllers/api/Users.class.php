@@ -106,9 +106,14 @@ class ApiUsers extends FzController {
 				$token = new Token();
 				$token->token = Crypto::random(64);
 				$token->user_id = $account->id;
-				$token->expire_date = time() + 60 * 60 * 24; // 1 day
+				
 				$token->user_id = $account->id;
 				$token->type = $this->data['type'];
+				$expire = time() + 60 * 60 * 24; // 1 day
+				if ($this->data['type'] == "chrome_app") {
+				    $expire = $expire * 7;
+				}
+				$token->expire_date = $expire;
 				$token->save();
 				
 				$this->result['key'] = $key;

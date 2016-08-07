@@ -44,6 +44,12 @@ class Apy extends Framaddons {
     			$token = Token::find('first', $opt);
     			if (!empty($token)) {
     				$obj->user_id = $token->user_id;
+    				$expire = time() + 60 * 60 * 24; // 1 day
+    				if ($token->type == "chrome_app") {
+    				    $expire = $expire * 7;
+    				}
+    				$token->expire_date = $expire;
+    				$token->save();
     			} else {
     				$obj->error = 6;
     				return false;

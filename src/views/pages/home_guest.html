@@ -3,11 +3,31 @@
 	<div class="home_title">{{ lang['home_title'] }}</div>
 	<div class="home_subtitle">{{ lang['home_slogan'] | raw}}</div>
 	<div class="home_application">
-		<a href="https://play.google.com/store/apps/details?id=fr.codazzi.smsonline">
-			<i class="material-icons">android</i>
+		<a target="_blank" href="https://play.google.com/store/apps/details?id=fr.codazzi.smsonline">
+			<img alt="android" src="/res/img/Android.png" /><br />
 			{{ lang['home_install_app'] }}
 		</a>
 	</div>
+	<div class="home_compatibility">
+	    <div class="home_compatibility_title">{{ lang['home_compatibility_title'] }}</div>
+	    <div class="home_compatibility_list">
+	        <div class="home_compatibility_item"><img alt="Chrome" src="/res/img/chrome.png" /></div>
+	        <div class="home_compatibility_item"><img alt="Opera" src="/res/img/opera.png" /></div>
+	        <div class="home_compatibility_item"><img alt="Firefox" src="/res/img/firefox.png" /></div>
+	        <div class="home_compatibility_item"><img alt="Steam" src="/res/img/steam.png" /></div>
+	        <div class="home_compatibility_item"><img alt="Edge" src="/res/img/edge.png" /></div>
+	    </div>
+    </div>
+	<div class="home_ext">
+	    <div class="home_ext_title">{{ lang['home_ext_title'] }}</div>
+	    <div class="home_ext_list">
+	        <div class="home_ext_list_item">Chrome <br /><a target="_blank" href="https://chrome.google.com/webstore/detail/celhhdnjkicmpegnheladhiecidgidje"><img alt="Chrome" src="/res/img/chrome.png" /></a></div>
+	        <!--
+	        <div class="home_ext_list_item">Opera <br /><a target="_blank" href=""><img alt="Opera" src="/res/img/opera.png" /></a></div>
+	        <div class="home_ext_list_item">Firefox <br /><a target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/smsonline/"><img alt="Firefox" src="/res/img/firefox.png" /></a></div>
+	        -->
+	    </div>
+    </div>
 </div>
 
 {% if not logged %}
