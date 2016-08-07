@@ -164,7 +164,7 @@ select:focus {
 	line-height: 1em;
 	margin-bottom: 20px;
 }
-.home_application {
+.home_application, .home_compatibility, .home_ext {
 	padding: 10px;
 	text-align: center;
 	font-size: 18px;
@@ -172,6 +172,31 @@ select:focus {
 }
 .home_application a {
 	color: #004D40;
+	font-weight: bold;
+}
+.home_ext_title, .home_compatibility_title {
+    padding: 10px;
+	font-size: 1.5em;
+	line-height: 1em;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.home_ext_list, .home_compatibility_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.home_ext_list_item, .home_compatibility {
+    font-weight: bold;
+    text-align: center;
+}
+.home_compatibility img {
+    height: 75px;
+}
+.home_ext_list_item img {
+    height: 100px;
 }
 .home_forms {
 	width: 100%;

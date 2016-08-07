@@ -14,6 +14,8 @@
 	"home_slogan": "With Smsonline application: <br /> - Read and write SMS from a web browser, even away from your Android phone. <br /> - View and download your mms <br /> - The site is multi screen, you can watch it on computer, tablet, smartphone, ...<br /> <br /> This application is open source on <a href=\"https://gitlab.com/groups/SWB\">gitlab</a>",
 	"home_install_app": "Donwload Android application",
 	"home_use_app": "Use the application",
+	"home_compatibility_title": "Compatible browsers",
+	"home_ext_title": "Download our extensions",
 	
 	"home_login": "You have already an account?",
 	"home_login_email": "Email",
