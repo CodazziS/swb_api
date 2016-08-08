@@ -110,9 +110,6 @@ class ApiUsers extends FzController {
 				$token->user_id = $account->id;
 				$token->type = $this->data['type'];
 				$expire = time() + 60 * 60 * 24; // 1 day
-				if ($this->data['type'] == "chrome_app") {
-				    $expire = $expire * 7;
-				}
 				$token->expire_date = $expire;
 				$token->save();
 				

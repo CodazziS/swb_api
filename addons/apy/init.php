@@ -46,7 +46,7 @@ class Apy extends Framaddons {
     				$obj->user_id = $token->user_id;
     				$expire = time() + 60 * 60 * 24; // 1 day
     				if ($token->type == "chrome_app") {
-    				    $expire = $expire * 7;
+    				    $expire = time() + 60 * 60 * 24 * 7; // 7 day
     				}
     				$token->expire_date = $expire;
     				$token->save();
