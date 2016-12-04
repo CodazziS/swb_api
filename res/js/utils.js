@@ -53,4 +53,12 @@ function notifyClient (text) {
     }
 }
 
+function compareByName(a,b) {
+    if (a.name < b.name)
+        return -1;
+    if (a.name > b.name)
+        return 1;
+    return 0;
+}
+
 window.nb_script_to_load--;

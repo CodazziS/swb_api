@@ -42,9 +42,6 @@ MessagesClass.prototype = {
 		json_data = JSON.parse(data);
 		
 		if (json_data.last_message_unread > 0 && json_data.last_message_unread > Messages.last_sync_mess_unread) {
-	        if (Messages.last_sync_mess_unread > 0 ) {
-	            notifyClient(window.lang.message_notification);
-	        }
 	        Messages.last_sync_mess_unread = json_data.last_message_unread;
 	    }
 		    
@@ -152,9 +149,6 @@ MessagesClass.prototype = {
 		
 		json_data = JSON.parse(data);
 		if (json_data.last_message_unread > 0 && json_data.last_message_unread > Messages.last_sync_mess_unread) {
-	        if (Messages.last_sync_mess_unread > 0 ) {
-	            notifyClient(window.lang.message_notification);
-	        }
 	        Messages.last_sync_mess_unread = json_data.last_message_unread;
 	    }
 		    
@@ -379,6 +373,55 @@ MessagesClass.prototype = {
 	    dialog.querySelector('.close').addEventListener('click', function() {
 	    	dialog.style.display = 'none';
 	    });
+	    Messages.getAllContacts();
+	},
+	
+	getAllContacts: function() {
+	    var opt;
+		
+		opt = {
+			'url': '/Api/Contacts/GetContacts',
+			'data': {
+				'user': getCookie('user'),
+				'token': getCookie('token'),
+				'key': getCookie('key')
+			},
+			'callback': Messages.getAllContactsRes,
+			'checkErrors': false,
+			'decode': false
+		};
+		
+		Ajax.get(opt);
+	},
+	
+	getAllContactsRes: function(data) {
+	    var json_data,
+	        html = '',
+	        i;
+		
+		json_data = JSON.parse(data);
+		
+		if (json_data.error === 0) {
+		    json_data.address.sort(compareByName);
+    		for (i in json_data.address) {
+    			addr = json_data.address[i];
+    			img_params = 'user='+getCookie('user')+'&token='+getCookie('token')+'&key='+getCookie('key')+'&format_address='+addr.format_address+'&device_id='+addr.device_id;
+    			html += '<div class="messages_contact_item" onclick="document.getElementById(\'messages_new_input_address\').value = \'' + (addr.address).replace(/[^0-9/+]+/g, '') + '\'; ">';
+    			
+    			if (addr.have_img) {
+    			    html += '   <div class="messages_contact_item_img"><img src="/api/Contacts/getContactImg?'+img_params+'" /></div>';
+    			} else {
+    				html += '	<div class="messages_contact_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+    			}
+    
+    			html += '	<div class="messages_contact_item_infos">';
+    			html += '		<div class="messages_contact_item_name">' + addr.name + '</div>';
+    			html += '		<div class="messages_contact_item_subname">' + addr.model + ' - ' + addr.address + '</div>';
+    			html += '	</div>';
+    			html += '</div>';
+    		}	
+    		document.getElementById('messages_new_contacts').innerHTML = html;
+		}
 	},
 	
 	addEmoji:function(span) {

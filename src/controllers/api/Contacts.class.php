@@ -125,7 +125,7 @@ class ApiContacts extends FzController {
 			$opt = array(
 			    'select' => 'name, address, have_img, device_id, format_address',
 				'conditions' => array('user_id = ?', $this->user_id), 
-				'order' => 'device_id ASC, name ASC'
+				'order' => 'device_id ASC'
 			);
 			$address = Contact::find('all', $opt);
 
@@ -133,6 +133,7 @@ class ApiContacts extends FzController {
 			foreach ($address as $addr) {
 				$addr_cur = array();
 				$addr_cur['device_id'] = $addr->device_id;
+				$addr_cur['have_img'] = $addr->have_img;
 				$addr_cur['address'] = $this->addons['Crypto']->decrypt($addr->address, $this->data['key']);
 				$addr_cur['format_address'] = $this->addons['Crypto']->decrypt($addr->format_address, $this->data['key']);
 				$addr_cur['model'] = \ApiDevices::getDeviceName($this->user_id, $addr->device_id);
@@ -143,7 +144,7 @@ class ApiContacts extends FzController {
 			$this->error = 0;
 		}
 	}
-	
+
 	public function getactive () {
 		$this->error = -1;
 		
@@ -211,6 +212,22 @@ class ApiContacts extends FzController {
 			'name' => 'GetActive',
 			'type' => 'GET',
 			'description' => 'Get the active contacts of the current user (who have messages)',
+			'args' => array(
+				'User (string)',
+				'Token (string)',
+				'Key (string)'
+			),
+			'results' => array(
+				'Contacts (array)', 
+				'Error (interger)'
+			)
+		);
+		
+		/* getcontacts */
+		$this->result['docs'][] = array(
+			'name' => 'GetContacts',
+			'type' => 'GET',
+			'description' => 'Get all contacts',
 			'args' => array(
 				'User (string)',
 				'Token (string)',

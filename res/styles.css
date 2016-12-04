@@ -405,10 +405,22 @@ select:focus {
 	text-align: center;
 	cursor: pointer;
 }
+#messages_new_block {
+    display: flex;
+	width: 100%;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+#messages_new_contacts {
+    height: calc(100vh - 340px);
+    overflow: auto;
+    margin-bottom: 3em;
+    /*padding-right: 4em;*/
+    /*padding-left: 4em;*/
+}
 #messages_new_form {
-	margin-right: auto;
-	margin-left: auto;
-	width: 300px;
+    /*padding-right: 4em;*/
+    /*padding-left: 4em;*/
 }
 #messages_new_send_btn {
 	left: 260px;
@@ -433,23 +445,19 @@ select:focus {
     bottom: 15px;
     left: 15px;
 }
-/*@font-face{*/
-/*    font-family:'EmojiSymbols';*/
-    
-/*    src:url('emoji/symbola.eot');*/
-/*    src:url('emoji/symbola.eot?#iefix') format('embedded-opentype'),*/
-/*        url('emoji/symbola.woff') format('woff'),*/
-/*        url('emoji/symbola.ttf') format('truetype'),*/
-/*        url('emoji/symbola.svg#FontAwesomeRegular') format('svg');*/
-/*            font-weight:normal;*/
-/*    font-style:normal;*/
-/*}*/
+
+@font-face {
+    font-family: "emojiFont";
+    src: url('emoji/Symbola.ttf');
+}
 
 .emoji_like {
-	font-family: "Helvetica", "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji", "Arial";
+	font-family: "Helvetica", "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji", "emojiFont", "Arial";
+	/*font-family: "emojiFont";*/
 }
 .emoji_list {
-	font-family: "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji";
+	font-family: "Apple Color Emoji", "NotoColorEmoji", "Segoe UI Emoji", "emojiFont", "Arial";
+	/*font-family: "emojiFont";*/
 }
 .emoji_list_content {
 	font-size: 28px;
@@ -607,17 +615,47 @@ select:focus {
 	.mdl-button {
 	 	vertical-align: 35px;
 	}
+	
 }
 
 /* IE 10- */
 .ie .mdl-button {
  	vertical-align: 15px;
 }
+.ie .home_cards {
+    display: block;
+    max-width: 100%;
+}
+.ie .home_card {
+    display: inline-block;
+    width: 90%;
+    height: 800px;
+    float: left;
+}
+.ie .mdl-button--fab.mdl-button--mini-fab {
+    vertical-align: 10px;
+}
 
 /* IE 10+ */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .home_card {
- 	    max-width: 45%;
+    .home_cards {
+        display: block;
+        max-width: 100%;
+        
     }
+    .home_card {
+        display: inline-block;
+ 	    width: 90%;
+ 	    height: 800px;
+ 	    float: left;
+    }
+    .mdl-button--fab.mdl-button--mini-fab {
+        vertical-align: 10px;
+    }
+}
+@media screen and (min-width: 960px) and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .home_card {
+ 	    width: 45%;
+    }    
 }
 
