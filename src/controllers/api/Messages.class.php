@@ -138,7 +138,7 @@ class ApiMessages extends FzController {
         		'user_id = ? AND device_id = ? AND message_id = ?',
         		$this->user_id,
         		$this->data['device_id'],
-        		$message->id
+        		$message->mess_type . '_' . $message->id
     		)
         );
         $message_bdd = Message::find('first', $opt);
