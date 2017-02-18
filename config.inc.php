@@ -66,6 +66,7 @@ define("PHPAR_ADDON_DB_TEST", 'mysql://database:password@localhost/localhost');
 define("PHPAR_ADDON_DB_PROD", 'mysql://database:password@localhost/localhost');
 
 define("PHPAR_ADDON_DB_ENV", 'development');
+define("API_VERSION", 3);
 define("MIN_PASSWORD_LEN", 5);
 define("LOG_ALL", false);
 define("DEFAULT_LANG", 'fr');
