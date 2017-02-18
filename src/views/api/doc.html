@@ -10,18 +10,19 @@
 	<body>
 		<h1>API description of {{ name }} class.</h1>
 		<a class="home_link" href="/api">Home</a><br />
+		<div class="api_doc">{{ class_description | nl2br }}</div>
 		{% for doc in docs %}
 			<div class="api_doc">
-				<h2 class="api_doc_{{ doc.type }}">[{{ doc.type }} ] {{ doc.name }}</h2>
+				<h2 class="api_doc_{{ doc.method }}">[{{ doc.method }}] {{ doc.name }}</h2>
 				<div class="description"> {{ doc.description }}</div>
-				<h3>Arguments: </h3>
-				{% for arg in doc.args %}
-					<div class="args">{{ arg }}</div>
+				<h3>Params: </h3>
+				{% for param in doc.params %}
+					<div class="args">{{ param }}</div>
 				{% endfor %}
 				<br />
-				<h3>Results: </h3>
-				{% for res in doc.results %}
-					<div class="results">{{ res }}</div>
+				<h3>Return: </h3>
+				{% for return in doc.returns %}
+					<div class="results">{{ return }}</div>
 				{% endfor %}
 			</div>
 		{% else %}
