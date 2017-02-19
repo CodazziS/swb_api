@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * Device management 
+ * Revision management (linked to device)
+ */ 
 class ApiDevices extends FzController {
 	function __construct() {
 		$this->render_class = 'Json';
@@ -6,6 +11,34 @@ class ApiDevices extends FzController {
 		$this->view			= "api/doc.html";
 	}
 	
+	static function getOrAddDevice($user_id, $device_id, $model_id, $rev_name, $creation) {
+	    $opt = array(
+			'conditions' => array('device_id = ? AND user_id = ?', $device_id, $user_id)
+		);
+		$device = Device::find('first', $opt);
+		if (empty($device) && $creation) {
+			$device = new Device();
+			$device->user_id = $user_id;
+			$device->device_id = $device_id;
+			$device->name = $model_id;
+			$device->model = $model_id;
+			$device->rev_name = $rev_name;
+    		$device->save();
+		}
+		return $device;
+	}
+	
+	/**
+	 * @method POST
+	 * @name add
+	 * @description Add a user device
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $model (string) : Device model
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
 	public function add () {
 		$this->error = -1;
 
@@ -15,25 +48,21 @@ class ApiDevices extends FzController {
 			'fields' => array('device_id', 'model')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			$opt = array(
-				'conditions' => array('device_id = ? AND user_id = ?', $this->data['device_id'], $this->user_id)
-			);
-			$device = Device::find('first', $opt);
-			if (!isset($device) || $device == null) {
-				$device = new Device();
-				$device->user_id = $this->user_id;
-				$device->device_id = $this->data['device_id'];
-				$device->name = $this->data['model'];
-			}
-			$device->model = $this->data['model'];
-			$device->resync_date = time();
-			$device->last_sync = 0;
-			$device->save();
-			
+            ApiDevices::getOrAddDevice($this->user_id, $this->data['device_id'], $this->data['model'], true);
 			$this->error = 0;
 		}
 	}
 	
+	/**
+	 * @method GET
+	 * @name getDevices
+	 * @description Get user number unread messages
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @return $error (int) : Error code. Details in /api/error
+	 * @return $devices (Array) : User's devices array : [model, name, revision, device_id]
+	 */
 	public function getDevices () {
 		$this->error = -1;
 		
@@ -46,7 +75,6 @@ class ApiDevices extends FzController {
 
 			$opt = array(
 				'conditions' => array('user_id = ?', $this->user_id),
-				'order' => 'last_sync desc'
 			);
 			$devices = Device::find('all', $opt);
 			$devices_arr = array();
@@ -54,14 +82,14 @@ class ApiDevices extends FzController {
 				$current_device = array();
 				$current_device['model'] = $device->model;
 				$current_device['name'] = $device->name;
-				$current_device['resync_date'] = date("d/m/Y G:i", $device->resync_date);
+				$current_device['revision'] = $device->revision;
+				$current_device['device_id'] = $device->device_id;
+
 				if ($device->last_sync != 0) {
 					$current_device['last_sync'] = date("d/m/Y G:i", $device->last_sync);
 				} else {
 					'-';
 				}
-				
-				$current_device['device_id'] = $device->device_id;
 				$devices_arr[] = $current_device;
 			}
 			
@@ -70,7 +98,18 @@ class ApiDevices extends FzController {
 		}
 	}
 	
-	public function changename () {
+	/**
+	 * @method POST
+	 * @name changeName
+	 * @description Change name of device. Default name is the device model
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $new_name (string) : New device name
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
+	public function changeName () {
 		$this->error = -1;
 		
 		$conditions = array(
@@ -94,6 +133,16 @@ class ApiDevices extends FzController {
 		}
 	}
 	
+	/**
+	 * @method POST
+	 * @name remove
+	 * @description Remove a device and all his content (contacts, messages, queue)
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
 	public function remove () {
 		$this->error = -1;
 		
@@ -117,6 +166,9 @@ class ApiDevices extends FzController {
 				Contact::delete_all(array('conditions' => array(
 					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])
 					));
+				Queue::delete_all(array('conditions' => array(
+					'user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])
+					));
 				$device->delete();
 			}
 			$this->error = 0;
@@ -136,74 +188,77 @@ class ApiDevices extends FzController {
 		}
 	}
 	
+	/**
+	 * @method GET
+	 * @name getRevisionId
+	 * @description Get revision name and number of a device
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @return $error (int) : Error code. Details in /api/error
+	 * @return $revision (string) : Revision number
+	 * @return $rev_name (string) : Revision name
+	 */
+	public function getRevisionId () {
+		$this->error = -1;
+
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('device_id')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+		    $device = $this->getOrAddDevice($this->user_id, $this->data['device_id'], "", "", false);
+		    $this->result['revision'] = $device->revision;
+		    $this->result['rev_name'] = $device->rev_name;
+		    $this->error = 0;
+		}
+	}
+	
+	/**
+	 * @method POST
+	 * @name validRevision
+	 * @description Valid a new revision for device
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $revision (int) : Revision number
+	 * @return $error (int) : Error code. Details in /api/error
+	 * @return $revision (string) : Revision number
+	 */
+	public function validRevision () {
+		$this->error = -1;
+
+		$conditions = array(
+			'method' => 'POST',
+			'authentication' => true,
+			'fields' => array('device_id', 'revision')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+		    $device = $this->getOrAddDevice($this->user_id, $this->data['device_id'], "", "", false);
+		    $device->revision = $this->data['revision'];
+		    $device->last_sync = time();
+		    $device->save();
+		    $this->result['revision'] = $device->revision;
+		    $this->error = 0;
+		}
+	}
+	
 	public function index() {
 		$this->render_class = 'Render';
 		$this->result = array('name' => $this->title, 'docs' => array());
 		
-		/* Create */
-		$this->result['docs'][] = array(
-			'name' => 'Add',
-			'type' => 'POST',
-			'description' => 'Create a device with device_id. If the device exist, delete all information about the device (SMS/MMS/...)',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Device_id (string)',
-				'Model (string)',
-				
-			),
-			'results' => array(
-				'Created (boolean)',
-				'Error (interger)'
-			)
-		);
-		
-		/* Create */
-		$this->result['docs'][] = array(
-			'name' => 'GetDevices',
-			'type' => 'GET',
-			'description' => 'Get Devices for the current account',
-			'args' => array(
-				'User (string)',
-				'Token (string)'
-				
-			),
-			'results' => array(
-				'Devices (Array)',
-				'Error (interger)'
-			)
-		);
-		
-		/* Change name */
-		$this->result['docs'][] = array(
-			'name' => 'ChangeName',
-			'type' => 'POST',
-			'description' => 'Change device name',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'New_name (string)',
-				'Device_id (string)'
-			),
-			'results' => array(
-				'Error (interger)'
-			)
-		);
-		
-		/* Remove */
-		$this->result['docs'][] = array(
-			'name' => 'Remove',
-			'type' => 'POST',
-			'description' => 'Remove a device with all informations',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Device_id (string)'
-			),
-			'results' => array(
-				'Error (interger)'
-			)
-		);
+		$reflector = new ReflectionClass(get_class($this));
+        $this->result['class_description'] = $this->parseClass($reflector->getDocComment());
+        $class_methods = get_class_methods(get_class($this));
+        foreach ($class_methods as $method_name) {
+            $doc = $reflector->getMethod($method_name)->getDocComment();
+            if ($doc != null) {
+                $this->result['docs'][] = $this->parseDoc($doc);
+            }
+        }
 	}
 
 }

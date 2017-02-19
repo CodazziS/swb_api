@@ -72,4 +72,45 @@ class FzController {
         $this->addons 	= $other_inst->addons;
         $this->lang 	= $other_inst->lang;
     }
+    
+    function parseClass($class_doc) {
+	    $class_doc = str_replace('/**', '', $class_doc);
+	    $class_doc = str_replace('*/', '', $class_doc);
+	    $class_doc = str_replace(' *', '', $class_doc);
+	    $split = explode('<br />', nl2br($class_doc));
+	    $result = '';
+	    foreach($split as $line) {
+            $result .= $line;
+	    }
+	    $result .= "\n";
+	    return $result;
+	}
+	
+	function parseDoc($class_doc) {
+	    $class_doc = str_replace('/**', '', $class_doc);
+	    $class_doc = str_replace('*/', '', $class_doc);
+	    $class_doc = str_replace(' *', '', $class_doc);
+	    $split = explode('<br />', nl2br($class_doc));
+	    $result = array(
+	        'method' => '',
+	        'description' => '',
+	        'params' => array(),
+	        'returns' => array()
+        );
+
+	    foreach($split as $line) {
+	        if (strpos($line, '@method')) {
+	            $result['method'] = trim(str_replace('@method ', '', $line));
+	        } else if (strpos($line, '@name')) {
+	            $result['name'] = str_replace('@name ', '', $line);
+	        } else if (strpos($line, '@description')) {
+	            $result['description'] = str_replace('@description ', '', $line);
+	        } else if (strpos($line, '@param')) {
+	            $result['params'][] = str_replace('@param ', '', $line);
+	        } else if (strpos($line, '@return')) {
+	            $result['returns'][] = str_replace('@return ', '', $line);
+	        }
+	    }
+	    return $result;
+	}
 }

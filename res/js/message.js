@@ -262,6 +262,32 @@ MessagesClass.prototype = {
 			html += '	</div>';
 			html += '</div>';
 		}
+		
+		for (i in json_data.queue) {
+		    mess = json_data.queue[i];
+			html += '<div class="messages_list_item emoji_like type_queue">';
+			html += '	<div class="messages_list_item_img"><i class="material-icons mdl-list__item-avatar">person</i></div>';
+
+			html += '	<div class="messages_list_item_infos">';
+// 			for (part in mess.parts) {
+//     			img_mms = 'user='+getCookie('user')+'&token='+getCookie('token')+'&key='+getCookie('key')+'&device_id='+Messages.last_device_id+'&message_id='+mess.message_id+'&part_nb='+mess.parts[part];
+// 			    html += '<div class="messages_list_item_mms">';
+// 			    html += '   <img src="/api/Messages/getPart?'+img_mms+'" />';
+//                 html += '   <a href="/api/Messages/getPart?'+img_mms+'" title="'+window.lang.messages_download+'" download="my_mms.png">';
+//                 html += '       <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">';
+//                 html += '           <i class="material-icons">file_download</i>';
+//                 html += '       </button>';
+//                 html += '   </a>';
+			    
+// 			    html += '</div>';
+// 			}
+			html += '		<div class="messages_list_item_body">' + mess.body + '</div>';
+			html += '		<div class="messages_list_item_date">';
+			html +=         window.lang.messages_todo_send;	
+			html += '		</div>';
+			html += '	</div>';
+			html += '</div>';
+		}
 		return html;
 	},
 	
@@ -280,24 +306,17 @@ MessagesClass.prototype = {
 			input_pho.value === '' || input_pho.value === null) {
 			return;
 		}
-		message = {
-			'id': (new Date()).getTime(),
-			'date': (new Date()).getTime(),
-			'read': 1,
-			'body': encodeURI(input_mess.value),
-			'address': encodeURI(input_pho.value),
-			'type': -2,
-			'date_sent': (new Date()).getTime()
-		};
+		
 		opt = {
-			'url': '/Api/Messages/Sync',
+			'url': '/Api/Messages/addQueue',
 			'data': {
 				'user': getCookie('user'),
 				'token': getCookie('token'),
 				'key': getCookie('key'),
-				'address': input_pho.value,
+				'address': encodeURI(input_pho.value).replace("+", "%2B"),
 				'device_id': input_dev.value,
-				'messages': JSON.stringify([message])
+				'type': 'sms',
+				'body': encodeURI(input_mess.value)
 			},
 			'callback': Messages.sendMessageRes,
 			'checkErrors': false,
@@ -319,24 +338,16 @@ MessagesClass.prototype = {
 		if (input.value === '' || input.value === null) {
 			return;
 		}
-		message = {
-			'id': (new Date()).getTime(),
-			'date': (new Date()).getTime(),
-			'read': 1,
-			'body': encodeURI(input.value),
-			'address': encodeURI(address),
-			'type': -2,
-			'date_sent': (new Date()).getTime()
-		};
 		opt = {
-			'url': '/Api/Messages/Sync',
+			'url': '/Api/Messages/addQueue',
 			'data': {
 				'user': getCookie('user'),
 				'token': getCookie('token'),
 				'key': getCookie('key'),
-				'address': address,
+				'address': encodeURI(address).replace("+", "%2B"),
 				'device_id': device_id,
-				'messages': JSON.stringify([message])
+				'type': 'sms',
+				'body': encodeURI(input.value)
 			},
 			'callback': Messages.sendMessageRes,
 			'checkErrors': false,
@@ -357,6 +368,7 @@ MessagesClass.prototype = {
 		} else {
 			snackbarContainer.MaterialSnackbar.showSnackbar({message: window.lang.messages_send_error});
 		}
+		Messages.getMessages();
 	},
 	
 	showEmojis: function() {

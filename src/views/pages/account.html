@@ -26,7 +26,7 @@
     						<span class="mdl-list__item-primary-content">
     							<i class="icon_margin_right material-icons">stay_primary_portrait</i>
     							<span onclick="Device.changeName('{{ device.name | e }}', '{{ device.device_id | e }}')">
-    								<b>{{ device.name | e }}</b> ({{ device.model | e }}) - <abbr title="{{ lang['account_devices_last_resync'] | e }} {{ device.resync_date | e }}">{{ device.last_sync | e }}</abbr>
+    								<b>{{ device.name | e }}</b> ({{ device.model | e }}) - {{ device.last_sync | e }}
     							</span>
     						</span>
     						<a onclick="Device.deleteDevice('{{ device.device_id | e }}')" class="mdl-list__item-secondary-action" href="#">

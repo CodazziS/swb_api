@@ -370,11 +370,11 @@ select:focus {
 	background-color: #FEFEFE;
 	order: -1;
 }
-#messages_list .type_-2, #messages_list .type_-1 {
+#messages_list .type_queue {
 	margin-left: auto;
 	margin-right: 0;
 }
-#messages_list .type_-2 .messages_list_item_infos, #messages_list .type_-1 .messages_list_item_infos {
+#messages_list .type_queue .messages_list_item_infos {
 	margin-right: 10px;
 	background-color: #BBDEFB;
 	order: -1;

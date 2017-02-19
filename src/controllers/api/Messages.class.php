@@ -6,75 +6,82 @@ class ApiMessages extends FzController {
 		$this->view			= "api/doc.html";
 	}
 	
-	/*
-		Messages types
-		-2: Todo send  
-		-1: sending (in phone)
-		1: ...
-		2: ...
-	*/
-	public function resync () {
-		$this->error = -1;
-
+	/**
+	 * @method POST
+	 * @name addSmsList
+	 * @description Add sms list
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $messages (json array) : TODO comment
+	 * @param $device_id (string) : Device identification
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
+	public function addSmsList() {
+        $this->error = -1;
+		
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
 			'fields' => array('messages', 'key', 'device_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			$mess_transac = Message::connection();
-			$mess_transac->transaction();
-			
-			Message::delete_all(array('conditions' => array('user_id = ? and device_id = ? ', $this->user_id, $this->data['device_id'])));
 			$messages = json_decode($this->data['messages']);
 			$contacts = array();
 			
-			foreach ($messages as $message) {
-				$format_address = $this->addons['Crypto']->formatPhoneNumber($message->address);
-				$message_bdd = $this->updateOrCreateMessage($message, $format_address);
-				if (!isset($contacts[$message_bdd->format_address]) || $contacts[$message_bdd->format_address] < $message->date) {
-					$contacts[$this->addons['Crypto']->encrypt($format_address, $this->data['key'])] = $message->date;
-				}
-			}
-			$mess_transac->commit();
-			
-			foreach($contacts as $contact => $value) {
-				$opt = array(
-					'conditions' => array('format_address = ? AND user_id = ? AND device_id = ?', $contact, $this->user_id, $this->data['device_id'])
-				);
-				$contact_bdd = Contact::find('first', $opt);
-				if (!empty($contact_bdd)) {
-					$contact_bdd->last_message = $value;
-					$contact_bdd->save();
-				}
-			}
-
-			$this->error = 0;
+            $connexion = Message::connection();
+            try {
+                $connexion->transaction();
+    			foreach ($messages as $message) {
+                    $format_address = $this->addons['Crypto']->formatPhoneNumber($message->address);
+    				$message_bdd = $this->updateOrCreateMessage($message, $format_address);
+    				if (!isset($contacts[$message_bdd->format_address]) || $contacts[$message_bdd->format_address] < $message_bdd->date_message) {
+    					$contacts[$this->addons['Crypto']->encrypt($format_address, $this->data['key'])] = $message_bdd->date_message;
+    				}
+    			}
+    			
+    			foreach($contacts as $contact => $value) {
+    				$opt = array(
+    					'conditions' => array('format_address = ? AND user_id = ? AND device_id = ?', $contact, $this->user_id, $this->data['device_id'])
+    				);
+    				$contact_bdd = Contact::find('first', $opt);
+    				if (!empty($contact_bdd)) {
+    					$contact_bdd->last_message = $value;
+    					$contact_bdd->save();
+    				}
+    			}
+    			$connexion->commit();
+                $this->error = 0;
+            } catch(Exception $e) {
+                throw $e;
+                $connexion->rollback();
+            }
 		}
 	}
 	
-	public function sync () {
-		$this->error = -1;
+	/**
+	 * @method POST
+	 * @name addMmsList
+	 * @description Add mms list
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $messages (json array) : TODO comment
+	 * @param $device_id (string) : Device identification
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
+	public function addMmsList() {
+	    $this->error = -1;
 		
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('messages', 'key')
+			'fields' => array('messages', 'key', 'device_id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-			
 			$messages = json_decode($this->data['messages']);
 			$contacts = array();
 			
-			/* Delete all messages type -1 */
-			Message::delete_all(
-				array('conditions' =>
-					array(
-						'user_id = ? and device_id = ? AND type = ? ',
-						$this->user_id,
-						$this->data['device_id'],
-						-1)
-					));
 			foreach ($messages as $message) {
 			    $format_address = $this->addons['Crypto']->formatPhoneNumber($message->address);
 				$message_bdd = $this->updateOrCreateMessage($message, $format_address);
@@ -93,42 +100,7 @@ class ApiMessages extends FzController {
 					$contact_bdd->save();
 				}
 			}
-			
-			$opt = array(
-				'conditions' => array(
-					'user_id = ? AND device_id = ?',
-					$this->user_id,
-					$this->data['device_id'])
-			);
-			$device = Device::find('first', $opt);
-			$device->last_sync = time();
-			$device->save();
-			
-			/*
-				The update is ended.
-				Now, we check if the phone have to send messages
-			*/
-			
-			$opt = array(
-				'conditions' => array(
-					'user_id = ? AND device_id = ? AND type = ?',
-					$this->user_id,
-					$this->data['device_id'],
-					-2),
-				'order' => 'message_id asc'
-			);
-			$messages_to_send = Message::find('all', $opt);
-			$messages_arr = array();
-			foreach($messages_to_send as $mess) {
-				$message_arr = array();
-				$message_arr['id'] = $mess->message_id;
-				//$message_arr['body'] = $this->addons['Crypto']->decrypt($mess->body, $this->data['key']);
-				//$message_arr['address'] = $this->addons['Crypto']->decrypt($mess->address, $this->data['key']);
-				$messages_arr[] = $message_arr;
-			}
-			
 			$this->error = 0;
-			$this->result['messages_to_send'] = $messages_arr;
 		}
 	}
 	
@@ -139,7 +111,7 @@ class ApiMessages extends FzController {
         		$this->user_id,
         		$this->data['device_id'],
         		$message->mess_type . '_' . $message->id
-    		)
+	    	)
         );
         $message_bdd = Message::find('first', $opt);
         
@@ -162,22 +134,30 @@ class ApiMessages extends FzController {
         $message_bdd->date_sent 		= $message->date_sent;
         $message_bdd->date_message 		= $message->date;
         $message_bdd->date_sync 		= time();
-       
-        if ($message_bdd->type == -2) {
-            $message_bdd->date_sent 	= time();
-        }
-        //var_dump($message->mess_type);
+
         if ($message->mess_type == "mms") {
             $message_bdd->mess_type = "mms";
             // Save message for SQL contraint
             $message_bdd->save();
             $part_nb = 1;
             foreach ($message->parts as $part) {
-                $part_bdd = new Part();
-                $part_bdd->user_id = $this->user_id;
-                $part_bdd->device_id = $this->data['device_id'];
-                $part_bdd->message_id = $message_bdd->message_id;
-                $part_bdd->part_nb = $part_nb++;
+                $opt_part = array(
+                	'conditions' => array(
+            		'user_id = ? AND device_id = ? AND message_id = ? AND part_nb = ?',
+                		$this->user_id,
+                		$this->data['device_id'],
+                		$message_bdd->message_id,
+                		$part_nb
+        	    	)
+                );
+                $part_bdd = Part::find('first', $opt_part);
+                if (empty($part_bdd)) {
+                    $part_bdd = new Part();
+                    $part_bdd->user_id = $this->user_id;
+                    $part_bdd->device_id = $this->data['device_id'];
+                    $part_bdd->message_id = $message_bdd->message_id;
+                    $part_bdd->part_nb = $part_nb++;
+                }
                 $part_bdd->data_type = "image/png"; // Todo 
                 $part_bdd->data = $part;
                 $part_bdd->save();
@@ -187,38 +167,127 @@ class ApiMessages extends FzController {
             $message_bdd->save();
         }
         
-        
         return $message_bdd;
 	}
 	
-	public function confirmsent() {
+	private function getQueueMessages() {
+	    $opt = array(
+				'conditions' => array(
+					'user_id = ? AND device_id = ?',
+					$this->user_id,
+					$this->data['device_id'])
+			);
+			$queue = Queue::find('all', $opt);
+			$queue_arr = array();
+			foreach ($queue as $item) {
+			    $item_arr = array(
+			        'id'        => $item->id,
+			        'user_id'   => $item->user_id,
+			        'type'      => $item->type,
+			        'address'   => $this->addons['Crypto']->decrypt($item->address, $this->data['key']),
+			        'body'      => $this->addons['Crypto']->decrypt($item->body, $this->data['key']),
+			        'device_id' => $item->device_id
+		        );
+			    $queue_arr[] = $item_arr;
+			}
+			
+			return $queue_arr;
+	}
+	
+	/**
+	 * @method GET
+	 * @name getQueue
+	 * @description Get message queue for device
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @return $error (int) : Error code. Details in /api/error
+	 * @return $queue (JSON array) : Message array
+	 */
+	public function getQueue() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'GET',
+			'authentication' => true,
+			'fields' => array('key', 'device_id')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+			$this->result['queue'] = $this->getQueueMessages();
+			$this->error = 0;
+		}
+	}
+	
+	/**
+	 * @method POST
+	 * @name addQueue
+	 * @description Get message queue for device
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $address (string) : Address to send the message
+	 * @param $body (string) : Message body
+	 * @param $type (string) : Message type (only "sms" supported for now)
+	 * @return $error (int) : Error code. Details in /api/error
+	 * @return $queue (JSON array) : Message array
+	 */
+	public function addQueue() {
 		$this->error = -1;
 		
 		$conditions = array(
 			'method' => 'POST',
 			'authentication' => true,
-			'fields' => array('message_id', 'key')
+			'fields' => array('key', 'device_id', 'address', 'body', 'type')
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+		    $queue = new Queue();
+		    $queue->user_id = $this->user_id;
+		    $queue->type = $this->data['type'];
+		    $queue->address = $this->addons['Crypto']->encrypt($this->data['address'], $this->data['key']);
+		    $queue->body = $this->addons['Crypto']->encrypt($this->data['body'], $this->data['key']);
+		    $queue->device_id = $this->data['device_id'];
+		    $queue->save();
+
+			$this->error = 0;
+		}
+	}
+	
+	/**
+	 * @method POST
+	 * @name validQueue
+	 * @description Valide that message is sended (and remove it from queue list)
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $id (int) : Message queue id
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
+	public function validQueue() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'POST',
+			'authentication' => true,
+			'fields' => array('key', 'device_id', 'id')
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			$opt = array(
 				'conditions' => array(
-					'user_id = ? AND device_id = ? AND message_id = ?',
+					'user_id = ? AND device_id = ? AND id = ?',
 					$this->user_id,
 					$this->data['device_id'],
-					$this->data['message_id']),
-				'order' => 'date_message asc'
+					$this->data['id'])
 			);
-			$message = Message::find('first', $opt);
-			if (!empty($message)) {
-				$message->type = -1;
-				$message->date_sync = time();
-				$message->save();
-				$this->result['body'] = $this->addons['Crypto']->decrypt($message->body, $this->data['key']);
-				$this->result['address'] = urlencode($this->addons['Crypto']->decrypt($message->address, $this->data['key']));
+			$queue = Queue::find('first', $opt);
+			if (!empty($queue)) {
+			    $queue->delete();
+			    $this->error = 0;
 			} else {
-				$this->error = 7;
+			    $this->error = 7;
 			}
-			$this->error = 0;
 		}
 	}
 	
@@ -233,25 +302,25 @@ class ApiMessages extends FzController {
 		if ($this->addons['Apy']->check($this, $conditions)) {
 			
 			$opt = array(
-				'select' => 'date_sent',
+				'select' => 'date_sync',
 				'conditions' => array('user_id = ?', $this->user_id),
-				'order' => 'date_sent desc',
+				'order' => 'date_sync desc',
 			);
 			$message = Message::find('first', $opt);
 			if (!empty($message)) {
-				$this->result['last_message'] = $message->date_sent;
+				$this->result['last_message'] = $message->date_sync;
 			} else {
 				$this->result['last_message'] = 0;
 			}
 			
 			$opt = array(
-				'select' => 'date_sent',
+				'select' => 'date_message',
 				'conditions' => array('user_id = ? AND unread = ?', $this->user_id, "1"),
-				'order' => 'date_sent desc',
+				'order' => 'date_message desc',
 			);
 			$unread_message = Message::find('first', $opt);
 			if (!empty($unread_message)) {
-				$this->result['last_message_unread'] = $unread_message->date_sent;
+				$this->result['last_message_unread'] = $unread_message->date_message;
 			} else {
 				$this->result['last_message_unread'] = 0;
 			}
@@ -260,7 +329,7 @@ class ApiMessages extends FzController {
 			$this->error = 0;
 		}
 	}
-	
+
 	public function getlastsyncmessage() {
 		$this->error = -1;
 		
@@ -299,6 +368,17 @@ class ApiMessages extends FzController {
 		}
 	}
 	
+	/**
+	 * @method GET
+	 * @name getmessages
+	 * @description Get messages for a contact
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $format_address (string) : Contact address
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
 	public function getmessages () {
 		$this->error = -1;
 		
@@ -349,10 +429,23 @@ class ApiMessages extends FzController {
 				$mess_arr[] = $mess_cur;
 			} 
 			$this->result['messages'] = $mess_arr;
+			$this->result['queue'] = $this->getQueueMessages();
 			$this->error = 0;
 		}
 	}
 	
+	/**
+	 * @method GET
+	 * @name getPart
+	 * @description Get message part (image for mms)
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @param $key (string) : User key
+	 * @param $device_id (string) : Device identification
+	 * @param $message_id (int) : Message id
+	 * @param $part_nb (int) : Part identification 
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
 	public function getPart() {
 	    $this->render_class = 'Text';
 	    $this->error = 0;
@@ -366,7 +459,7 @@ class ApiMessages extends FzController {
 		$conditions = array(
 			'method' => 'GET',
 			'authentication' => true,
-			'fields' => array('key', 'device_id')
+			'fields' => array('key', 'device_id', 'message_id', 'part_nb')
 		);
 
 		if ($this->addons['Apy']->check($this, $conditions)) {
@@ -393,71 +486,15 @@ class ApiMessages extends FzController {
 		$this->render_class = 'Render';
 		$this->result = array('name' => $this->title, 'docs' => array());
 		
-		/* Create */
-		$this->result['docs'][] = array(
-			'name' => 'Resync',
-			'type' => 'POST',
-			'description' => 'Sync SMS/MMS (Delete older SMS, with the same device_id)',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Key (String)',
-				'Device_id (String)',
-				'Messages (json string)',
-			),
-			'results' => array(
-				'Error (interger)'
-			)
-		);
-		
-		$this->result['docs'][] = array(
-			'name' => 'Sync',
-			'type' => 'POST',
-			'description' => 'Sync SMS/MMS',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Key (String)',
-				'Device_id (String)',
-				'Messages (json string)',
-			),
-			'results' => array(
-				'Error (interger)',
-				'Messages_to_send (message)'
-			)
-		);
-		
-		$this->result['docs'][] = array(
-			'name' => 'GetMessages',
-			'type' => 'GET',
-			'description' => 'Get messages of one address',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Key (String)',
-				'Device_id (String)',
-				'Address (String)',
-			),
-			'results' => array(
-				'Error (interger)'
-			)
-		);
-		
-		$this->result['docs'][] = array(
-			'name' => 'getLastSync',
-			'type' => 'GET',
-			'description' => 'Get time to last message',
-			'args' => array(
-				'User (string)',
-				'Token (string)',
-				'Key (String)',
-			),
-			'results' => array(
-				'Error (interger)',
-				'Last_message (long)',
-				'Last_message_unread (long)',
-			)
-		);
+		$reflector = new ReflectionClass(get_class($this));
+        $this->result['class_description'] = $this->parseClass($reflector->getDocComment());
+        $class_methods = get_class_methods(get_class($this));
+        foreach ($class_methods as $method_name) {
+            $doc = $reflector->getMethod($method_name)->getDocComment();
+            if ($doc != null) {
+                $this->result['docs'][] = $this->parseDoc($doc);
+            }
+        }
 	}
 
 }

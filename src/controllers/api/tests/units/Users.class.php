@@ -3,6 +3,7 @@
 namespace tests\units;
 
 require_once (__DIR__ . '/../../../../../config.php');
+require_once (__DIR__ . '/Common.class.php');
 require_once (CORE_PATH.'/framzod.php');
 
 $framzod = new \Framzod;
@@ -15,9 +16,7 @@ use atoum;
  */
 class ApiUsers extends atoum
 {
-	private $fz_inst;
-	private $email = 'testphp@swb.ovh';
-	private $password = 'azertyuiop';
+	private $class_tested;
 	private $token = null;
 	private $key = null;
 	private $user = null;
@@ -25,178 +24,172 @@ class ApiUsers extends atoum
 	function __construct() {
         parent::__construct();
         $framzod = new \Framzod;
-    	$this->fz_inst = $framzod->prepareclass("api/Users", 'ApiUsers');
-    }
-    
-    public function createAccount() {
-    	$this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
-    	$this->testedInstance->request->method = "POST";
-    	$this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->create())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(0)
-        ;
-        $this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
+    	$this->class_tested = $framzod->prepareclass("api/Users", 'ApiUsers');
+    	\Common::deleteAccount("atoum2@smsonline.fr", "@z3rtYu");
+    	\Common::initAccount();
+    	
     }
     
     public function testcreate () {
-        $this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
-            
-        /* Bad Email, google password */    
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = 'a';
-        $this
-        	->given($this->testedInstance->create())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isNotEqualTo(0)
-        ;
+        /* Bad Email, good password */    
+        $this->class_tested->request->method      = "POST";
+        $this->class_tested->data['type']         = 'test';
+        $this->class_tested->data['password']     = "@z3rtYu";
+        $this->class_tested->data['email']        = 'a';
+        
+        $this->class_tested->create();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(3);
         
         /* Bad password, Good email */
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = 'a';
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->create())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isNotEqualTo(0)
-        ;
+        $this->class_tested->request->method      = "POST";
+        $this->class_tested->data['type']         = 'test';
+        $this->class_tested->data['password']     = 'a';
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
+        
+        $this->class_tested->create();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(4);
         
         /* Good password, Good email */
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->create())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(0)
-        ;
+        $this->class_tested->request->method      = "POST";
+        $this->class_tested->data['type']         = 'test';
+        $this->class_tested->data['password']     = "@z3rtYu";
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
+        
+        $this->class_tested->create();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
         
         /* Account already exist */
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->create())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isNotEqualTo(0)
-        ;
+        $this->class_tested->request->method      = "POST";
+        $this->class_tested->data['type']         = 'test';
+        $this->class_tested->data['password']     = "@z3rtYu";
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
+        
+        $this->class_tested->create();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(5);
     }
     
     public function testgettoken () {
-    	$this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
-            
-    	/* Get fake token */
-        $this->testedInstance->request->method = "GET";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = 'addddd';
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->gettoken())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(6)
-        ;
-      
-        /* Get token */
-        $this->testedInstance->request->method = "GET";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->gettoken())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(0)
-	            	->integer['user']->isGreaterThan(0)
-	            	->string['token']->isNotEmpty()
-        ;
+        /* Bad password */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['type']         = 'web';
+        $this->class_tested->data['password']     = "@z3rtfYu";
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
         
-        $this->user = $this->testedInstance->get_result()['user'];
-        $this->token = $this->testedInstance->get_result()['token'];
-        $this->key = $this->testedInstance->get_result()['key'];
+        $this->class_tested->gettoken();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(6);
+        
+        /* good password, web */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['type']         = 'web';
+        $this->class_tested->data['password']     = "@z3rtYu";
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
+        
+        $this->class_tested->gettoken();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
+        $this->integer($res['user'])->isNotEqualTo(0);
+        $this->integer($res['api_version'])->isEqualTo(API_VERSION);
+        $this->string($res['token'])->isNotEmpty();
+        $this->string($res['key'])->isNotEmpty();
+        
+        /* good password, android */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['device_id']    = 'atoumid';
+        $this->class_tested->data['device_model'] = 'atoummodelx';
+        $this->class_tested->data['type']         = 'android';
+        $this->class_tested->data['password']     = "@z3rtYu";
+        $this->class_tested->data['rev_name']     = "aifdjfdsm";
+        $this->class_tested->data['email']        = "atoum2@smsonline.fr";
+        
+        $this->class_tested->gettoken();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
+        $this->integer($res['user'])->isNotEqualTo(0);
+        $this->integer($res['revision'])->isEqualTo(0); // New Device
+        $this->integer($res['api_version'])->isEqualTo(API_VERSION);
+        $this->string($res['token'])->isNotEmpty();
+        $this->string($res['key'])->isNotEmpty();
+        $this->token = $res['token'];
+        $this->key = $res['key'];
+        $this->user = $res['user'];
     }
     
     public function testgetinfos () {
-    	$this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
-            
-        /* Get fake */
-        $this->testedInstance->request->method = "GET";
-        $this->testedInstance->data['user'] = $this->user;
-        $this->testedInstance->data['token'] = "444";
-        $this->testedInstance->data['key'] = $this->key;
-        $this
-        	->given($this->testedInstance->getinfos())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isNotEqualTo(0)
-        ;
-            
-    	/* Get infos */
-        $this->testedInstance->request->method = "GET";
-        $this->testedInstance->data['user'] = $this->user;
-        $this->testedInstance->data['token'] = $this->token;
-        $this->testedInstance->data['key'] = $this->key;
-        $this
-        	->given($this->testedInstance->getinfos())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(0)
-	            	//->integer['messages']->isGreaterThan(-1)
-	            	//->integer['messages_unread']->isGreaterThan(-1)
-	            	//->integer['contacts']->isGreaterThan(-1)
-        ;
+        /* Bad credentials */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['user']         = $this->user;
+        $this->class_tested->data['token']        = "fdfgghd";
+        $this->class_tested->data['key']          = $this->key;
+
+        $this->class_tested->GetInfos();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(6);
+        
+        /* Good credentials */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['user']         = $this->user;
+        $this->class_tested->data['token']        = $this->token;
+        $this->class_tested->data['key']          = $this->key;
+
+        $this->class_tested->GetInfos();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
+        $this->integer($res['messages'])->isEqualTo(0);
+        $this->integer($res['messages_unread'])->isEqualTo(0);
+        $this->integer($res['contacts'])->isEqualTo(0);
+    }
+    
+    public function testunread () {
+        /* Bad credentials */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['user']         = $this->user;
+        $this->class_tested->data['token']        = "fdfgghd";
+        $this->class_tested->data['key']          = $this->key;
+
+        $this->class_tested->GetUnread();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(6);
+        
+        /* Good credentials */
+        $this->class_tested->request->method      = "GET";
+        $this->class_tested->data['user']         = $this->user;
+        $this->class_tested->data['token']        = $this->token;
+        $this->class_tested->data['key']          = $this->key;
+
+        $this->class_tested->GetUnread();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
+        $this->integer($res['messages_unread'])->isEqualTo(0);
     }
     
     public function testdelete () {
-    	$this
-            ->given($this->newTestedInstance)
-            ->given($this->testedInstance->copy_attrs($this->fz_inst));
-            
-    	/* Delete Account */
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->delete())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(0)
-        ;
+        /* Bad password */
+        $this->class_tested->request->method = "POST";
+        $this->class_tested->data['password'] = "@z3rfdffff";
+        $this->class_tested->data['email'] = "atoum2@smsonline.fr";
+        $this->class_tested->delete();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(6);
         
-        /* Delete inexistant Account */
-        $this->testedInstance->request->method = "POST";
-        $this->testedInstance->data['type'] = 'test';
-        $this->testedInstance->data['password'] = $this->password;
-        $this->testedInstance->data['email'] = $this->email;
-        $this
-        	->given($this->testedInstance->delete())
-            ->then
-	            ->phparray($this->testedInstance->get_result())
-	            	->integer['error']->isEqualTo(6)
-        ;
+        /* good */
+        $this->class_tested->request->method = "POST";
+        $this->class_tested->data['password'] = "@z3rtYu";
+        $this->class_tested->data['email'] = "atoum2@smsonline.fr";
+        $this->class_tested->delete();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(0);
+        
+        /* account not found */
+        $this->class_tested->request->method = "POST";
+        $this->class_tested->data['password'] = "@z3rtYu";
+        $this->class_tested->data['email'] = "atoum2@smsonline.fr";
+        $this->class_tested->delete();
+        $res = $this->class_tested->get_result();
+        $this->integer($res['error'])->isEqualTo(6);
     }
 }
