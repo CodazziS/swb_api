@@ -11,7 +11,6 @@ class Api extends FzController {
 	public function __call ($method, $args) {
 		$start_time = time();
 		
-		var_dump($_SERVER);
 		if (!empty($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
 		    header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
 		}
