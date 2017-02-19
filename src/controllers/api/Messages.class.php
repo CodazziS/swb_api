@@ -369,6 +369,30 @@ class ApiMessages extends FzController {
 	}
 	
 	/**
+	 * @method POST
+	 * @name markAllAsRead
+	 * @description Mark all message as read
+	 * @param $user (int) : User identifiant
+	 * @param $token (string) : Token 
+	 * @return $error (int) : Error code. Details in /api/error
+	 */
+	public function markAllAsRead() {
+		$this->error = -1;
+		
+		$conditions = array(
+			'method' => 'POST',
+			'authentication' => true,
+			'fields' => array()
+		);
+		if ($this->addons['Apy']->check($this, $conditions)) {
+		    Message::table()->update(
+		        array('unread' => 0),
+		        array('user_id' => $this->user_id));
+	        $this->error = 0;
+		}
+	}
+	
+	/**
 	 * @method GET
 	 * @name getmessages
 	 * @description Get messages for a contact

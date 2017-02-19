@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  192.168.2.42
--- Généré le :  Jeu 21 Juillet 2016 à 17:15
--- Version du serveur :  10.1.16-MariaDB-1~jessie
--- Version de PHP :  7.0.8-1~dotdeb+8.1
+-- Généré le :  Dim 19 Février 2017 à 21:17
+-- Version du serveur :  10.1.21-MariaDB-1~jessie
+-- Version de PHP :  7.0.16-1~dotdeb+8.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `swb_online_b`
+-- Base de données :  `swb_online`
 --
 
 -- --------------------------------------------------------
@@ -46,10 +46,11 @@ CREATE TABLE `Contacts` (
 CREATE TABLE `Devices` (
   `user_id` int(13) NOT NULL,
   `device_id` varchar(50) NOT NULL,
-  `resync_date` int(20) NOT NULL,
   `last_sync` int(20) NOT NULL,
   `model` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL
+  `name` varchar(100) NOT NULL,
+  `revision` int(10) NOT NULL,
+  `rev_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -75,13 +76,13 @@ CREATE TABLE `Logs` (
 CREATE TABLE `Messages` (
   `user_id` int(13) NOT NULL,
   `message_id` varchar(50) NOT NULL,
-  `mess_type` varchar(3) NOT NULL,
+  `mess_type` enum('sms','mms') NOT NULL,
   `date_message` bigint(20) NOT NULL,
   `date_sync` int(13) NOT NULL,
   `date_sent` int(20) NOT NULL,
-  `unread` tinyint(4) NOT NULL,
+  `unread` tinyint(1) NOT NULL,
   `address` varchar(50) NOT NULL,
-  `type` varchar(2) NOT NULL,
+  `type` tinyint(1) NOT NULL,
   `body` text NOT NULL,
   `device_id` varchar(50) NOT NULL,
   `format_address` varchar(30) NOT NULL
@@ -100,6 +101,21 @@ CREATE TABLE `Parts` (
   `part_nb` int(2) NOT NULL,
   `data_type` varchar(25) NOT NULL,
   `data` longblob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Queue`
+--
+
+CREATE TABLE `Queue` (
+  `id` int(13) NOT NULL,
+  `user_id` int(13) NOT NULL,
+  `type` enum('sms','mms') NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `body` text NOT NULL,
+  `device_id` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -173,6 +189,14 @@ ALTER TABLE `Parts`
   ADD PRIMARY KEY (`user_id`,`device_id`,`message_id`,`part_nb`);
 
 --
+-- Index pour la table `Queue`
+--
+ALTER TABLE `Queue`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `device_id` (`device_id`);
+
+--
 -- Index pour la table `Tokens`
 --
 ALTER TABLE `Tokens`
@@ -195,12 +219,17 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT pour la table `Logs`
 --
 ALTER TABLE `Logs`
-  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46300;
+  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `Queue`
+--
+ALTER TABLE `Queue`
+  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 --
 -- Contraintes pour les tables exportées
 --
@@ -232,6 +261,12 @@ ALTER TABLE `Parts`
   ADD CONSTRAINT `part_device_id` FOREIGN KEY (`user_id`,`device_id`) REFERENCES `Devices` (`user_id`, `device_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `part_message_id` FOREIGN KEY (`user_id`,`device_id`,`message_id`) REFERENCES `Messages` (`user_id`, `device_id`, `message_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `part_user_id` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `Queue`
+--
+ALTER TABLE `Queue`
+  ADD CONSTRAINT `kuser_id` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `Tokens`
