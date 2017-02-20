@@ -385,9 +385,14 @@ class ApiMessages extends FzController {
 			'fields' => array()
 		);
 		if ($this->addons['Apy']->check($this, $conditions)) {
-		    Message::table()->update(
-		        array('unread' => 0),
-		        array('user_id' => $this->user_id));
+		    Message::update_all(array(
+                'set' => array(
+                    'unread' => 0
+                ),
+                'conditions' => array(
+                    'user_id' => $this->user_id
+                )
+            ));
 	        $this->error = 0;
 		}
 	}
