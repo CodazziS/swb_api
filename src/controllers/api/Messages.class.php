@@ -125,7 +125,7 @@ class ApiMessages extends FzController {
         }
         
         if ($message_bdd->unread !== 0) {
-        	$message_bdd->unread 			= ($message->read == '1') ? 0 : 1;
+        	$message_bdd->unread 		= ($message->read == '1' || $message->read == 1) ? 0 : 1;
         }
         $message_bdd->body 				= $this->addons['Crypto']->encrypt($message->body, $this->data['key']);
         $message_bdd->address 			= $this->addons['Crypto']->encrypt($message->address, $this->data['key']);
