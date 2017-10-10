@@ -2,7 +2,7 @@ before_script:
   - cp config.inc.php config.php 
   - curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
   - wget -c http://static.phpmd.org/php/latest/phpmd.phar
-  - wget -c http://downloads.atoum.org/nightly/atoum.phar
+  - wget -c https://github.com/atoum/atoum/releases/download/3.2.0/atoum.phar
   - php -v
 
 test-php7:
