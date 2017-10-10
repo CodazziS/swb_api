@@ -1,15 +1,14 @@
-staging:
-  type: test
-  script:
+before_script:
   - cp config.inc.php config.php 
-  - php /home/gitlab/atoum.phar -d src/controllers/api/tests/units/
-  only:
-  - master
+  - curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+  - wget -c http://static.phpmd.org/php/latest/phpmd.phar
+  - wget -c http://downloads.atoum.org/nightly/atoum.phar
+  - php -v
 
-production:
-  type: deploy
+test-php7:
+  tags:
+    - php7
   script:
-  - cp config.inc.php config.php 
-  - php /home/gitlab/atoum.phar -d src/controllers/api/tests/units/
-  only:
-  - production
+    - php atoum.phar -d src/controllers/api/tests/units/
+    - php phpmd.phar src/ text codesize
+    - php phpcs.phar --standard=PSR2 src/
